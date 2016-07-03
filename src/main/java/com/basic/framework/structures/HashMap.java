@@ -1,5 +1,7 @@
 package com.basic.framework.structures;
 
+import java.util.Random;
+
 public class HashMap<K, V> implements Map<K, V> {
 
     private static final int SIZE = 15;
@@ -50,17 +52,42 @@ public class HashMap<K, V> implements Map<K, V> {
         size--;
     }
 
+    // Universal hashing, pick hash function randomly from the pool
     private int hash(K key) {
+        final Random rand = new Random();
+        final int hashFunctionNumber = rand.nextInt(3);
+        int hashNumber;
+
+        switch (hashFunctionNumber) {
+            case 0:
+                hashNumber = javaHash(key);
+                break;
+            case 1:
+                hashNumber = divisionHash(key);
+                break;
+            case 2:
+                hashNumber = multiHash(key);
+                break;
+            default:
+                hashNumber = javaHash(key);
+        }
+
+
+        return hashNumber;
+    }
+
+    private int javaHash(K key) {
         int h;
         return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
     }
 
     private int divisionHash(K key) {
-        return (key == null) ? 0 : (key.hashCode() % size);
+        return (key == null) ? 0 : (key.hashCode() % SIZE);
     }
 
     private int multiHash(K key) {
-        return (key == null) ? 0 : (0);
+        final Double constant = (Math.sqrt(5) - 1) / 2; // recommended value for multi hash
+        return (key == null) ? 0 : ((Double) (SIZE * (((key.hashCode() * constant) % 1)))).intValue();
     }
 
     public static class Entry<K, V> {
