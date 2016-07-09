@@ -5,12 +5,19 @@ import java.util.Random;
 public class HashMap<K, V> implements Map<K, V> {
 
     private static final int SIZE = 15;
+    private static final int UNIVERSAL_PRIME = 17;
 
     private ArrayList<DoubleLinkedList<Entry<K, V>>> elements;
 
     private int size = 0;
+    private int a;
+    private int b;
 
     public HashMap() {
+        final Random random = new Random();
+        a = random.nextInt(UNIVERSAL_PRIME - 1) + 1;
+        b = random.nextInt(UNIVERSAL_PRIME);
+
         elements = new ArrayList<DoubleLinkedList<Entry<K, V>>>(SIZE);
     }
 
@@ -52,28 +59,8 @@ public class HashMap<K, V> implements Map<K, V> {
         size--;
     }
 
-    // Universal hashing, pick hash function randomly from the pool
     private int hash(K key) {
-        final Random rand = new Random();
-        final int hashFunctionNumber = rand.nextInt(3);
-        int hashNumber;
-
-        switch (hashFunctionNumber) {
-            case 0:
-                hashNumber = javaHash(key);
-                break;
-            case 1:
-                hashNumber = divisionHash(key);
-                break;
-            case 2:
-                hashNumber = multiHash(key);
-                break;
-            default:
-                hashNumber = javaHash(key);
-        }
-
-
-        return hashNumber;
+        return universalHash(key);
     }
 
     private int javaHash(K key) {
@@ -88,6 +75,10 @@ public class HashMap<K, V> implements Map<K, V> {
     private int multiHash(K key) {
         final Double constant = (Math.sqrt(5) - 1) / 2; // recommended value for multi hash
         return (key == null) ? 0 : ((Double) (SIZE * (((key.hashCode() * constant) % 1)))).intValue();
+    }
+
+    private int universalHash(K key) {
+        return (key == null) ? 0 : ((a * key.hashCode() + b) % UNIVERSAL_PRIME) % SIZE;
     }
 
     public static class Entry<K, V> {
