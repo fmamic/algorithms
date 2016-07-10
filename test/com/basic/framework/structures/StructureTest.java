@@ -181,4 +181,32 @@ public class StructureTest {
         Assert.assertEquals("value1", stringHashMap.get("key1"));
     }
 
+    @Test
+    public void hashOAMapTest() {
+        final HashMapOA<String, String> stringHashMap = new HashMapOA<String, String>();
+
+        stringHashMap.put("key1", "value1");
+        stringHashMap.put("key2", "value2");
+        stringHashMap.put("key3", "value3");
+        stringHashMap.put("key4", "value3");
+        stringHashMap.put("key5", "value3");
+        stringHashMap.put("key6", "value3");
+        stringHashMap.put("key7", "value3");
+        stringHashMap.put("key8", "value3");
+        stringHashMap.put("key9", "value3");
+        stringHashMap.put("key10", "value3");
+        stringHashMap.put("key11", "value11");
+
+        Assert.assertEquals("value1",  stringHashMap.get("key1"));
+        Assert.assertEquals("value11",  stringHashMap.get("key11"));
+
+        stringHashMap.remove("key4");
+
+        Assert.assertEquals(10, stringHashMap.size());
+
+        Assert.assertEquals("value1",  stringHashMap.get("key1"));
+        Assert.assertEquals("value11",  stringHashMap.get("key11"));
+        Assert.assertEquals(null,  stringHashMap.get("key4"));
+    }
+
 }
