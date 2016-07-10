@@ -1,6 +1,7 @@
 package com.basic.framework.structures;
 
 import java.util.Arrays;
+import java.util.Random;
 
 // Open addressing hash map
 public class HashMapOA<K, V> implements Map<K, V> {
@@ -9,9 +10,16 @@ public class HashMapOA<K, V> implements Map<K, V> {
 
     private int size = 0;
 
+    private int qc1 = 0;
+    private int qc2 = 0;
+
     private Object[] elements;
 
     public HashMapOA() {
+        final Random random = new Random();
+        qc1 = random.nextInt(100000) + 1;
+        qc2 = random.nextInt(100000) + 1;
+
         elements = new Object[length];
     }
 
@@ -23,15 +31,15 @@ public class HashMapOA<K, V> implements Map<K, V> {
     public V get(K key) {
         int i = 0;
 
-        while (elements[hashLinearProbing(key, i)] != null) {
+        while (elements[hash(key, i)] != null) {
 
-            if (elements[hashLinearProbing(key, i)] instanceof Boolean) {
+            if (elements[hash(key, i)] instanceof Boolean) {
                 i++;
                 continue;
             }
 
             final Entry keyEntry = new Entry(key);
-            final Entry entry = (Entry) elements[hashLinearProbing(key, i)];
+            final Entry entry = (Entry) elements[hash(key, i)];
             if (entry.equals(keyEntry)) {
                 return (V) entry.value;
             }
@@ -44,7 +52,7 @@ public class HashMapOA<K, V> implements Map<K, V> {
     public void put(K key, V value) {
         int i = 0;
 
-        while (elements[hashLinearProbing(key, i)] != null && elements[hashLinearProbing(key, i)] != Boolean.TRUE && i < length) {
+        while (elements[hash(key, i)] != null && elements[hash(key, i)] != Boolean.TRUE && i < length) {
             i++;
         }
 
@@ -54,7 +62,7 @@ public class HashMapOA<K, V> implements Map<K, V> {
             return;
         }
 
-        elements[hashLinearProbing(key, i)] = new Entry<K, V>(key, value);
+        elements[hash(key, i)] = new Entry<K, V>(key, value);
         size++;
     }
 
@@ -70,10 +78,10 @@ public class HashMapOA<K, V> implements Map<K, V> {
                 final K key = (K) ((Entry) elements[k]).key;
                 final V value = (V) ((Entry) elements[k]).value;
                 int i = 0;
-                while (newArray[hashLinearProbing(key, i)] != null && i < length) {
+                while (newArray[hash(key, i)] != null && i < length) {
                     i++;
                 }
-                newArray[hashLinearProbing(key, i)] = new Entry<K, V>(key, value);
+                newArray[hash(key, i)] = new Entry<K, V>(key, value);
             }
         }
 
@@ -83,17 +91,17 @@ public class HashMapOA<K, V> implements Map<K, V> {
     public void remove(K key) {
         int i = 0;
 
-        while (elements[hashLinearProbing(key, i)] != null) {
+        while (elements[hash(key, i)] != null) {
             @SuppressWarnings("unchecked")
             final Entry keyEntry = new Entry(key);
 
-            if (elements[hashLinearProbing(key, i)] instanceof Boolean) {
+            if (elements[hash(key, i)] instanceof Boolean) {
                 continue;
             }
 
-            final Entry entry = (Entry) elements[hashLinearProbing(key, i)];
+            final Entry entry = (Entry) elements[hash(key, i)];
             if (entry.equals(keyEntry)) {
-                elements[hashLinearProbing(key, i)] = true;
+                elements[hash(key, i)] = true;
                 size--;
                 return;
             }
@@ -126,11 +134,20 @@ public class HashMapOA<K, V> implements Map<K, V> {
     }
 
     private int hash(K key, int probe) {
-        return hashLinearProbing(key, probe);
+        return hashDoubleProbing(key, probe);
+    }
+
+    // Double hashing combine two auxiliary hash functions
+    private int hashDoubleProbing(K key, int probe) {
+        return (hashLinearProbing(key, probe) + probe * hashQuadraticProbing(key, probe)) % length;
     }
 
     private int hashLinearProbing(K key, int probe) {
         return (javaHash(key) + probe) % length;
+    }
+
+    private int hashQuadraticProbing(K key, int probe) {
+        return (javaHash(key) + qc1 * probe + qc2 * probe * probe) % length;
     }
 
     private int javaHash(K key) {
