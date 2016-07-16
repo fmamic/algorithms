@@ -6,7 +6,7 @@ import java.util.Random;
 // Open addressing hash map
 public class HashMapOA<K, V> implements Map<K, V> {
 
-    private int length = 10;
+    private int length = 13;
 
     private int size = 0;
 
@@ -139,7 +139,15 @@ public class HashMapOA<K, V> implements Map<K, V> {
 
     // Double hashing combine two auxiliary hash functions
     private int hashDoubleProbing(K key, int probe) {
-        return (hashLinearProbing(key, probe) + probe * hashQuadraticProbing(key, probe)) % length;
+        return (hashDoubleFirst(key) + probe * hashDoubleSecond(key)) % length;
+    }
+
+    private int hashDoubleFirst(K key) {
+        return key.hashCode() % length;
+    }
+
+    private int hashDoubleSecond(K key) {
+        return 1 + (key.hashCode() % (length - 1));
     }
 
     private int hashLinearProbing(K key, int probe) {
