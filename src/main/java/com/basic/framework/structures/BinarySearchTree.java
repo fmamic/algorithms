@@ -58,7 +58,7 @@ public class BinarySearchTree<T extends Comparable<T>> extends Tree<T> {
 
     @Override
     public T predecessor(final T data) {
-        return null;
+        return treePredecessor(recursiveSearch(this.root, data)).getData();
     }
 
     private Node<T> treeSuccessor(final Node<T> node) {
@@ -78,8 +78,21 @@ public class BinarySearchTree<T extends Comparable<T>> extends Tree<T> {
         return parent;
     }
 
-    private T treePredecessor(final Node<T> node) {
-        return null;
+    private Node<T> treePredecessor(final Node<T> node) {
+        Node<T> current = node;
+
+        if (current.left != null) {
+            return treeMaximum(current.left);
+        }
+
+        Node<T> parent = current.parent;
+
+        while (parent != null && parent.left == current) {
+            current = parent;
+            parent = parent.parent;
+        }
+
+        return parent;
     }
 
     private Node<T> treeMaximum(final Node<T> node) {

@@ -197,16 +197,16 @@ public class StructureTest {
         stringHashMap.put("key10", "value3");
         stringHashMap.put("key11", "value11");
 
-        Assert.assertEquals("value1",  stringHashMap.get("key1"));
-        Assert.assertEquals("value11",  stringHashMap.get("key11"));
+        Assert.assertEquals("value1", stringHashMap.get("key1"));
+        Assert.assertEquals("value11", stringHashMap.get("key11"));
 
         stringHashMap.remove("key4");
 
         Assert.assertEquals(10, stringHashMap.size());
 
-        Assert.assertEquals("value1",  stringHashMap.get("key1"));
-        Assert.assertEquals("value11",  stringHashMap.get("key11"));
-        Assert.assertEquals(null,  stringHashMap.get("key4"));
+        Assert.assertEquals("value1", stringHashMap.get("key1"));
+        Assert.assertEquals("value11", stringHashMap.get("key11"));
+        Assert.assertEquals(null, stringHashMap.get("key4"));
     }
 
     @Test
@@ -227,12 +227,14 @@ public class StructureTest {
         Assert.assertEquals(true, tree.search(2));
         Assert.assertEquals(false, tree.search(33));
 
-        Assert.assertEquals((Integer)20, tree.maximum());
-        Assert.assertEquals((Integer)2, tree.minimum());
+        Assert.assertEquals((Integer) 20, tree.maximum());
+        Assert.assertEquals((Integer) 2, tree.minimum());
 
-        Assert.assertEquals((Integer)17, tree.successor(15));
-        Assert.assertEquals((Integer)15, tree.successor(13));
+        Assert.assertEquals((Integer) 17, tree.successor(15));
+        Assert.assertEquals((Integer) 15, tree.successor(13));
 
+        Assert.assertEquals((Integer) 2, tree.predecessor(3));
+        Assert.assertEquals((Integer) 6, tree.predecessor(7));
     }
 
 }
