@@ -16,22 +16,105 @@ public class BinarySearchTree<T extends Comparable<T>> extends Tree<T> {
         }
 
         Node<T> parent = null;
+        Node<T> current = node;
 
-        while (node != null) {
-            parent = node.parent;
-            if (node.getData().compareTo(data) > 0) {
-                node = node.right;
+        while (current != null) {
+            parent = current;
+            if (current.getData().compareTo(data) < 0) {
+                current = current.right;
             } else {
-                node = node.left;
+                current = current.left;
             }
         }
 
-        if (parent.getData().compareTo(data) > 0) {
+        if (parent.getData().compareTo(data) < 0) {
             parent.right = new Node<T>(data, parent, null, null);
         } else {
             parent.left = new Node<T>(data, parent, null, null);
         }
 
         return data;
+    }
+
+    @Override
+    public boolean search(final T data) {
+        return recursiveSearch(this.root, data) != null;
+    }
+
+    @Override
+    public T minimum() {
+        return treeMinimum(this.root).getData();
+    }
+
+    @Override
+    public T maximum() {
+        return treeMaximum(this.root).getData();
+    }
+
+    @Override
+    public T successor(final T data) {
+        return treeSuccessor(recursiveSearch(this.root, data)).getData();
+    }
+
+    @Override
+    public T predecessor(final T data) {
+        return null;
+    }
+
+    private Node<T> treeSuccessor(final Node<T> node) {
+        Node<T> current = node;
+
+        if (current.right != null) {
+            return treeMinimum(current.right);
+        }
+
+        Node<T> parent = current.parent;
+
+        while (parent != null && parent.right == current) {
+            current = parent;
+            parent = parent.parent;
+        }
+
+        return parent;
+    }
+
+    private T treePredecessor(final Node<T> node) {
+        return null;
+    }
+
+    private Node<T> treeMaximum(final Node<T> node) {
+        Node<T> current = node;
+
+        while (current.right != null) {
+            current = current.right;
+        }
+
+        return current;
+    }
+
+    private Node<T> treeMinimum(final Node<T> node) {
+        Node<T> current = node;
+
+        while (current.left != null) {
+            current = current.left;
+        }
+
+        return current;
+    }
+
+    private Node<T> recursiveSearch(final Node<T> node, final T data) {
+        if (node == null) {
+            return null;
+        }
+
+        if (node.getData().compareTo(data) == 0) {
+            return node;
+        }
+
+        if (node.getData().compareTo(data) < 0) {
+            return recursiveSearch(node.right, data);
+        } else {
+            return recursiveSearch(node.left, data);
+        }
     }
 }

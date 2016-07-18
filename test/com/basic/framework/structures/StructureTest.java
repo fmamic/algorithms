@@ -209,4 +209,30 @@ public class StructureTest {
         Assert.assertEquals(null,  stringHashMap.get("key4"));
     }
 
+    @Test
+    public void binarySearchTreeTest() {
+        final BinarySearchTree<Integer> tree = new BinarySearchTree<Integer>(15);
+
+        tree.insert(6);
+        tree.insert(18);
+        tree.insert(3);
+        tree.insert(7);
+        tree.insert(17);
+        tree.insert(20);
+        tree.insert(2);
+        tree.insert(4);
+        tree.insert(13);
+        tree.insert(9);
+
+        Assert.assertEquals(true, tree.search(2));
+        Assert.assertEquals(false, tree.search(33));
+
+        Assert.assertEquals((Integer)20, tree.maximum());
+        Assert.assertEquals((Integer)2, tree.minimum());
+
+        Assert.assertEquals((Integer)17, tree.successor(15));
+        Assert.assertEquals((Integer)15, tree.successor(13));
+
+    }
+
 }

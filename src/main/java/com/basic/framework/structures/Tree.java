@@ -10,6 +10,16 @@ public abstract class Tree<T extends Comparable<T>> {
 
     public abstract T insert(final T data);
 
+    public abstract boolean search(final T data);
+
+    public abstract T minimum();
+
+    public abstract T maximum();
+
+    public abstract T successor(T data);
+
+    public abstract T predecessor(T data);
+
     protected void initRoot(final T data) {
         this.root = new Node<T>(data, null, null, null);
     }
