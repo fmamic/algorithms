@@ -61,6 +61,56 @@ public class BinarySearchTree<T extends Comparable<T>> extends Tree<T> {
         return treePredecessor(recursiveSearch(this.root, data)).getData();
     }
 
+    @Override
+    public void delete(T data) {
+        Node<T> node = recursiveSearch(this.root, data);
+
+        if (node.left == null && node.right == null) {
+            if (node.parent.left.equals(node)) {
+                node.parent.left = null;
+            } else {
+                node.parent.right = null;
+            }
+            return;
+        }
+
+        if (node.left != null && node.right == null) {
+            node.parent.left = node.left;
+            return;
+        }
+
+        if (node.left == null) {
+            node.parent.right = node.right;
+            return;
+        }
+
+        Node<T> minimum = treeMinimum(node.right);
+
+        if (minimum.parent != node) {
+            transplant(minimum, minimum.right);
+            minimum.right = node.right;
+            minimum.right.parent = minimum;
+        }
+
+        transplant(node, minimum);
+        minimum.left = node.left;
+        minimum.left.parent = minimum;
+    }
+
+    private void transplant(final Node<T> first, final Node<T> second) {
+        if (first.parent == null) {
+            this.root = second;
+        } else if (first == first.parent.left) {
+            first.parent.left = second;
+        } else {
+            first.parent.right = second;
+        }
+
+        if (second != null) {
+            second.parent = first.parent;
+        }
+    }
+
     private Node<T> treeSuccessor(final Node<T> node) {
         Node<T> current = node;
 

@@ -235,6 +235,49 @@ public class StructureTest {
 
         Assert.assertEquals((Integer) 2, tree.predecessor(3));
         Assert.assertEquals((Integer) 6, tree.predecessor(7));
+
     }
 
+    @Test
+    public void binarySearchTreeDeleteTest() {
+        final BinarySearchTree<Integer> tree = new BinarySearchTree<Integer>(12);
+
+        tree.insert(5);
+        tree.insert(15);
+        tree.insert(3);
+        tree.insert(7);
+        tree.insert(13);
+        tree.insert(17);
+        tree.insert(1);
+        tree.insert(9);
+        tree.insert(14);
+        tree.insert(20);
+        tree.insert(8);
+        tree.insert(11);
+        tree.insert(18);
+
+        tree.delete(1);
+
+        Assert.assertEquals(false, tree.search(1));
+
+        tree.insert(1);
+        tree.delete(3);
+
+        Assert.assertEquals(true, tree.search(1));
+
+        tree.delete(1);
+
+        tree.insert(3);
+        tree.insert(1);
+
+        tree.delete(7);
+
+        Assert.assertEquals(false, tree.search(7));
+        Assert.assertEquals(true, tree.search(11));
+
+        tree.delete(15);
+
+        Assert.assertEquals(false, tree.search(15));
+        Assert.assertEquals(true, tree.search(13));
+    }
 }

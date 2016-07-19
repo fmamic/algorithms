@@ -20,6 +20,8 @@ public abstract class Tree<T extends Comparable<T>> {
 
     public abstract T predecessor(T data);
 
+    public abstract void delete(T data);
+
     protected void initRoot(final T data) {
         this.root = new Node<T>(data, null, null, null);
     }
@@ -39,6 +41,24 @@ public abstract class Tree<T extends Comparable<T>> {
             this.parent = parent;
             this.left = left;
             this.right = right;
+        }
+
+        @Override
+        public boolean equals(final Object o) {
+            if (this == o)
+                return true;
+
+            if (o == null || getClass() != o.getClass())
+                return false;
+
+            Node<?> node = (Node<?>) o;
+
+            return !(data != null ? !data.equals(node.data) : node.data != null);
+        }
+
+        @Override
+        public int hashCode() {
+            return data != null ? data.hashCode() : 0;
         }
     }
 }
