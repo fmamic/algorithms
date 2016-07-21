@@ -187,38 +187,4 @@ public class BinarySearchTree<T extends Comparable<T>> extends SearchTree<T> {
             return recursiveSearch(node.left, data);
         }
     }
-
-    protected static class Node<T extends Comparable<T>> implements Tree.Node<T> {
-        private T data;
-        protected Node<T> parent;
-        protected Node<T> left;
-        protected Node<T> right;
-
-        public T getData() {
-            return this.data;
-        }
-
-        public Node(final T data, final Node<T> parent, final Node<T> left, final Node<T> right) {
-            this.data = data;
-            this.parent = parent;
-            this.left = left;
-            this.right = right;
-        }
-
-        public boolean equals(final Object o) {
-            if (this == o)
-                return true;
-
-            if (o == null || getClass() != o.getClass())
-                return false;
-
-            Node<?> node = (Node<?>) o;
-
-            return !(data != null ? !data.equals(node.data) : node.data != null);
-        }
-
-        public int hashCode() {
-            return data != null ? data.hashCode() : 0;
-        }
-    }
 }
