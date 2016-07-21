@@ -1,6 +1,8 @@
 package com.basic.framework.structures;
 
-public class BinarySearchTree<T extends Comparable<T>> extends Tree<T> {
+public class BinarySearchTree<T extends Comparable<T>> extends SearchTree<T> {
+
+    private Node<T> root;
 
     public BinarySearchTree(final T data) {
         super(data);
@@ -97,6 +99,11 @@ public class BinarySearchTree<T extends Comparable<T>> extends Tree<T> {
         minimum.left.parent = minimum;
     }
 
+    @Override
+    protected void initRoot(final T data) {
+        this.root = new Node<T>(data, null, null, null);
+    }
+
     private void transplant(final Node<T> first, final Node<T> second) {
         if (first.parent == null) {
             this.root = second;
@@ -178,6 +185,40 @@ public class BinarySearchTree<T extends Comparable<T>> extends Tree<T> {
             return recursiveSearch(node.right, data);
         } else {
             return recursiveSearch(node.left, data);
+        }
+    }
+
+    protected static class Node<T extends Comparable<T>> implements Tree.Node<T> {
+        private T data;
+        protected Node<T> parent;
+        protected Node<T> left;
+        protected Node<T> right;
+
+        public T getData() {
+            return this.data;
+        }
+
+        public Node(final T data, final Node<T> parent, final Node<T> left, final Node<T> right) {
+            this.data = data;
+            this.parent = parent;
+            this.left = left;
+            this.right = right;
+        }
+
+        public boolean equals(final Object o) {
+            if (this == o)
+                return true;
+
+            if (o == null || getClass() != o.getClass())
+                return false;
+
+            Node<?> node = (Node<?>) o;
+
+            return !(data != null ? !data.equals(node.data) : node.data != null);
+        }
+
+        public int hashCode() {
+            return data != null ? data.hashCode() : 0;
         }
     }
 }
