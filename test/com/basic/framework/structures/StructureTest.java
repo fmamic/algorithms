@@ -280,4 +280,14 @@ public class StructureTest {
         Assert.assertEquals(false, tree.search(15));
         Assert.assertEquals(true, tree.search(13));
     }
+
+    @Test
+    public void redBlackTreeTest() {
+        final RedBlackTree<Integer> redBlackTree = new RedBlackTree<Integer>(11);
+
+        redBlackTree.insert(21);
+
+        Assert.assertEquals(true, redBlackTree != null);
+    }
+
 }
