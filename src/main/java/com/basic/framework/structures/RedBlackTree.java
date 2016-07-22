@@ -8,40 +8,18 @@ public class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
         super(data);
     }
 
-    private void leftRotate(final Node<T> node) {
-
-    }
-
-    private void rightRotate(final Node<T> node) {
-        if (node.getNodeLeft() != null) {
-            final Node<T> rotate = node.getNodeLeft();
-
-            node.setNodeLeft(rotate.getNodeRight());
-            rotate.setNodeRight(node);
-
-            if (node.getParent() == null) {
-                this.root = rotate;
-            }
-            else if (node.getParent().getNodeLeft().equals(node)) {
-                node.getParent().setNodeLeft(rotate);
-            }
-            else {
-                node.getParent().setNodeRight(rotate);
-            }
-
-            rotate.setParent(node.getParent());
-            node.setParent(rotate);
-        }
-    }
-
     @Override
     public T insert(final T data) {
-        return null;
+        return rbInsert(rbSearch(data)).getData();
     }
 
     @Override
     public boolean search(final T data) {
         return false;
+    }
+
+    private Node<T> rbSearch(final T data) {
+        return null;
     }
 
     @Override
@@ -69,9 +47,152 @@ public class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
 
     }
 
+    private Node<T> rbInsert(final Node<T> node) {
+        Node<T> root = this.root;
+        Node<T> nil = createSentinel();
+        Node<T> parent = createSentinel();
+
+        while (!root.equals(nil)) {
+            parent = root;
+            if (root.getData().compareTo(node.getData()) > 0) {
+                root = root.getNodeLeft();
+            }
+            else {
+                root = root.getNodeRight();
+            }
+        }
+
+        node.setParent(parent);
+
+        if (parent.equals(nil)) {
+            this.root = node;
+        }
+        else if (parent.getData().compareTo(node.getData()) > 0) {
+            parent.setNodeLeft(node);
+        }
+        else {
+            parent.setNodeRight(node);
+        }
+
+        node.setNodeLeft(createSentinel());
+        node.setNodeRight(createSentinel());
+        node.setColor(Node.COLOR.RED);
+
+        rbRearrange(node);
+
+        return node;
+    }
+
+    private void rbRearrange(final Node<T> node) {
+        Node<T> param = node;
+
+        while (param.getParent() != null && param.getParent().getColor().equals(Node.COLOR.RED)) {
+            if (param.getParent().equals(param.getGrandParentLeft())) {
+                Node<T> uncle = param.getGrandParentRight();
+
+                if (uncle.getColor().equals(Node.COLOR.RED)) {
+                    param.getParent().setColor(Node.COLOR.BLACK);
+                    uncle.setColor(Node.COLOR.BLACK);
+                    param.getGrandParent().setColor(Node.COLOR.RED);
+                    param = param.getGrandParent();
+                }
+                else {
+                    if (param.equals(param.getParent().getNodeRight())) {
+                        param = param.getParent();
+                        leftRotate(param);
+                    }
+                    param.getParent().setColor(Node.COLOR.BLACK);
+                    param.getGrandParent().setColor(Node.COLOR.RED);
+                    rightRotate(param.getGrandParent());
+                }
+            }
+            else {
+                Node<T> uncle = param.getGrandParentLeft();
+
+                if (uncle.getColor().equals(Node.COLOR.RED)) {
+                    param.getParent().setColor(Node.COLOR.BLACK);
+                    uncle.setColor(Node.COLOR.BLACK);
+                    param.getGrandParent().setColor(Node.COLOR.RED);
+                    param = param.getGrandParent();
+                }
+                else {
+                    if (param.equals(param.getParent().getNodeLeft())) {
+                        param = param.getParent();
+                        rightRotate(param);
+                    }
+                    param.getParent().setColor(Node.COLOR.BLACK);
+                    param.getGrandParent().setColor(Node.COLOR.RED);
+                    leftRotate(param.getGrandParent());
+                }
+            }
+        }
+
+        this.root.setColor(Node.COLOR.BLACK);
+    }
+
+    private void leftRotate(final Node<T> node) {
+        if (node.getNodeRight() != null) {
+            final Node<T> rotate = node.getNodeRight();
+
+            node.setNodeRight(rotate.getNodeLeft());
+            rotate.setNodeLeft(node);
+
+            if (node.getNodeRight() != null) {
+                node.getNodeRight().setParent(node);
+            }
+
+            if (node.getParent() == null) {
+                this.root = rotate;
+            }
+            else if (node.getParent().getNodeLeft().equals(node)) {
+                node.getParent().setNodeLeft(rotate);
+            }
+            else {
+                node.getParent().setNodeRight(rotate);
+            }
+
+            rotate.setParent(node.getParent());
+            node.setParent(rotate);
+        }
+    }
+
+    private void rightRotate(final Node<T> node) {
+        if (node.getNodeLeft() != null) {
+            final Node<T> rotate = node.getNodeLeft();
+
+            node.setNodeLeft(rotate.getNodeRight());
+            rotate.setNodeRight(node);
+
+            if (node.getParent() == null) {
+                this.root = rotate;
+            }
+            else if (node.getParent().getNodeLeft().equals(node)) {
+                node.getParent().setNodeLeft(rotate);
+            }
+            else {
+                node.getParent().setNodeRight(rotate);
+            }
+
+            rotate.setParent(node.getParent());
+            node.setParent(rotate);
+
+            if (node.getNodeLeft() != null) {
+                node.getNodeLeft().setParent(node);
+            }
+        }
+    }
+
+    private Node<T> createSentinel() {
+        final Node<T> sentinel = new Node<T>(null, null, null, null);
+        sentinel.setColor(Node.COLOR.BLACK);
+
+        return sentinel;
+    }
+
     @Override
     protected void initRoot(final T data) {
-
+        this.root = new Node<T>(data, null, null, null);
+        this.root.setColor(Node.COLOR.BLACK);
     }
 
     protected static class Node<T extends Comparable<T>> extends SearchTree.Node<T> {
@@ -117,6 +238,18 @@ public class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
 
         public void setNodeRight(final Node<T> node) {
             this.right = node;
+        }
+
+        public Node<T> getGrandParent() {
+            return this.getParent().getParent();
+        }
+
+        public Node<T> getGrandParentLeft() {
+            return this.getParent().getParent().getNodeLeft();
+        }
+
+        public Node<T> getGrandParentRight() {
+            return this.getParent().getParent().getNodeRight();
         }
     }
 }
