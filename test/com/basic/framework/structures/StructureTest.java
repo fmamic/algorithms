@@ -286,6 +286,9 @@ public class StructureTest {
         final RedBlackTree<Integer> redBlackTree = new RedBlackTree<Integer>(11);
 
         redBlackTree.insert(21);
+        redBlackTree.insert(25);
+        redBlackTree.insert(19);
+        redBlackTree.insert(4);
 
         Assert.assertEquals(true, redBlackTree != null);
     }
