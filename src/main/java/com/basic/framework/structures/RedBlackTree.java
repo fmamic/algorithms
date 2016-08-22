@@ -1,31 +1,37 @@
 package com.basic.framework.structures;
 
-public class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
+class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
 
     private Node<T> root;
 
-    public RedBlackTree(final T data) {
+    RedBlackTree(final T data) {
         super(data);
     }
 
     @Override
     public T insert(final T data) {
-        Node<T> node = rbSearch(data);
-
-        if (node == null) {
-            node = createSentinel(data);
-        }
-
-        return rbInsert(node).getData();
+        return rbInsert(createSentinel(data)).getData();
     }
 
     @Override
     public boolean search(final T data) {
-        return false;
+        return rbSearch(root, data) != null;
     }
 
-    private Node<T> rbSearch(final T data) {
-        return null;
+    private Node<T> rbSearch(final Node<T> node, final T data) {
+        final Node<T> sentinel = createSentinel();
+
+        if (node.equals(sentinel)) {
+            return null;
+        } else if (node.getData().equals(data)) {
+            return node;
+        }
+
+        if (node.getData().compareTo(data) > 0) {
+            return rbSearch(node.getNodeLeft(), data);
+        } else {
+            return rbSearch(node.getNodeRight(), data);
+        }
     }
 
     @Override
@@ -178,6 +184,20 @@ public class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
         }
     }
 
+    private void transplant(final Node<T> first, final Node<T> second) {
+        final Node<T> sentinel = createSentinel();
+
+        if (first.getParent().equals(sentinel)) {
+            root = second;
+        } else if (first.getParent().getNodeLeft().equals(first)) {
+            first.getParent().setNodeLeft(second);
+        } else {
+            first.getParent().setNodeRight(second);
+        }
+
+        second.setParent(first.getParent());
+    }
+
     private Node<T> createSentinel(final T data) {
         final Node<T> sentinel = new Node<T>(data, null, null, null);
         sentinel.setColor(Node.COLOR.BLACK);
@@ -198,60 +218,60 @@ public class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
         this.root.setColor(Node.COLOR.BLACK);
     }
 
-    protected static class Node<T extends Comparable<T>> extends SearchTree.Node<T> {
+    private static class Node<T extends Comparable<T>> extends SearchTree.Node<T> {
 
         private COLOR color = COLOR.RED;
 
-        public enum COLOR {
+        enum COLOR {
             RED,
             BLACK
         }
 
-        public Node(final T data, final SearchTree.Node<T> parent, final SearchTree.Node<T> left, final SearchTree.Node<T> right) {
+        Node(final T data, final SearchTree.Node<T> parent, final SearchTree.Node<T> left, final SearchTree.Node<T> right) {
             super(data, parent, left, right);
         }
 
-        public COLOR getColor() {
+        COLOR getColor() {
             return color;
         }
 
-        public void setColor(final COLOR color) {
+        void setColor(final COLOR color) {
             this.color = color;
         }
 
-        public Node<T> getNodeLeft() {
+        Node<T> getNodeLeft() {
             return (Node<T>) this.left;
         }
 
-        public Node<T> getNodeRight() {
+        Node<T> getNodeRight() {
             return (Node<T>) this.right;
         }
 
-        public Node<T> getParent() {
+        Node<T> getParent() {
             return (Node<T>) this.parent;
         }
 
-        public void setParent(final Node<T> node) {
+        void setParent(final Node<T> node) {
             this.parent = node;
         }
 
-        public void setNodeLeft(final Node<T> node) {
+        void setNodeLeft(final Node<T> node) {
             this.left = node;
         }
 
-        public void setNodeRight(final Node<T> node) {
+        void setNodeRight(final Node<T> node) {
             this.right = node;
         }
 
-        public Node<T> getGrandParent() {
+        Node<T> getGrandParent() {
             return this.getParent().getParent();
         }
 
-        public Node<T> getGrandParentLeft() {
+        Node<T> getGrandParentLeft() {
             return this.getParent().getParent().getNodeLeft();
         }
 
-        public Node<T> getGrandParentRight() {
+        Node<T> getGrandParentRight() {
             return this.getParent().getParent().getNodeRight();
         }
     }

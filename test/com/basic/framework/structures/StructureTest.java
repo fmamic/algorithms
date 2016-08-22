@@ -290,7 +290,10 @@ public class StructureTest {
         redBlackTree.insert(19);
         redBlackTree.insert(4);
 
-        Assert.assertEquals(true, redBlackTree != null);
+        Assert.assertEquals(true, redBlackTree.search(11));
+        Assert.assertEquals(true, redBlackTree.search(4));
+        Assert.assertEquals(true, redBlackTree.search(19));
+        Assert.assertEquals(false, redBlackTree.search(122));
+        Assert.assertEquals(false, redBlackTree.search(17));
     }
-
 }
