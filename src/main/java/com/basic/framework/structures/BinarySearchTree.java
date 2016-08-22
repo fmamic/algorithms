@@ -1,10 +1,8 @@
 package com.basic.framework.structures;
 
-public class BinarySearchTree<T extends Comparable<T>> extends SearchTree<T> {
+class BinarySearchTree<T extends Comparable<T>> extends SearchTree<T> {
 
-    private Node<T> root;
-
-    public BinarySearchTree(final T data) {
+    BinarySearchTree(final T data) {
         super(data);
     }
 
@@ -104,6 +102,16 @@ public class BinarySearchTree<T extends Comparable<T>> extends SearchTree<T> {
         this.root = new Node<T>(data, null, null, null);
     }
 
+    Node<T> treeMinimum(final Node<T> node) {
+        Node<T> current = node;
+
+        while (current.left != null) {
+            current = current.left;
+        }
+
+        return current;
+    }
+
     private void transplant(final Node<T> first, final Node<T> second) {
         if (first.parent == null) {
             this.root = second;
@@ -157,16 +165,6 @@ public class BinarySearchTree<T extends Comparable<T>> extends SearchTree<T> {
 
         while (current.right != null) {
             current = current.right;
-        }
-
-        return current;
-    }
-
-    private Node<T> treeMinimum(final Node<T> node) {
-        Node<T> current = node;
-
-        while (current.left != null) {
-            current = current.left;
         }
 
         return current;

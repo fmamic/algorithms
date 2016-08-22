@@ -36,7 +36,7 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
 
     @Override
     public T minimum() {
-        return null;
+        return treeMinimum(this.root).getData();
     }
 
     @Override
@@ -216,6 +216,16 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
     protected void initRoot(final T data) {
         this.root = new Node<T>(data, null, createSentinel(), createSentinel());
         this.root.setColor(Node.COLOR.BLACK);
+    }
+
+    Node<T> treeMinimum(final SearchTree.Node<T> node) {
+        Node<T> current = (Node<T>) node;
+
+        while (!current.getNodeLeft().equals(createSentinel())) {
+            current = current.getNodeLeft();
+        }
+
+        return current;
     }
 
     private static class Node<T extends Comparable<T>> extends SearchTree.Node<T> {

@@ -3,9 +3,11 @@ package com.basic.framework.structures;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-public abstract class SearchTree<T extends Comparable<T>> implements Tree<T> {
+abstract class SearchTree<T extends Comparable<T>> implements Tree<T> {
 
-    public SearchTree(final T data) {
+    Node<T> root;
+
+    SearchTree(final T data) {
         initRoot(data);
     }
 
@@ -13,7 +15,9 @@ public abstract class SearchTree<T extends Comparable<T>> implements Tree<T> {
 
     public abstract boolean search(final T data);
 
-    public abstract T minimum();
+    public T minimum() {
+        return treeMinimum(this.root).getData();
+    }
 
     public abstract T maximum();
 
@@ -25,18 +29,20 @@ public abstract class SearchTree<T extends Comparable<T>> implements Tree<T> {
 
     protected abstract void initRoot(final T data);
 
-    protected static class Node<T extends Comparable<T>> implements Tree.Node<T> {
+    abstract Node<T> treeMinimum(final Node<T> node);
+
+    static class Node<T extends Comparable<T>> implements Tree.Node<T> {
         private T data;
 
-        protected Node<T> parent;
-        protected Node<T> left;
-        protected Node<T> right;
+        Node<T> parent;
+        Node<T> left;
+        Node<T> right;
 
         public T getData() {
             return this.data;
         }
 
-        public Node(final T data, final Node<T> parent, final Node<T> left, final Node<T> right) {
+        Node(final T data, final Node<T> parent, final Node<T> left, final Node<T> right) {
             this.data = data;
             this.parent = parent;
             this.left = left;
