@@ -2,13 +2,15 @@ package com.basic.framework.structures;
 
 class BinarySearchTree<T extends Comparable<T>> extends SearchTree<T> {
 
+    private Node<T> root;
+
     BinarySearchTree(final T data) {
         super(data);
     }
 
     @Override
     public T insert(final T data) {
-        Node<T> node = this.root;
+        Node<T> node = getRoot();
 
         if (node == null) {
             initRoot(data);
@@ -22,14 +24,16 @@ class BinarySearchTree<T extends Comparable<T>> extends SearchTree<T> {
             parent = current;
             if (current.getData().compareTo(data) < 0) {
                 current = current.right;
-            } else {
+            }
+            else {
                 current = current.left;
             }
         }
 
         if (parent.getData().compareTo(data) < 0) {
             parent.right = new Node<T>(data, parent, null, null);
-        } else {
+        }
+        else {
             parent.left = new Node<T>(data, parent, null, null);
         }
 
@@ -38,37 +42,38 @@ class BinarySearchTree<T extends Comparable<T>> extends SearchTree<T> {
 
     @Override
     public boolean search(final T data) {
-        return recursiveSearch(this.root, data) != null;
+        return treeSearch(getRoot(), data) != null;
     }
 
     @Override
     public T minimum() {
-        return treeMinimum(this.root).getData();
+        return treeMinimum(getRoot()).getData();
     }
 
     @Override
     public T maximum() {
-        return treeMaximum(this.root).getData();
+        return treeMaximum(getRoot()).getData();
     }
 
     @Override
     public T successor(final T data) {
-        return treeSuccessor(recursiveSearch(this.root, data)).getData();
+        return treeSuccessor(treeSearch(getRoot(), data)).getData();
     }
 
     @Override
     public T predecessor(final T data) {
-        return treePredecessor(recursiveSearch(this.root, data)).getData();
+        return treePredecessor(treeSearch(getRoot(), data)).getData();
     }
 
     @Override
     public void delete(T data) {
-        Node<T> node = recursiveSearch(this.root, data);
+        Node<T> node = treeSearch(getRoot(), data);
 
         if (node.left == null && node.right == null) {
             if (node.parent.left.equals(node)) {
                 node.parent.left = null;
-            } else {
+            }
+            else {
                 node.parent.right = null;
             }
             return;
@@ -99,7 +104,7 @@ class BinarySearchTree<T extends Comparable<T>> extends SearchTree<T> {
 
     @Override
     protected void initRoot(final T data) {
-        this.root = new Node<T>(data, null, null, null);
+        setRoot(new Node<T>(data, null, null, null));
     }
 
     Node<T> treeMinimum(final Node<T> node) {
@@ -114,10 +119,12 @@ class BinarySearchTree<T extends Comparable<T>> extends SearchTree<T> {
 
     private void transplant(final Node<T> first, final Node<T> second) {
         if (first.parent == null) {
-            this.root = second;
-        } else if (first == first.parent.left) {
+            setRoot(second);
+        }
+        else if (first == first.parent.left) {
             first.parent.left = second;
-        } else {
+        }
+        else {
             first.parent.right = second;
         }
 
@@ -126,7 +133,7 @@ class BinarySearchTree<T extends Comparable<T>> extends SearchTree<T> {
         }
     }
 
-    private Node<T> treeSuccessor(final Node<T> node) {
+    Node<T> treeSuccessor(final Node<T> node) {
         Node<T> current = node;
 
         if (current.right != null) {
@@ -143,7 +150,7 @@ class BinarySearchTree<T extends Comparable<T>> extends SearchTree<T> {
         return parent;
     }
 
-    private Node<T> treePredecessor(final Node<T> node) {
+    Node<T> treePredecessor(final Node<T> node) {
         Node<T> current = node;
 
         if (current.left != null) {
@@ -160,17 +167,7 @@ class BinarySearchTree<T extends Comparable<T>> extends SearchTree<T> {
         return parent;
     }
 
-    private Node<T> treeMaximum(final Node<T> node) {
-        Node<T> current = node;
-
-        while (current.right != null) {
-            current = current.right;
-        }
-
-        return current;
-    }
-
-    private Node<T> recursiveSearch(final Node<T> node, final T data) {
+    Node<T> treeSearch(final Node<T> node, final T data) {
         if (node == null) {
             return null;
         }
@@ -180,9 +177,28 @@ class BinarySearchTree<T extends Comparable<T>> extends SearchTree<T> {
         }
 
         if (node.getData().compareTo(data) < 0) {
-            return recursiveSearch(node.right, data);
-        } else {
-            return recursiveSearch(node.left, data);
+            return treeSearch(node.right, data);
         }
+        else {
+            return treeSearch(node.left, data);
+        }
+    }
+
+    Node<T> treeMaximum(final Node<T> node) {
+        Node<T> current = node;
+
+        while (current.right != null) {
+            current = current.right;
+        }
+
+        return current;
+    }
+
+    Node<T> getRoot() {
+        return this.root;
+    }
+
+    void setRoot(final Node<T> node) {
+        this.root = node;
     }
 }

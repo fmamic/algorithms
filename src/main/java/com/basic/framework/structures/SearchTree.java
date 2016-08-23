@@ -5,8 +5,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 abstract class SearchTree<T extends Comparable<T>> implements Tree<T> {
 
-    Node<T> root;
-
     SearchTree(final T data) {
         initRoot(data);
     }
@@ -16,20 +14,36 @@ abstract class SearchTree<T extends Comparable<T>> implements Tree<T> {
     public abstract boolean search(final T data);
 
     public T minimum() {
-        return treeMinimum(this.root).getData();
+        return treeMinimum(getRoot()).getData();
     }
 
-    public abstract T maximum();
+    public T maximum() {
+        return treeMaximum(getRoot()).getData();
+    }
 
-    public abstract T successor(T data);
+    public T successor(final T data) {
+        return treeSuccessor(treeSearch(getRoot(), data)).getData();
+    }
 
-    public abstract T predecessor(T data);
+    public T predecessor(final T data) {
+        return treePredecessor(treeSearch(getRoot(), data)).getData();
+    }
 
-    public abstract void delete(T data);
+    public abstract void delete(final T data);
 
     protected abstract void initRoot(final T data);
 
     abstract Node<T> treeMinimum(final Node<T> node);
+
+    abstract Node<T> treeMaximum(final Node<T> node);
+
+    abstract Node<T> treeSuccessor(final Node<T> data);
+
+    abstract Node<T> treePredecessor(final Node<T> data);
+
+    abstract Node<T> treeSearch(final Node<T> node, final T data);
+
+    abstract Node<T> getRoot();
 
     static class Node<T extends Comparable<T>> implements Tree.Node<T> {
         private T data;

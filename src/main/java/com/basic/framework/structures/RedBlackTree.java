@@ -15,33 +15,36 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
 
     @Override
     public boolean search(final T data) {
-        return rbSearch(root, data) != null;
+        return treeSearch(getRoot(), data) != null;
     }
 
-    private Node<T> rbSearch(final Node<T> node, final T data) {
+    Node<T> treeSearch(final SearchTree.Node<T> node, final T data) {
         final Node<T> sentinel = createSentinel();
+        final Node<T> current = (Node<T>) node;
 
-        if (node.equals(sentinel)) {
+        if (current.equals(sentinel)) {
             return null;
-        } else if (node.getData().equals(data)) {
-            return node;
+        }
+        else if (current.getData().equals(data)) {
+            return current;
         }
 
-        if (node.getData().compareTo(data) > 0) {
-            return rbSearch(node.getNodeLeft(), data);
-        } else {
-            return rbSearch(node.getNodeRight(), data);
+        if (current.getData().compareTo(data) > 0) {
+            return treeSearch(current.getNodeLeft(), data);
+        }
+        else {
+            return treeSearch(current.getNodeRight(), data);
         }
     }
 
     @Override
     public T minimum() {
-        return treeMinimum(this.root).getData();
+        return treeMinimum(getRoot()).getData();
     }
 
     @Override
     public T maximum() {
-        return null;
+        return treeMaximum(getRoot()).getData();
     }
 
     @Override
@@ -60,7 +63,7 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
     }
 
     private Node<T> rbInsert(final Node<T> node) {
-        Node<T> root = this.root;
+        Node<T> root = getRoot();
         Node<T> nil = createSentinel();
         Node<T> parent = createSentinel();
 
@@ -68,7 +71,8 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
             parent = root;
             if (root.getData().compareTo(node.getData()) > 0) {
                 root = root.getNodeLeft();
-            } else {
+            }
+            else {
                 root = root.getNodeRight();
             }
         }
@@ -76,10 +80,12 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
         node.setParent(parent);
 
         if (parent.equals(nil)) {
-            this.root = node;
-        } else if (parent.getData().compareTo(node.getData()) > 0) {
+            setRoot(node);
+        }
+        else if (parent.getData().compareTo(node.getData()) > 0) {
             parent.setNodeLeft(node);
-        } else {
+        }
+        else {
             parent.setNodeRight(node);
         }
 
@@ -104,7 +110,8 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
                     uncle.setColor(Node.COLOR.BLACK);
                     param.getGrandParent().setColor(Node.COLOR.RED);
                     param = param.getGrandParent();
-                } else {
+                }
+                else {
                     if (param.equals(param.getParent().getNodeRight())) {
                         param = param.getParent();
                         leftRotate(param);
@@ -113,7 +120,8 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
                     param.getGrandParent().setColor(Node.COLOR.RED);
                     rightRotate(param.getGrandParent());
                 }
-            } else {
+            }
+            else {
                 Node<T> uncle = param.getGrandParentLeft();
 
                 if (uncle.getColor().equals(Node.COLOR.RED)) {
@@ -121,7 +129,8 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
                     uncle.setColor(Node.COLOR.BLACK);
                     param.getGrandParent().setColor(Node.COLOR.RED);
                     param = param.getGrandParent();
-                } else {
+                }
+                else {
                     if (param.equals(param.getParent().getNodeLeft())) {
                         param = param.getParent();
                         rightRotate(param);
@@ -133,7 +142,7 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
             }
         }
 
-        this.root.setColor(Node.COLOR.BLACK);
+        getRoot().setColor(Node.COLOR.BLACK);
     }
 
     private void leftRotate(final Node<T> node) {
@@ -147,16 +156,22 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
                 node.getNodeRight().setParent(node);
             }
 
-            if (node.getParent() == null) {
-                this.root = rotate;
-            } else if (node.getParent().getNodeLeft().equals(node)) {
-                node.getParent().setNodeLeft(rotate);
-            } else {
-                node.getParent().setNodeRight(rotate);
-            }
+            rotate(node, rotate);
 
             rotate.setParent(node.getParent());
             node.setParent(rotate);
+        }
+    }
+
+    private void rotate(final Node<T> node, final Node<T> rotate) {
+        if (node.getParent() == null) {
+            setRoot(rotate);
+        }
+        else if (node.getParent().getNodeLeft().equals(node)) {
+            node.getParent().setNodeLeft(rotate);
+        }
+        else {
+            node.getParent().setNodeRight(rotate);
         }
     }
 
@@ -167,13 +182,7 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
             node.setNodeLeft(rotate.getNodeRight());
             rotate.setNodeRight(node);
 
-            if (node.getParent() == null) {
-                this.root = rotate;
-            } else if (node.getParent().getNodeLeft().equals(node)) {
-                node.getParent().setNodeLeft(rotate);
-            } else {
-                node.getParent().setNodeRight(rotate);
-            }
+            rotate(node, rotate);
 
             rotate.setParent(node.getParent());
             node.setParent(rotate);
@@ -188,10 +197,12 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
         final Node<T> sentinel = createSentinel();
 
         if (first.getParent().equals(sentinel)) {
-            root = second;
-        } else if (first.getParent().getNodeLeft().equals(first)) {
+            setRoot(second);
+        }
+        else if (first.getParent().getNodeLeft().equals(first)) {
             first.getParent().setNodeLeft(second);
-        } else {
+        }
+        else {
             first.getParent().setNodeRight(second);
         }
 
@@ -214,8 +225,8 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
 
     @Override
     protected void initRoot(final T data) {
-        this.root = new Node<T>(data, null, createSentinel(), createSentinel());
-        this.root.setColor(Node.COLOR.BLACK);
+        setRoot(new Node<T>(data, null, createSentinel(), createSentinel()));
+        getRoot().setColor(Node.COLOR.BLACK);
     }
 
     Node<T> treeMinimum(final SearchTree.Node<T> node) {
@@ -226,6 +237,26 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
         }
 
         return current;
+    }
+
+    Node<T> treeMaximum(final SearchTree.Node<T> node) {
+        return null;
+    }
+
+    Node<T> treeSuccessor(final SearchTree.Node<T> data) {
+        return null;
+    }
+
+    Node<T> treePredecessor(final SearchTree.Node<T> data) {
+        return null;
+    }
+
+    Node<T> getRoot() {
+        return this.root;
+    }
+
+    void setRoot(final Node<T> node) {
+        this.root = node;
     }
 
     private static class Node<T extends Comparable<T>> extends SearchTree.Node<T> {
