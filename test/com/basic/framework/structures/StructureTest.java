@@ -308,5 +308,8 @@ public class StructureTest {
         redBlackTree.insert(12);
 
         assertEquals(12, (int) redBlackTree.minimum());
+        assertEquals(55, (int) redBlackTree.maximum());
+        assertEquals(21, (int) redBlackTree.successor(12));
+        assertEquals(21, (int) redBlackTree.predecessor(38));
     }
 }
