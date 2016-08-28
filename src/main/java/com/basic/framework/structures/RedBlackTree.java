@@ -62,7 +62,7 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
         final Node<T> nil = createSentinel();
 
         Node<T> replace = node;
-        Node<T> follow = node;
+        Node<T> follow;
         Node.COLOR orgColor = replace.getColor();
 
         if (node.getNodeLeft().equals(nil)) {
@@ -79,9 +79,9 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
             if (replace.getParent().equals(node)) {
                 follow.setParent(replace);
             } else {
-                transplant(node, replace);
+                transplant(replace, replace.getNodeRight());
                 replace.setNodeRight(node.getNodeRight());
-                replace.setNodeLeft(node.getNodeLeft());
+                replace.getNodeRight().setParent(replace);
             }
 
             transplant(node, replace);
@@ -99,25 +99,28 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
         Node<T> follow = param;
         while (!follow.equals(getRoot()) && follow.getColor().equals(Node.COLOR.BLACK)) {
             if (follow.equals(follow.getParent().getNodeLeft())) {
-                Node<T> parentRight = follow.getParent().getNodeRight();
-                if (parentRight.getColor().equals(Node.COLOR.RED)) {
-                    parentRight.setColor(Node.COLOR.BLACK);
+                Node<T> sibling = follow.getParent().getNodeRight();
+                if (sibling.getColor().equals(Node.COLOR.RED)) {
+                    sibling.setColor(Node.COLOR.BLACK);
                     follow.getParent().setColor(Node.COLOR.RED);
                     leftRotate(follow.getParent());
-                    parentRight = follow.getParent().getNodeRight();
+                    sibling = follow.getParent().getNodeRight();
                 }
                 if (follow.getNodeLeft().getColor().equals(Node.COLOR.BLACK) && follow.getNodeRight().getColor().equals(Node.COLOR.BLACK)) {
-                    parentRight.setColor(Node.COLOR.RED);
+                    sibling.setColor(Node.COLOR.RED);
                     follow = follow.getParent();
-                } else if (parentRight.getNodeRight().getColor().equals(Node.COLOR.BLACK)) {
-                    parentRight.getNodeLeft().setColor(Node.COLOR.BLACK);
-                    parentRight.setColor(Node.COLOR.RED);
-                    rightRotate(parentRight);
-                    parentRight = parentRight.getParent().getNodeRight();
+                } else if (sibling.getNodeRight().getColor().equals(Node.COLOR.BLACK)) {
+                    sibling.getNodeLeft().setColor(Node.COLOR.BLACK);
+                    sibling.setColor(Node.COLOR.RED);
+                    rightRotate(sibling);
+                    sibling = sibling.getParent().getNodeRight();
                 }
 
             } else {
+                Node<T> sibling = follow.getParent().getNodeLeft();
+                if (sibling.getColor().equals(Node.COLOR.RED)) {
 
+                }
             }
         }
         follow.setColor(Node.COLOR.BLACK);
@@ -247,9 +250,7 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
     }
 
     private void transplant(final Node<T> first, final Node<T> second) {
-        final Node<T> sentinel = createSentinel();
-
-        if (first.getParent().equals(sentinel)) {
+        if (first.getParent() == null) {
             setRoot(second);
         } else if (first.getParent().getNodeLeft().equals(first)) {
             first.getParent().setNodeLeft(second);

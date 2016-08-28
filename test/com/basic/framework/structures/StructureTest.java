@@ -313,4 +313,42 @@ public class StructureTest {
         assertEquals(21, (int) redBlackTree.predecessor(38));
         assertEquals(true, redBlackTree.predecessor(12) == null);
     }
+
+    @Test
+    public void redBlackTreeDelete30() {
+        final RedBlackTree<Integer> redBlackTree = new RedBlackTree<Integer>(10);
+
+        redBlackTree.insert(5);
+        redBlackTree.insert(30);
+        redBlackTree.insert(-5);
+        redBlackTree.insert(7);
+        redBlackTree.insert(20);
+        redBlackTree.insert(38);
+        redBlackTree.insert(32);
+        redBlackTree.insert(41);
+        redBlackTree.insert(35);
+
+        redBlackTree.delete(30);
+
+        assertEquals(false, redBlackTree.search(30));
+    }
+
+    @Test
+    public void redBlackTreeDelete10() {
+        final RedBlackTree<Integer> redBlackTree = new RedBlackTree<Integer>(10);
+
+        redBlackTree.insert(5);
+        redBlackTree.insert(30);
+        redBlackTree.insert(-5);
+        redBlackTree.insert(7);
+        redBlackTree.insert(20);
+        redBlackTree.insert(38);
+        redBlackTree.insert(32);
+        redBlackTree.insert(41);
+        redBlackTree.insert(35);
+
+        redBlackTree.delete(10);
+
+        assertEquals(false, redBlackTree.search(10));
+    }
 }
