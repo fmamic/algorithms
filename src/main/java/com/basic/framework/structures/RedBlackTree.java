@@ -52,12 +52,75 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
 
     @Override
     public T predecessor(final T data) {
-        return treePredecessor(treeSearch(getRoot(), data)).getData();
+        final Node<T> result = treePredecessor(treeSearch(getRoot(), data));
+        return result != null ? result.getData() : null;
     }
 
     @Override
     public void delete(final T data) {
+        final Node<T> node = treeSearch(getRoot(), data);
+        final Node<T> nil = createSentinel();
 
+        Node<T> replace = node;
+        Node<T> follow = node;
+        Node.COLOR orgColor = replace.getColor();
+
+        if (node.getNodeLeft().equals(nil)) {
+            follow = node.getNodeRight();
+            transplant(node, node.getNodeRight());
+        } else if (node.getNodeRight().equals(nil)) {
+            follow = node.getNodeLeft();
+            transplant(node, node.getNodeLeft());
+        } else {
+            replace = treeSuccessor(node);
+            orgColor = replace.getColor();
+            follow = replace.getNodeRight();
+
+            if (replace.getParent().equals(node)) {
+                follow.setParent(replace);
+            } else {
+                transplant(node, replace);
+                replace.setNodeRight(node.getNodeRight());
+                replace.setNodeLeft(node.getNodeLeft());
+            }
+
+            transplant(node, replace);
+
+            replace.setNodeLeft(node.getNodeLeft());
+            replace.getNodeLeft().setParent(node);
+            replace.setColor(node.getColor());
+        }
+
+        if (orgColor.equals(Node.COLOR.BLACK))
+            rbTreeFix(follow);
+    }
+
+    private void rbTreeFix(final Node<T> param) {
+        Node<T> follow = param;
+        while (!follow.equals(getRoot()) && follow.getColor().equals(Node.COLOR.BLACK)) {
+            if (follow.equals(follow.getParent().getNodeLeft())) {
+                Node<T> parentRight = follow.getParent().getNodeRight();
+                if (parentRight.getColor().equals(Node.COLOR.RED)) {
+                    parentRight.setColor(Node.COLOR.BLACK);
+                    follow.getParent().setColor(Node.COLOR.RED);
+                    leftRotate(follow.getParent());
+                    parentRight = follow.getParent().getNodeRight();
+                }
+                if (follow.getNodeLeft().getColor().equals(Node.COLOR.BLACK) && follow.getNodeRight().getColor().equals(Node.COLOR.BLACK)) {
+                    parentRight.setColor(Node.COLOR.RED);
+                    follow = follow.getParent();
+                } else if (parentRight.getNodeRight().getColor().equals(Node.COLOR.BLACK)) {
+                    parentRight.getNodeLeft().setColor(Node.COLOR.BLACK);
+                    parentRight.setColor(Node.COLOR.RED);
+                    rightRotate(parentRight);
+                    parentRight = parentRight.getParent().getNodeRight();
+                }
+
+            } else {
+
+            }
+        }
+        follow.setColor(Node.COLOR.BLACK);
     }
 
     private Node<T> rbInsert(final Node<T> node) {
@@ -97,8 +160,8 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
         Node<T> param = node;
 
         while (param.getParent() != null && param.getParent().getColor().equals(Node.COLOR.RED)) {
-            if (param.getParent().equals(param.getGrandParentLeft())) {
-                Node<T> uncle = param.getGrandParentRight();
+            if (param.getParent().equals(param.getUncleLeft())) {
+                Node<T> uncle = param.getUncleRight();
 
                 if (uncle.getColor().equals(Node.COLOR.RED)) {
                     param.getParent().setColor(Node.COLOR.BLACK);
@@ -115,7 +178,7 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
                     rightRotate(param.getGrandParent());
                 }
             } else {
-                Node<T> uncle = param.getGrandParentLeft();
+                Node<T> uncle = param.getUncleLeft();
 
                 if (uncle.getColor().equals(Node.COLOR.RED)) {
                     param.getParent().setColor(Node.COLOR.BLACK);
@@ -241,7 +304,7 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
         Node<T> current = (Node<T>) node;
 
         if (!current.getNodeRight().equals(createSentinel())) {
-            return treeMinimum(current.right);
+            return treeMinimum(current.getNodeRight());
         }
 
         Node<T> parent = current.getParent();
@@ -263,10 +326,13 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
 
         Node<T> parent = current.getParent();
 
-        while (!parent.equals(createSentinel()) && parent.getNodeLeft().equals(current)) {
+        while (parent != null && !parent.equals(createSentinel()) && parent.getNodeLeft().equals(current)) {
             current = parent;
             parent = parent.getParent();
         }
+
+        if (parent == null)
+            return null;
 
         return parent;
     }
@@ -324,15 +390,23 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
             this.right = node;
         }
 
+        Node<T> getCousineLeft() {
+            return this.getParent().getNodeLeft();
+        }
+
+        Node<T> getCousineRight() {
+            return this.getParent().getNodeRight();
+        }
+
         Node<T> getGrandParent() {
             return this.getParent().getParent();
         }
 
-        Node<T> getGrandParentLeft() {
+        Node<T> getUncleLeft() {
             return this.getParent().getParent().getNodeLeft();
         }
 
-        Node<T> getGrandParentRight() {
+        Node<T> getUncleRight() {
             return this.getParent().getParent().getNodeRight();
         }
     }

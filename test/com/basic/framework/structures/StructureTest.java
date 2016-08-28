@@ -311,5 +311,6 @@ public class StructureTest {
         assertEquals(55, (int) redBlackTree.maximum());
         assertEquals(21, (int) redBlackTree.successor(12));
         assertEquals(21, (int) redBlackTree.predecessor(38));
+        assertEquals(true, redBlackTree.predecessor(12) == null);
     }
 }
