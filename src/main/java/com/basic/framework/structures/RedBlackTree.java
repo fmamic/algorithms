@@ -98,7 +98,7 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
     private void rbTreeFix(final Node<T> param) {
         Node<T> follow = param;
         while (!follow.equals(getRoot()) && follow.getColor().equals(Node.COLOR.BLACK)) {
-            if (follow.equals(follow.getParent().getNodeLeft())) {
+            if (follow.getParent() != null && follow.equals(follow.getParent().getNodeLeft())) {
                 Node<T> sibling = follow.getParent().getNodeRight();
                 if (sibling.getColor().equals(Node.COLOR.RED)) {
                     sibling.setColor(Node.COLOR.BLACK);
@@ -106,21 +106,49 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
                     leftRotate(follow.getParent());
                     sibling = follow.getParent().getNodeRight();
                 }
-                if (follow.getNodeLeft().getColor().equals(Node.COLOR.BLACK) && follow.getNodeRight().getColor().equals(Node.COLOR.BLACK)) {
+                if (follow.getNodeLeft() != null && follow.getNodeLeft().getColor().equals(Node.COLOR.BLACK)
+                        && follow.getNodeRight() != null && follow.getNodeRight().getColor().equals(Node.COLOR.BLACK)) {
                     sibling.setColor(Node.COLOR.RED);
                     follow = follow.getParent();
-                } else if (sibling.getNodeRight().getColor().equals(Node.COLOR.BLACK)) {
+                } else if (sibling.getNodeRight() != null && sibling.getNodeRight().getColor().equals(Node.COLOR.BLACK)) {
                     sibling.getNodeLeft().setColor(Node.COLOR.BLACK);
                     sibling.setColor(Node.COLOR.RED);
                     rightRotate(sibling);
-                    sibling = sibling.getParent().getNodeRight();
+                    sibling = follow.getParent().getNodeRight();
                 }
+
+                sibling.setColor(follow.getParent().getColor());
+                follow.getParent().setColor(Node.COLOR.BLACK);
+                sibling.getNodeRight().setColor(Node.COLOR.BLACK);
+                leftRotate(follow.getParent());
+                follow = createSentinel();
 
             } else {
+                if (follow.getParent() == null)
+                    break;
                 Node<T> sibling = follow.getParent().getNodeLeft();
                 if (sibling.getColor().equals(Node.COLOR.RED)) {
-
+                    sibling.setColor(Node.COLOR.BLACK);
+                    follow.getParent().setColor(Node.COLOR.RED);
+                    rightRotate(follow.getParent());
+                    sibling = follow.getParent().getNodeLeft();
                 }
+                if (follow.getNodeRight() != null && follow.getNodeRight().getColor().equals(Node.COLOR.BLACK)
+                        && follow.getNodeLeft() != null && follow.getNodeLeft().getColor().equals(Node.COLOR.BLACK)) {
+                    sibling.setColor(Node.COLOR.RED);
+                    follow = follow.getParent();
+                } else if (sibling.getNodeLeft() != null && sibling.getNodeLeft().getColor().equals(Node.COLOR.BLACK)) {
+                    sibling.getNodeRight().setColor(Node.COLOR.BLACK);
+                    sibling.setColor(Node.COLOR.RED);
+                    leftRotate(sibling);
+                    sibling = follow.getParent().getNodeLeft();
+                }
+
+                sibling.setColor(follow.getParent().getColor());
+                follow.getParent().setColor(Node.COLOR.BLACK);
+                sibling.getNodeLeft().setColor(Node.COLOR.BLACK);
+                rightRotate(follow.getParent());
+                follow = createSentinel();
             }
         }
         follow.setColor(Node.COLOR.BLACK);
