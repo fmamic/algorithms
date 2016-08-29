@@ -278,7 +278,7 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
     }
 
     private void transplant(final Node<T> first, final Node<T> second) {
-        if (first.getParent() == null) {
+        if (first.getParent() == null || first.getParent().equals(createSentinel())) {
             setRoot(second);
         } else if (first.getParent().getNodeLeft().equals(first)) {
             first.getParent().setNodeLeft(second);
