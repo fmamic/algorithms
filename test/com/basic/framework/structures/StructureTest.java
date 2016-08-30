@@ -351,4 +351,14 @@ public class StructureTest {
 
         assertEquals(false, redBlackTree.search(10));
     }
+
+    @Test
+    public void avlTreeInsertTest() {
+        final AVLTree<Integer> avlTree = new AVLTree<Integer>(15);
+
+        avlTree.insert(11);
+        avlTree.insert(25);
+        avlTree.insert(30);
+        avlTree.insert(35);
+    }
 }
