@@ -361,4 +361,19 @@ public class StructureTest {
         avlTree.insert(30);
         avlTree.insert(35);
     }
+
+    @Test
+    public void treapTreeInsertTest() {
+        final Treap<String, Integer> treapTree = new Treap<String, Integer>("G", 4);
+
+        treapTree.insert("B", 7);
+        treapTree.insert("H", 5);
+        treapTree.insert("A", 10);
+        treapTree.insert("D", 9);
+        treapTree.insert("K", 65);
+        treapTree.insert("C", 25);
+        treapTree.insert("E", 23);
+        treapTree.insert("I", 73);
+        treapTree.insert("F", 2);
+    }
 }
