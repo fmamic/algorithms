@@ -3,7 +3,7 @@ package com.basic.framework.structures;
 /**
  * Red Black Tree with Order Statistic properties
  */
-class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
+class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> implements OrderStatistic<T>, IntervalTree {
 
     private Node<T> root;
 
@@ -59,8 +59,12 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
         return result != null ? result.getData() : null;
     }
 
-    T selectElement(final int i) {
+    public T selectElement(final int i) {
         return selectElement(getRoot(), i).getData();
+    }
+
+    public int rankElement(final T data) {
+        return rankElement(treeSearch(getRoot(), data));
     }
 
     private Node<T> selectElement(final Node<T> node, final int i) {
@@ -77,10 +81,6 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
         }
     }
 
-    int rankElement(final T data) {
-        return rankElement(treeSearch(getRoot(), data));
-    }
-
     private int rankElement(final Node<T> node) {
         int rank = node.getNodeLeft().getSize() + 1;
 
@@ -94,6 +94,20 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
         }
 
         return rank;
+    }
+
+    public Interval intervalSearch(final Interval interval) {
+        Node<T> iterator = getRoot();
+
+        while (!iterator.equals(createSentinel()) && !((Interval) iterator.getData()).overlap(interval)) {
+            if (!iterator.getNodeLeft().equals(createSentinel()) && iterator.getNodeLeft().getMax() >= interval.getMinimum()) {
+                iterator = iterator.getNodeLeft();
+            } else {
+                iterator = iterator.getNodeRight();
+            }
+        }
+
+        return (Interval) iterator.getData();
     }
 
     @Override
@@ -243,6 +257,10 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
         node.setColor(Node.COLOR.RED);
         node.setSize(1);
 
+        if (node.getData() instanceof Interval) {
+            node.setMax(((Interval) node.getData()).getMaximum());
+        }
+
         rbRearrange(node);
 
         return node;
@@ -310,6 +328,10 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
 
             rotate.setSize(node.getSize());
             node.setSize(node.getNodeLeft().getSize() + node.getNodeRight().getSize() + 1);
+
+            if (node.getData() instanceof Interval) {
+                node.setMax(Math.max(Math.max((Integer) ((Interval) node.getData()).getMaximum(), node.getNodeLeft().getMax()), node.getNodeRight().getMax()));
+            }
         }
     }
 
@@ -341,6 +363,10 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
 
             rotate.setSize(node.getSize());
             node.setSize(node.getNodeLeft().getSize() + node.getNodeRight().getSize() + 1);
+
+            if (node.getData() instanceof Interval) {
+                node.setMax(Math.max(Math.max((Integer) ((Interval) node.getData()).getMaximum(), node.getNodeLeft().getMax()), node.getNodeRight().getMax()));
+            }
         }
     }
 
@@ -375,6 +401,10 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
         setRoot(new Node<T>(data, null, createSentinel(), createSentinel()));
         getRoot().setColor(Node.COLOR.BLACK);
         getRoot().setSize(1);
+
+        if (data instanceof Interval) {
+            getRoot().setMax((Integer) ((Interval) data).getMaximum());
+        }
     }
 
     Node<T> treeMinimum(final SearchTree.Node<T> node) {
@@ -445,6 +475,7 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
     private static class Node<T extends Comparable<T>> extends SearchTree.Node<T> {
 
         private int size = 0;
+        private int max = 0;
 
         private COLOR color = COLOR.RED;
 
@@ -455,6 +486,14 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
 
         Node(final T data, final SearchTree.Node<T> parent, final SearchTree.Node<T> left, final SearchTree.Node<T> right) {
             super(data, parent, left, right);
+        }
+
+        int getMax() {
+            return max;
+        }
+
+        void setMax(final int max) {
+            this.max = max;
         }
 
         int getSize() {

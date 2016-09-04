@@ -56,7 +56,7 @@ abstract class SearchTree<T extends Comparable<T>> implements Tree<T> {
             return this.data;
         }
 
-        public void setData(final T data) {
+        void setData(final T data) {
             this.data = data;
         }
 

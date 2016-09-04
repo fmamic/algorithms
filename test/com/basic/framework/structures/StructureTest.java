@@ -397,4 +397,36 @@ public class StructureTest {
         assertEquals(7, redBlackTree.rankElement(32));
     }
 
+    @Test
+    public void rbIntervalTest() {
+        final Interval interval = new Interval(16, 21);
+        final Interval interval2 = new Interval(8, 9);
+        final Interval interval3 = new Interval(25, 30);
+        final Interval interval4 = new Interval(5, 8);
+        final Interval interval5 = new Interval(15, 23);
+        final Interval interval6 = new Interval(0, 3);
+        final Interval interval7 = new Interval(6, 10);
+        final Interval interval8 = new Interval(17, 19);
+        final Interval interval9 = new Interval(26, 26);
+        final Interval interval10 = new Interval(19, 20);
+
+        @SuppressWarnings("unchecked")
+        final RedBlackTree<Interval> redBlackTree = new RedBlackTree<Interval>(interval);
+
+        redBlackTree.insert(interval2);
+        redBlackTree.insert(interval3);
+        redBlackTree.insert(interval4);
+        redBlackTree.insert(interval5);
+        redBlackTree.insert(interval6);
+        redBlackTree.insert(interval7);
+        redBlackTree.insert(interval8);
+        redBlackTree.insert(interval9);
+        redBlackTree.insert(interval10);
+
+        redBlackTree.inorderPrint();
+
+        final Interval search = new Interval(7, 10);
+
+        assertEquals(interval2, redBlackTree.intervalSearch(search));
+    }
 }
