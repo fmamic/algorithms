@@ -1,5 +1,8 @@
 package com.basic.framework.structures;
 
+/**
+ * Red Black Tree with Order Statistic properties
+ */
 class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
 
     private Node<T> root;
@@ -56,6 +59,43 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
         return result != null ? result.getData() : null;
     }
 
+    T selectElement(final int i) {
+        return selectElement(getRoot(), i).getData();
+    }
+
+    private Node<T> selectElement(final Node<T> node, final int i) {
+        int size = node.getNodeLeft().getSize() + 1;
+
+        if (size == i) {
+            return node;
+        }
+
+        if (size < i) {
+            return selectElement(node.getNodeRight(), i - size);
+        } else {
+            return selectElement(node.getNodeLeft(), i);
+        }
+    }
+
+    int rankElement(final T data) {
+        return rankElement(treeSearch(getRoot(), data));
+    }
+
+    private int rankElement(final Node<T> node) {
+        int rank = node.getNodeLeft().getSize() + 1;
+
+        Node<T> iterator = node;
+
+        while (!iterator.equals(getRoot())) {
+            if (iterator.getParent().getNodeRight().equals(iterator)) {
+                rank += iterator.getParent().getNodeLeft().getSize() + 1;
+            }
+            iterator = iterator.getParent();
+        }
+
+        return rank;
+    }
+
     @Override
     public void delete(final T data) {
         final Node<T> node = treeSearch(getRoot(), data);
@@ -93,6 +133,24 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
 
         if (orgColor.equals(Node.COLOR.BLACK))
             rbTreeFix(follow);
+    }
+
+    void inorderPrint() {
+        inorderPrint(this.root);
+    }
+
+    private void inorderPrint(final Node<T> node) {
+
+        if (node.equals(createSentinel())) {
+            return;
+        }
+
+        inorderPrint(node.getNodeLeft());
+
+        System.out.println(node.getData());
+
+        inorderPrint(node.getNodeRight());
+
     }
 
     private void rbTreeFix(final Node<T> param) {
@@ -162,8 +220,10 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
         while (!root.equals(nil)) {
             parent = root;
             if (root.getData().compareTo(node.getData()) > 0) {
+                root.setSize(root.getSize() + 1);
                 root = root.getNodeLeft();
             } else {
+                root.setSize(root.getSize() + 1);
                 root = root.getNodeRight();
             }
         }
@@ -181,6 +241,7 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
         node.setNodeLeft(createSentinel());
         node.setNodeRight(createSentinel());
         node.setColor(Node.COLOR.RED);
+        node.setSize(1);
 
         rbRearrange(node);
 
@@ -246,6 +307,9 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
 
             rotate.setParent(node.getParent());
             node.setParent(rotate);
+
+            rotate.setSize(node.getSize());
+            node.setSize(node.getNodeLeft().getSize() + node.getNodeRight().getSize() + 1);
         }
     }
 
@@ -274,6 +338,9 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
             if (node.getNodeLeft() != null) {
                 node.getNodeLeft().setParent(node);
             }
+
+            rotate.setSize(node.getSize());
+            node.setSize(node.getNodeLeft().getSize() + node.getNodeRight().getSize() + 1);
         }
     }
 
@@ -307,6 +374,7 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
     protected void initRoot(final T data) {
         setRoot(new Node<T>(data, null, createSentinel(), createSentinel()));
         getRoot().setColor(Node.COLOR.BLACK);
+        getRoot().setSize(1);
     }
 
     Node<T> treeMinimum(final SearchTree.Node<T> node) {
@@ -376,6 +444,8 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
 
     private static class Node<T extends Comparable<T>> extends SearchTree.Node<T> {
 
+        private int size = 0;
+
         private COLOR color = COLOR.RED;
 
         enum COLOR {
@@ -385,6 +455,14 @@ class RedBlackTree<T extends Comparable<T>> extends SearchTree<T> {
 
         Node(final T data, final SearchTree.Node<T> parent, final SearchTree.Node<T> left, final SearchTree.Node<T> right) {
             super(data, parent, left, right);
+        }
+
+        int getSize() {
+            return size;
+        }
+
+        void setSize(int size) {
+            this.size = size;
         }
 
         COLOR getColor() {

@@ -376,4 +376,25 @@ public class StructureTest {
         treapTree.insert("I", 73);
         treapTree.insert("F", 2);
     }
+
+    @Test
+    public void rbTreeSmallestElemTest() {
+        final RedBlackTree<Integer> redBlackTree = new RedBlackTree<Integer>(10);
+
+        redBlackTree.insert(5);
+        redBlackTree.insert(30);
+        redBlackTree.insert(-5);
+        redBlackTree.insert(7);
+        redBlackTree.insert(20);
+        redBlackTree.insert(38);
+        redBlackTree.insert(32);
+        redBlackTree.insert(41);
+        redBlackTree.insert(35);
+
+        redBlackTree.inorderPrint();
+
+        assertEquals(7, (int) redBlackTree.selectElement(3));
+        assertEquals(7, redBlackTree.rankElement(32));
+    }
+
 }
