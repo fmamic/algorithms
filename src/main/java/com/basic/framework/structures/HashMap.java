@@ -29,7 +29,16 @@ public class HashMap<K, V> implements Map<K, V> {
         final int hash = hash(key);
         final int index = getBucketNumber(hash);
         final DoubleLinkedList<Entry<K, V>> list = elements.get(index);
+
+        if (list == null)
+            return null;
+
         final Entry<K, V> entry = new Entry<K, V>(key);
+
+        final Entry<K, V> searchEntry = list.get(entry);
+
+        if (searchEntry == null)
+            return null;
 
         return list.get(entry).value;
     }

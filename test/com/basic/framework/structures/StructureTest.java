@@ -1,7 +1,6 @@
 package com.basic.framework.structures;
 
 import com.basic.framework.exception.QueueOutOfSpaceException;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
