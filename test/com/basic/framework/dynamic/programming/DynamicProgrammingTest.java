@@ -1,5 +1,6 @@
 package com.basic.framework.dynamic.programming;
 
+import com.basic.framework.dynamic.programming.structures.RodCutterResult;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -31,8 +32,18 @@ public class DynamicProgrammingTest {
         assertEquals(18, rodCutter.optimalRodCutter(price, 7));
         assertEquals(5, rodCutter.optimalRodCutter(price, 2));
 
-        assertEquals(30, rodCutter.optimalRodCutterBottomUp(price, 10));
-        assertEquals(18, rodCutter.optimalRodCutterBottomUp(price, 7));
-        assertEquals(5, rodCutter.optimalRodCutterBottomUp(price, 2));
+        final RodCutterResult result = rodCutter.optimalRodCutterBottomUp(price, 7);
+
+        assertEquals(30, rodCutter.optimalRodCutterBottomUp(price, 10).getRevenue());
+        assertEquals(18, rodCutter.optimalRodCutterBottomUp(price, 7).getRevenue());
+        assertEquals(5, rodCutter.optimalRodCutterBottomUp(price, 2).getRevenue());
+
+        System.out.println("Where to cut rod:");
+
+        int number = 7;
+        while(number > 0) {
+            System.out.println(result.getOptimalCut()[number]);
+            number = number - result.getOptimalCut()[number];
+        }
     }
 }
