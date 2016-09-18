@@ -86,4 +86,13 @@ public class DynamicProgrammingTest {
         assertEquals(true, subSetSum.findSubSetSumD(array, 3));
         assertEquals(false, subSetSum.findSubSetSumD(array, 22));
     }
+
+    @Test
+    public void editDistanceSequence() {
+        final EditDistance editDistance = new EditDistance();
+        final String str1 = "kitten";
+        final String str2 = "sitting";
+
+        assertEquals(3, editDistance.minumumEditDistanceNaive(str1, str2));
+    }
 }
