@@ -5,8 +5,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Test;
-
 public class DynamicProgrammingTest {
 
     @Test
@@ -62,10 +60,30 @@ public class DynamicProgrammingTest {
 
     @Test
     public void longestIncreasingSubsequenceTest() {
-        final LongestIncreasingSubsequence longestIncreasingSubsequence = new LongestIncreasingSubsequence();
+        final LongestSubsequence longestIncreasingSubsequence = new LongestSubsequence();
 
         final int[] sequence = new int[]{5, 3, 4, 8, 6, 7};
 
         assertEquals(4, longestIncreasingSubsequence.longestIncreasingSubsequence(sequence));
+    }
+
+    @Test
+    public void maxMatrixSubSequence() {
+        final Matrix matrix = new Matrix();
+        final int[][] m = new int[][]{{0, 1, 1, 0}, {0, 1, 1, 1}, {0, 1, 1, 0}, {0, 0, 0, 0}};
+
+        assertEquals(2, matrix.maximumSizeSubMatrix(m));
+    }
+
+    @Test
+    public void sumSubSequence() {
+        final SubSetSum subSetSum = new SubSetSum();
+        final int[] array = new int[]{1, 9, 2};
+
+        assertEquals(true, subSetSum.findSubSetSum(array, 3));
+        assertEquals(false, subSetSum.findSubSetSum(array, 22));
+
+        assertEquals(true, subSetSum.findSubSetSumD(array, 3));
+        assertEquals(false, subSetSum.findSubSetSumD(array, 22));
     }
 }
