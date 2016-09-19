@@ -93,6 +93,14 @@ public class DynamicProgrammingTest {
         final String str1 = "kitten";
         final String str2 = "sitting";
 
-        assertEquals(3, editDistance.minumumEditDistanceNaive(str1, str2));
+        assertEquals(3, editDistance.minimumEditDistanceNaive(str1, str2));
+        assertEquals(3, editDistance.minimumEditDistance(str1, str2));
+    }
+
+    @Test
+    public void findAllSubStrings() {
+        final LongestSubsequence longestSubsequence = new LongestSubsequence();
+
+        assertEquals("LCLC", longestSubsequence.findAllSubStrings("LCLC")[3]);
     }
 }
