@@ -103,4 +103,12 @@ public class DynamicProgrammingTest {
 
         assertEquals("LCLC", longestSubsequence.findAllSubStrings("LCLC")[3]);
     }
+
+    @Test
+    public void longestCommonSubstring() {
+        final LongestSubsequence longestSubsequence = new LongestSubsequence();
+
+        assertEquals(3, longestSubsequence.longestCommonSubStringNaive("LCLC", "CLCL"));
+        assertEquals(3, longestSubsequence.longestCommonSubString("LCLC", "CLCL"));
+    }
 }
