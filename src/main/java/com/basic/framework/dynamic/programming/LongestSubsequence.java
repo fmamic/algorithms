@@ -2,7 +2,27 @@ package com.basic.framework.dynamic.programming;
 
 class LongestSubsequence {
 
-    int longestCommonSubStringNaive(final String str1, final String str2) {
+    int longestCommonSubString(final String str1, final String str2) {
+        final int[][] state = new int[str1.length() + 1][str2.length() + 1];
+
+        int maximum = 0;
+        for (int i = 1; i < str1.length() + 1; i++) {
+            for (int j = 1; j < str2.length() + 1; j++) {
+                if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
+                    state[i][j] += 1 + state[i - 1][j - 1];
+                    if (state[i][j] > maximum) {
+                        maximum = state[i][j];
+                    }
+                } else {
+                    state[i][j] = 0;
+                }
+            }
+        }
+
+        return maximum;
+    }
+
+    int longestCommonSubSequenceNaive(final String str1, final String str2) {
         if (str1.equals(""))
             return 0;
 
@@ -10,13 +30,13 @@ class LongestSubsequence {
             return 0;
 
         if (str1.charAt(str1.length() - 1) == str2.charAt(str2.length() - 1)) {
-            return 1 + longestCommonSubStringNaive(str1.substring(0, str1.length() - 1), str2.substring(0, str2.length() - 1));
+            return 1 + longestCommonSubSequenceNaive(str1.substring(0, str1.length() - 1), str2.substring(0, str2.length() - 1));
         }
 
-        return Math.max(longestCommonSubStringNaive(str1.substring(0, str1.length() - 1), str2), longestCommonSubStringNaive(str1, str2.substring(0, str2.length() - 1)));
+        return Math.max(longestCommonSubSequenceNaive(str1.substring(0, str1.length() - 1), str2), longestCommonSubSequenceNaive(str1, str2.substring(0, str2.length() - 1)));
     }
 
-    int longestCommonSubString(final String str1, final String str2) {
+    int longestCommonSubSequence(final String str1, final String str2) {
         final int[][] state = new int[str1.length() + 1][str2.length() + 1];
 
         for (int i = 1; i < str1.length() + 1; i++) {

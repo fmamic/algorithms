@@ -1,5 +1,6 @@
 package com.basic.framework.dynamic.programming;
 
+import com.basic.framework.dynamic.programming.structures.MinumumJumps;
 import com.basic.framework.dynamic.programming.structures.RodCutterResult;
 import org.junit.Test;
 
@@ -105,10 +106,29 @@ public class DynamicProgrammingTest {
     }
 
     @Test
-    public void longestCommonSubstring() {
+    public void longestCommonSubSequence() {
         final LongestSubsequence longestSubsequence = new LongestSubsequence();
 
-        assertEquals(3, longestSubsequence.longestCommonSubStringNaive("LCLC", "CLCL"));
-        assertEquals(3, longestSubsequence.longestCommonSubString("LCLC", "CLCL"));
+        assertEquals(3, longestSubsequence.longestCommonSubSequenceNaive("LCLC", "CLCL"));
+        assertEquals(3, longestSubsequence.longestCommonSubSequence("LCLC", "CLCL"));
+
+        assertEquals(2, longestSubsequence.longestCommonSubSequenceNaive("SIR1", "STR2"));
+        assertEquals(2, longestSubsequence.longestCommonSubSequence("SIR1", "STR2"));
+    }
+
+    @Test
+    public void longestCommonSubString() {
+        final LongestSubsequence longestSubsequence = new LongestSubsequence();
+
+//        assertEquals(1, longestSubsequence.longestCommonSubStringNaive("SIR1", "STR2", 0));
+        assertEquals(1, longestSubsequence.longestCommonSubString("SIR1", "STR2"));
+    }
+
+    @Test
+    public void minimumNumberOfJumps() {
+        final MinumumJumps minumumJumps = new MinumumJumps();
+        final int[] array = {1, 3, 5, 8, 9, 2, 6, 7, 6, 8, 9};
+
+        assertEquals(3, minumumJumps.minJumpsNaive(array, 0, array.length -1));
     }
 }
