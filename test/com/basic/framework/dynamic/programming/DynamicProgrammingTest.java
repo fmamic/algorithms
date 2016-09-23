@@ -130,5 +130,6 @@ public class DynamicProgrammingTest {
         final int[] array = {1, 3, 5, 8, 9, 2, 6, 7, 6, 8, 9};
 
         assertEquals(3, minumumJumps.minJumpsNaive(array, 0, array.length -1));
+        assertEquals(3, minumumJumps.minJumpsMemoInvoke(array, 0, array.length -1));
     }
 }
