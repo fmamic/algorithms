@@ -55,9 +55,46 @@ public class MinumumJumps {
         return minimum;
     }
 
-    public int minJumpsDP(final int[] array, final int end) {
+    public int minJumpsDP(final int[] array) {
+        int[] state = new int[array.length];
 
+        for (int i = 1; i < array.length; i++) {
+            state[i] = Integer.MAX_VALUE - 1;
+        }
 
-        return 0;
+        for (int i = 1; i < state.length; i++) {
+            for (int j = 0; j < array.length; j++) {
+                int distance = i - j;
+                if (distance <= array[j] && state[j] + 1 <= state[i]) {
+                    state[i] = state[j] + 1;
+                }
+            }
+        }
+
+        return state[array.length - 1];
     }
+
+    public int minJumpsLinear(final int[] array) {
+        final int[] result = new int[array.length];
+
+        result[0] = 0;
+        int step = array[0];
+        int inc = 0;
+
+        for (int i = 1; i < array.length; i++) {
+            inc++;
+            if (step - inc < array[i]) {
+                step = array[i];
+                result[i] += result[i - inc] + 1;
+                inc = 0;
+            }
+
+            if (step + i >= array.length) {
+                return result[i];
+            }
+        }
+
+        return result[array.length - 1];
+    }
+
 }
