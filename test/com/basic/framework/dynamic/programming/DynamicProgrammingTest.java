@@ -144,5 +144,8 @@ public class DynamicProgrammingTest {
 
         assertEquals(3, palindrom.minimumCutsForPalindrom(str, 0, str.length() - 1));
         assertEquals(0, palindrom.minimumCutsForPalindrom(str2, 0, str2.length() - 1));
+
+        assertEquals(3, palindrom.minimumCutsForPalindromMemo(str, 0, str.length() - 1));
+        assertEquals(0, palindrom.minimumCutsForPalindromMemo(str2, 0, str2.length() - 1));
     }
 }
