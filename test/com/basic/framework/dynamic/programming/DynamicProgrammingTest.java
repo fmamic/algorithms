@@ -28,7 +28,7 @@ public class DynamicProgrammingTest {
     @Test
     public void rodCutter() {
         final RodCutter rodCutter = new RodCutter();
-        final int[] price = new int[] { 1, 5, 8, 9, 10, 17, 17, 20, 24, 30 };
+        final int[] price = new int[]{1, 5, 8, 9, 10, 17, 17, 20, 24, 30};
 
         assertEquals(30, rodCutter.optimalRodCutter(price, 10));
         assertEquals(18, rodCutter.optimalRodCutter(price, 7));
@@ -52,7 +52,7 @@ public class DynamicProgrammingTest {
     @Test
     public void coinsSum() {
         final CoinsSum coinsSum = new CoinsSum();
-        final int[] coins = new int[] { 1, 3, 5 };
+        final int[] coins = new int[]{1, 3, 5};
 
         assertEquals(3, coinsSum.minimumNumberOfCoins(coins, 11));
         assertEquals(3, coinsSum.minimumNumberOfCoins(coins, 9));
@@ -64,7 +64,7 @@ public class DynamicProgrammingTest {
     public void longestIncreasingSubsequenceTest() {
         final LongestSubsequence longestIncreasingSubsequence = new LongestSubsequence();
 
-        final int[] sequence = new int[] { 5, 3, 4, 8, 6, 7 };
+        final int[] sequence = new int[]{5, 3, 4, 8, 6, 7};
 
         assertEquals(4, longestIncreasingSubsequence.longestIncreasingSubsequence(sequence));
     }
@@ -72,7 +72,7 @@ public class DynamicProgrammingTest {
     @Test
     public void maxMatrixSubSequence() {
         final Matrix matrix = new Matrix();
-        final int[][] m = new int[][] { { 0, 1, 1, 0 }, { 0, 1, 1, 1 }, { 0, 1, 1, 0 }, { 0, 0, 0, 0 } };
+        final int[][] m = new int[][]{{0, 1, 1, 0}, {0, 1, 1, 1}, {0, 1, 1, 0}, {0, 0, 0, 0}};
 
         assertEquals(2, matrix.maximumSizeSubMatrix(m));
     }
@@ -80,7 +80,7 @@ public class DynamicProgrammingTest {
     @Test
     public void sumSubSequence() {
         final SubSetSum subSetSum = new SubSetSum();
-        final int[] array = new int[] { 1, 9, 2 };
+        final int[] array = new int[]{1, 9, 2};
 
         assertEquals(true, subSetSum.findSubSetSum(array, 3));
         assertEquals(false, subSetSum.findSubSetSum(array, 22));
@@ -128,7 +128,7 @@ public class DynamicProgrammingTest {
     @Test
     public void minimumNumberOfJumps() {
         final MinumumJumps minumumJumps = new MinumumJumps();
-        final int[] array = { 1, 3, 5, 8, 9, 2, 6, 7, 6, 8, 9 };
+        final int[] array = {1, 3, 5, 8, 9, 2, 6, 7, 6, 8, 9};
 
         assertEquals(3, minumumJumps.minJumpsNaive(array, 0, array.length - 1));
         assertEquals(3, minumumJumps.minJumpsMemoInvoke(array, 0, array.length - 1));
@@ -147,5 +147,20 @@ public class DynamicProgrammingTest {
 
         assertEquals(3, palindrom.minimumCutsForPalindromMemo(str, 0, str.length() - 1));
         assertEquals(0, palindrom.minimumCutsForPalindromMemo(str2, 0, str2.length() - 1));
+    }
+
+    @Test
+    public void optimalMatrixParenthesisTest() {
+        final Matrix matrix = new Matrix();
+        final int[] array = {10, 100, 5, 50};
+        final int[] array2 = {30, 35, 15, 5, 10, 20, 25};
+
+        assertEquals(7500, matrix.optParenthesizingR(array, 1, array.length - 1));
+        assertEquals(7500, matrix.optParenthesizingNumber(array, 1, array.length - 1));
+
+        assertEquals(15125, matrix.optParenthesizingR(array2, 1, array2.length - 1));
+        assertEquals(15125, matrix.optParenthesizingNumber(array2, 1, array2.length - 1));
+
+        assertEquals("((A1(A2A3))((A4A5)A6))", matrix.optParenthesizingStateStr(matrix.optParenthesizingState(array2, 1, array2.length - 1), 1, array2.length - 1));
     }
 }

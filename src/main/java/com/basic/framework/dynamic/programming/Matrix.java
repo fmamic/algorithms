@@ -1,5 +1,7 @@
 package com.basic.framework.dynamic.programming;
 
+import java.util.List;
+
 public class Matrix {
 
     public int[][] matrixMultiply(final int[][] matrixA, final int[][] matrixB) {
@@ -43,4 +45,92 @@ public class Matrix {
         return maxNumber;
     }
 
+    int optParenthesizingR(final int[] sizes, int start, int end) {
+        if (start == end) {
+            return 0;
+        }
+
+        int minimum = Integer.MAX_VALUE;
+
+        for (int k = start; k < end; k++) {
+            int result = optParenthesizingR(sizes, start, k) + optParenthesizingR(sizes, k + 1, end) + sizes[start - 1] * sizes[k] * sizes[end];
+
+            if (minimum > result) {
+                minimum = result;
+            }
+        }
+
+        return minimum;
+    }
+
+    int optParenthesizingNumber(final int[] sizes, int start, int end) {
+
+        int[][] opt = new int[end + 1][end + 1];
+        int[][] state = new int[end + 1][end + 1];
+
+        for (int i = 2; i < end + 1; i++) {
+            opt[i][i - 1] = sizes[i - 2] * sizes[i - 1] * sizes[i];
+            state[i][i - 1] = i - 1;
+        }
+
+        for (int i = start + 2; i <= end; i++) {
+            for (int j = i - 2; j >= start; j--) {
+                opt[i][j] = Integer.MAX_VALUE;
+
+                for (int k = j; k < i; k++) {
+                    int result = opt[k][j] + opt[i][k + 1] + sizes[j - 1] * sizes[k] * sizes[i];
+
+                    if (result < opt[i][j]) {
+                        opt[i][j] = result;
+                        state[i][j] = k;
+                    }
+                }
+            }
+        }
+
+        return opt[end][start];
+    }
+
+    String optParenthesizingStateStr(int[][] state, int i, int j) {
+        String result = "";
+
+        if (i == j) {
+            return "A" + i;
+        } else {
+            result += "(";
+            result += optParenthesizingStateStr(state, i, state[j][i]);
+            result += optParenthesizingStateStr(state, state[j][i] + 1, j);
+            result += ")";
+        }
+
+        return result;
+    }
+
+    int[][] optParenthesizingState(final int[] sizes, int start, int end) {
+
+        int[][] opt = new int[end + 1][end + 1];
+        int[][] state = new int[end + 1][end + 1];
+
+        for (int i = 2; i < end + 1; i++) {
+            opt[i][i - 1] = sizes[i - 2] * sizes[i - 1] * sizes[i];
+            state[i][i - 1] = i - 1;
+        }
+
+        for (int i = start + 2; i <= end; i++) {
+            for (int j = i - 2; j >= start; j--) {
+                opt[i][j] = Integer.MAX_VALUE;
+
+                for (int k = j; k < i; k++) {
+                    int result = opt[k][j] + opt[i][k + 1] + sizes[j - 1] * sizes[k] * sizes[i];
+
+                    if (result < opt[i][j]) {
+                        opt[i][j] = result;
+                        state[i][j] = k;
+                    }
+                }
+            }
+        }
+
+        return state;
+    }
 }

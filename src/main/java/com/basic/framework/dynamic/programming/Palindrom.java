@@ -71,4 +71,47 @@ class Palindrom {
         return cuts;
     }
 
+    private int minCutsPalindromeD(final String str) {
+        boolean[][] state = new boolean[str.length()][str.length()];
+
+        // diagonal one char
+        for (int i = 0; i < str.length(); i++) {
+            state[i][i] = true;
+        }
+
+        for (int i = 0; i < str.length() - 1; i++) {
+            if (str.charAt(i) == str.charAt(i + 1)) {
+                state[i][i + 1] = true;
+            }
+        }
+
+        for (int i = 3; i < str.length(); i++) {
+            for (int j = 0; j < str.length() - i + 1; j++) {
+                int k = i + j + 1;
+                if (str.charAt(i) == str.charAt(j) && state[i + 1][j - 1]) {
+                    state[i][j] = true;
+                }
+            }
+        }
+
+        int[] cuts = new int[str.length()];
+
+        for (int i = 0; i < str.length(); i++) {
+            int temp = Integer.MAX_VALUE;
+
+            if (state[0][i]) {
+                cuts[i] = 0;
+            } else {
+                for (int j = 0; j < i; j++) {
+                    if ((state[j + 1][i]) && temp > cuts[i] + 1) {
+                        temp = cuts[j] + 1;
+                    }
+                }
+                cuts[i] = temp;
+            }
+        }
+
+        return 0;
+    }
+
 }
