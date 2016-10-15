@@ -52,6 +52,40 @@ class LongestSubsequence {
         return state[str1.length()][str2.length()];
     }
 
+    String longestCommonSubSequenceStr(final int[][] state, final String str, final int i, final int j) {
+        String result = "";
+
+        if (i == 0 || j == 0)
+            return "";
+
+        if (state[i][j] == state[i - 1][j]) {
+            result += longestCommonSubSequenceStr(state, str, i - 1, j);
+        } else if (state[i][j] == state[i][j - 1]) {
+            result += longestCommonSubSequenceStr(state, str, i, j - 1);
+        } else {
+            result += longestCommonSubSequenceStr(state, str, i - 1, j - 1);
+            result += String.valueOf(str.charAt(i-1));
+        }
+
+        return result;
+    }
+
+    int[][] longestCommonSubSequenceStr(final String str1, final String str2) {
+        final int[][] state = new int[str1.length() + 1][str2.length() + 1];
+
+        for (int i = 1; i < str1.length() + 1; i++) {
+            for (int j = 1; j < str2.length() + 1; j++) {
+                if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
+                    state[i][j] += 1 + state[i - 1][j - 1];
+                } else {
+                    state[i][j] = Math.max(state[i - 1][j], state[i][j - 1]);
+                }
+            }
+        }
+
+        return state;
+    }
+
     String[] findAllSubStrings(final String str1) {
         final String[] list = new String[str1.length() * str1.length()];
 

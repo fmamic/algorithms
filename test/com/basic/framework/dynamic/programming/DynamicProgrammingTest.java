@@ -115,6 +115,8 @@ public class DynamicProgrammingTest {
 
         assertEquals(2, longestSubsequence.longestCommonSubSequenceNaive("SIR1", "STR2"));
         assertEquals(2, longestSubsequence.longestCommonSubSequence("SIR1", "STR2"));
+
+        assertEquals("SR", longestSubsequence.longestCommonSubSequenceStr(longestSubsequence.longestCommonSubSequenceStr("SIR1", "STR2"), "SIR1", 4, 4));
     }
 
     @Test
@@ -162,5 +164,16 @@ public class DynamicProgrammingTest {
         assertEquals(15125, matrix.optParenthesizingNumber(array2, 1, array2.length - 1));
 
         assertEquals("((A1(A2A3))((A4A5)A6))", matrix.optParenthesizingStateStr(matrix.optParenthesizingState(array2, 1, array2.length - 1), 1, array2.length - 1));
+    }
+
+    @Test
+    public void optimalBinarySearchTreeTest() {
+        final double[][] array = new double[][]{{0, 0.15, 0.10, 0.05, 0.10, 0.20}, {0.05, 0.10, 0.05, 0.05, 0.05, 0.10}};
+
+        final OptimalBinarySearchTree optBst = new OptimalBinarySearchTree();
+
+        final Double result = optBst.optimalBinaryTreeCost(array, 1, array[0].length - 1);
+
+        assertEquals(true, result.equals(2.75));
     }
 }
