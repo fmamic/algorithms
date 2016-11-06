@@ -2,6 +2,7 @@ package com.basic.framework.dynamic.programming;
 
 import static org.junit.Assert.assertEquals;
 
+import com.basic.framework.dynamic.programming.structures.OptimalBST;
 import org.junit.Test;
 
 import com.basic.framework.dynamic.programming.structures.MinumumJumps;
@@ -173,7 +174,11 @@ public class DynamicProgrammingTest {
         final OptimalBinarySearchTree optBst = new OptimalBinarySearchTree();
 
         final Double result = optBst.optimalBinaryTreeCost(array, 1, array[0].length - 1);
+        final OptimalBST resultD = optBst.optimalBinaryTreeCostD(array);
 
         assertEquals(true, result.equals(2.75));
+        assertEquals(true, ((Double) resultD.getState()[1][array[0].length - 1]).equals(2.75));
+
+        System.out.println(resultD.printTree(1, 5, resultD.getRoot()));
     }
 }
