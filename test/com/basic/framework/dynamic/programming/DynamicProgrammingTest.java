@@ -202,6 +202,13 @@ public class DynamicProgrammingTest {
         final int[] value = new int[]{5, 2, 4};
         final int[] weight = new int[]{2, 3, 2};
 
-        assertEquals(9, knapsack.calculateNaive(value, weight, 4, 2));
+        final int[] value1 = new int[]{60, 100, 120};
+        final int[] weight1 = new int[]{10, 20, 30};
+
+        assertEquals(9, knapsack.calculateNaive(value, weight, 4, 3));
+        assertEquals(220, knapsack.calculateNaive(value1, weight1, 50, 3));
+
+        assertEquals(9, knapsack.calculateDP(value, weight, 4, 3));
+        assertEquals(220, knapsack.calculateDP(value1, weight1, 50, 3));
     }
 }
