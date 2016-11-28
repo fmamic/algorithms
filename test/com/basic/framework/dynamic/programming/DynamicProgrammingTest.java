@@ -217,8 +217,10 @@ public class DynamicProgrammingTest {
         final EggDrop eggDrop = new EggDrop();
         assertEquals(4, eggDrop.calculateNaive(2, 10));
         assertEquals(6, eggDrop.calculateNaive(2, 20));
+        // assertEquals(14, eggDrop.calculateNaive(2, 100)); Too long execution
 
         assertEquals(4, eggDrop.calculateDP(2, 10));
         assertEquals(6, eggDrop.calculateDP(2, 20));
+        assertEquals(14, eggDrop.calculateDP(2, 100));
     }
 }
