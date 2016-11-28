@@ -29,7 +29,7 @@ public class DynamicProgrammingTest {
     @Test
     public void rodCutter() {
         final RodCutter rodCutter = new RodCutter();
-        final int[] price = new int[]{1, 5, 8, 9, 10, 17, 17, 20, 24, 30};
+        final int[] price = new int[] { 1, 5, 8, 9, 10, 17, 17, 20, 24, 30 };
 
         assertEquals(30, rodCutter.optimalRodCutter(price, 10));
         assertEquals(18, rodCutter.optimalRodCutter(price, 7));
@@ -53,7 +53,7 @@ public class DynamicProgrammingTest {
     @Test
     public void coinsSum() {
         final CoinsSum coinsSum = new CoinsSum();
-        final int[] coins = new int[]{1, 3, 5};
+        final int[] coins = new int[] { 1, 3, 5 };
 
         assertEquals(3, coinsSum.minimumNumberOfCoins(coins, 11));
         assertEquals(3, coinsSum.minimumNumberOfCoins(coins, 9));
@@ -65,7 +65,7 @@ public class DynamicProgrammingTest {
     public void longestIncreasingSubsequenceTest() {
         final LongestSubsequence longestIncreasingSubsequence = new LongestSubsequence();
 
-        final int[] sequence = new int[]{5, 3, 4, 8, 6, 7};
+        final int[] sequence = new int[] { 5, 3, 4, 8, 6, 7 };
 
         assertEquals(4, longestIncreasingSubsequence.longestIncreasingSubsequence(sequence));
     }
@@ -73,7 +73,7 @@ public class DynamicProgrammingTest {
     @Test
     public void maxMatrixSubSequence() {
         final Matrix matrix = new Matrix();
-        final int[][] m = new int[][]{{0, 1, 1, 0}, {0, 1, 1, 1}, {0, 1, 1, 0}, {0, 0, 0, 0}};
+        final int[][] m = new int[][] { { 0, 1, 1, 0 }, { 0, 1, 1, 1 }, { 0, 1, 1, 0 }, { 0, 0, 0, 0 } };
 
         assertEquals(2, matrix.maximumSizeSubMatrix(m));
     }
@@ -81,7 +81,7 @@ public class DynamicProgrammingTest {
     @Test
     public void sumSubSequence() {
         final SubSetSum subSetSum = new SubSetSum();
-        final int[] array = new int[]{1, 9, 2};
+        final int[] array = new int[] { 1, 9, 2 };
 
         assertEquals(true, subSetSum.findSubSetSum(array, 3));
         assertEquals(false, subSetSum.findSubSetSum(array, 22));
@@ -132,7 +132,7 @@ public class DynamicProgrammingTest {
     @Test
     public void minimumNumberOfJumps() {
         final MinumumJumps minumumJumps = new MinumumJumps();
-        final int[] array = {1, 3, 5, 8, 9, 2, 6, 7, 6, 8, 9};
+        final int[] array = { 1, 3, 5, 8, 9, 2, 6, 7, 6, 8, 9 };
 
         assertEquals(3, minumumJumps.minJumpsNaive(array, 0, array.length - 1));
         assertEquals(3, minumumJumps.minJumpsMemoInvoke(array, 0, array.length - 1));
@@ -156,8 +156,8 @@ public class DynamicProgrammingTest {
     @Test
     public void optimalMatrixParenthesisTest() {
         final Matrix matrix = new Matrix();
-        final int[] array = {10, 100, 5, 50};
-        final int[] array2 = {30, 35, 15, 5, 10, 20, 25};
+        final int[] array = { 10, 100, 5, 50 };
+        final int[] array2 = { 30, 35, 15, 5, 10, 20, 25 };
 
         assertEquals(7500, matrix.optParenthesizingR(array, 1, array.length - 1));
         assertEquals(7500, matrix.optParenthesizingNumber(array, 1, array.length - 1));
@@ -171,7 +171,7 @@ public class DynamicProgrammingTest {
 
     @Test
     public void optimalBinarySearchTreeTest() {
-        final double[][] array = new double[][]{{0, 0.15, 0.10, 0.05, 0.10, 0.20}, {0.05, 0.10, 0.05, 0.05, 0.05, 0.10}};
+        final double[][] array = new double[][] { { 0, 0.15, 0.10, 0.05, 0.10, 0.20 }, { 0.05, 0.10, 0.05, 0.05, 0.05, 0.10 } };
 
         final OptimalBinarySearchTree optBst = new OptimalBinarySearchTree();
 
@@ -199,16 +199,26 @@ public class DynamicProgrammingTest {
     public void knapsack01() {
         final Knapsack knapsack = new Knapsack();
 
-        final int[] value = new int[]{5, 2, 4};
-        final int[] weight = new int[]{2, 3, 2};
+        final int[] value = new int[] { 5, 2, 4 };
+        final int[] weight = new int[] { 2, 3, 2 };
 
-        final int[] value1 = new int[]{60, 100, 120};
-        final int[] weight1 = new int[]{10, 20, 30};
+        final int[] value1 = new int[] { 60, 100, 120 };
+        final int[] weight1 = new int[] { 10, 20, 30 };
 
         assertEquals(9, knapsack.calculateNaive(value, weight, 4, 3));
         assertEquals(220, knapsack.calculateNaive(value1, weight1, 50, 3));
 
         assertEquals(9, knapsack.calculateDP(value, weight, 4, 3));
         assertEquals(220, knapsack.calculateDP(value1, weight1, 50, 3));
+    }
+
+    @Test
+    public void eggDropTest() {
+        final EggDrop eggDrop = new EggDrop();
+        assertEquals(4, eggDrop.calculateNaive(2, 10));
+        assertEquals(6, eggDrop.calculateNaive(2, 20));
+
+        assertEquals(4, eggDrop.calculateDP(2, 10));
+        assertEquals(6, eggDrop.calculateDP(2, 20));
     }
 }
