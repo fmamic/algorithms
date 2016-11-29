@@ -223,4 +223,14 @@ public class DynamicProgrammingTest {
         assertEquals(6, eggDrop.calculateDP(2, 20));
         assertEquals(14, eggDrop.calculateDP(2, 100));
     }
+
+    @Test
+    public void floydWarshallTest() {
+        final FloydWarshallShortestPath floydWarshallShortestPath = new FloydWarshallShortestPath();
+
+        int graph[][] = { { 0, 5, Integer.MAX_VALUE, 10 }, { Integer.MAX_VALUE, 0, 3, Integer.MAX_VALUE },
+                { Integer.MAX_VALUE, Integer.MAX_VALUE, 0, 1 }, { Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, 0 } };
+
+        assertEquals(9, floydWarshallShortestPath.calculateDP(graph, 0, 3));
+    }
 }
