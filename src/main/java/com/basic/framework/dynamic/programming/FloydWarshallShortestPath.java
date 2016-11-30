@@ -27,8 +27,9 @@ class FloydWarshallShortestPath {
         for (int i = 0; i < number; i++) {
             for (int j = 0; j < number; j++) {
                 for (int k = 0; k < number; k++) {
-                    if (distance[i][j] + distance[j][k] < distance[i][k]) {
-                        distance[i][j] = distance[i][j] + distance[j][k];
+                    if (distance[i][k] != Integer.MAX_VALUE && distance[k][j] != Integer.MAX_VALUE
+                            && distance[i][k] + distance[k][j] < distance[i][j]) {
+                        distance[i][j] = distance[i][k] + distance[k][j];
                     }
                 }
             }
