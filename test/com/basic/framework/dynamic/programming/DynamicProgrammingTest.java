@@ -233,4 +233,13 @@ public class DynamicProgrammingTest {
 
         assertEquals(9, floydWarshallShortestPath.calculateDP(graph, 0, 3));
     }
+
+    @Test
+    public void partitionProblemTest() {
+        final PartitionProblem partitionProblem = new PartitionProblem();
+
+        final int[] array = new int[] { 1, 5, 4 };
+
+        assertEquals(true, partitionProblem.calculateNaive(array, 2, 10));
+    }
 }
