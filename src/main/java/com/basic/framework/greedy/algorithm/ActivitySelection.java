@@ -15,8 +15,7 @@ class ActivitySelection {
         if (start + 1 == end) {
             if (array[end][0] > array[start][1]) {
                 return 1;
-            }
-            else {
+            } else {
                 return 0;
             }
         }
@@ -28,8 +27,7 @@ class ActivitySelection {
             int result;
             if (array[start][1] < array[k][0] && array[end][0] > array[k][1]) {
                 result = calculateRecursive(array, start, k) + 1 + calculateRecursive(array, k, end);
-            }
-            else {
+            } else {
                 result = Math.max(calculateRecursive(array, start, k), calculateRecursive(array, k, end));
             }
 
@@ -39,6 +37,46 @@ class ActivitySelection {
         }
 
         return maximum;
+    }
+
+    int calculateDP(final int[][] array) {
+
+        final int[][] result = new int[array.length][array.length];
+
+        for (int i = 0; i < array.length; i++) {
+            result[i][i] = 1;
+        }
+
+        for (int i = 0; i < array.length; i++) {
+            for (int j = i - 1; j >= 0 && j == i - 1; j++) {
+                if (array[i][0] > array[j][1]) {
+                    result[i][j] = 2;
+                } else {
+                    result[i][j] = 1;
+                }
+            }
+        }
+
+        for (int i = 2; i < array.length; i++) {
+            for (int j = i - 2; j >= 0; j--) {
+                int maximum = 0;
+                for (int k = j + 1; k < i; k++) {
+                    int temp;
+                    if (array[i][0] > array[k][1] && array[j][1] < array[k][0]) {
+                        temp = Math.max(result[i][k], result[k][j]) + 1;
+                    } else {
+                        temp = Math.max(result[i][k], result[k][j]);
+                    }
+
+                    if (temp > maximum) {
+                        maximum = temp;
+                    }
+                }
+                result[i][j] = maximum;
+            }
+        }
+
+        return result[array.length - 1][0];
     }
 
     int calculateGreedy() {
