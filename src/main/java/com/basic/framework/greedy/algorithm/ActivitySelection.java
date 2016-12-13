@@ -15,7 +15,8 @@ class ActivitySelection {
         if (start + 1 == end) {
             if (array[end][0] > array[start][1]) {
                 return 1;
-            } else {
+            }
+            else {
                 return 0;
             }
         }
@@ -27,7 +28,8 @@ class ActivitySelection {
             int result;
             if (array[start][1] < array[k][0] && array[end][0] > array[k][1]) {
                 result = calculateRecursive(array, start, k) + 1 + calculateRecursive(array, k, end);
-            } else {
+            }
+            else {
                 result = Math.max(calculateRecursive(array, start, k), calculateRecursive(array, k, end));
             }
 
@@ -51,7 +53,8 @@ class ActivitySelection {
             for (int j = i - 1; j >= 0 && j == i - 1; j++) {
                 if (array[i][0] > array[j][1]) {
                     result[i][j] = 2;
-                } else {
+                }
+                else {
                     result[i][j] = 1;
                 }
             }
@@ -64,7 +67,8 @@ class ActivitySelection {
                     int temp;
                     if (array[i][0] > array[k][1] && array[j][1] < array[k][0]) {
                         temp = Math.max(result[i][k], result[k][j]) + 1;
-                    } else {
+                    }
+                    else {
                         temp = Math.max(result[i][k], result[k][j]);
                     }
 
@@ -79,9 +83,34 @@ class ActivitySelection {
         return result[array.length - 1][0];
     }
 
-    int calculateGreedy() {
+    int calculateGreedy(int[][] array, int position, int total) {
+        int next = position + 1;
 
-        return 0;
+        while (next <= total && array[position][1] > array[next][0]) {
+            next++;
+        }
+
+        if (next <= total) {
+            return 1 + calculateGreedy(array, next, total);
+        }
+        else {
+            return 1;
+        }
+    }
+
+    int calculateGreedyIter(int[][] array) {
+
+        int total = 1;
+        int lastFinish = array[0][1];
+
+        for (int i = 1; i < array.length; i++) {
+            if (lastFinish < array[i][0]) {
+                lastFinish = array[i][1];
+                total++;
+            }
+        }
+
+        return total;
     }
 
 }
