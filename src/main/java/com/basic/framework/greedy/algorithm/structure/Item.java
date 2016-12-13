@@ -6,6 +6,11 @@ public class Item implements Comparable<Item> {
 
     private int value;
 
+    public Item(final int value, final int weight) {
+        this.weight = weight;
+        this.value = value;
+    }
+
     public int getValue() {
         return value;
     }

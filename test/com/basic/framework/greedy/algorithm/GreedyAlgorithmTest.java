@@ -2,7 +2,11 @@ package com.basic.framework.greedy.algorithm;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+
 import org.junit.Test;
+
+import com.basic.framework.greedy.algorithm.structure.Item;
 
 public class GreedyAlgorithmTest {
 
@@ -28,6 +32,18 @@ public class GreedyAlgorithmTest {
         // greedy without recursive
         assertEquals(3, activitySelection.calculateGreedyIter(activities));
         assertEquals(4, activitySelection.calculateGreedyIter(activities2));
+    }
+
+    @Test
+    public void fractionalKnapsackTest() {
+        final FractionalKnapsack fractionalKnapsack = new FractionalKnapsack();
+
+        final ArrayList<Item> items = new ArrayList<Item>();
+        items.add(new Item(60, 10));
+        items.add(new Item(100, 20));
+        items.add(new Item(120, 30));
+
+        assertEquals(240, fractionalKnapsack.calculateGreedy(items, 50));
     }
 
 }
