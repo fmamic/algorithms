@@ -93,13 +93,19 @@ public class BinaryTree<T> {
         return parentQueue.dequeue();
     }
 
-    static class BinaryTreeNode<T> {
+    public static class BinaryTreeNode<T> {
 
         private T data;
         private BinaryTreeNode left;
         private BinaryTreeNode right;
 
-        BinaryTreeNode(final T data, final BinaryTreeNode left, final BinaryTreeNode right) {
+        public BinaryTreeNode(final T data) {
+            this.data = data;
+            this.left = null;
+            this.right = null;
+        }
+
+        public BinaryTreeNode(final T data, final BinaryTreeNode left, final BinaryTreeNode right) {
             this.data = data;
             this.left = left;
             this.right = right;
