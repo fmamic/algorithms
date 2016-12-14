@@ -1,9 +1,11 @@
 package com.basic.framework.structures;
 
-import com.basic.framework.exception.QueueOutOfSpaceException;
+import static com.basic.framework.structures.BinaryTree.BinaryTreeNode;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import com.basic.framework.exception.QueueOutOfSpaceException;
 
 public class StructureTest {
 
@@ -427,5 +429,22 @@ public class StructureTest {
         final Interval search = new Interval(7, 10);
 
         assertEquals(interval2, redBlackTree.intervalSearch(search));
+    }
+
+    @Test
+    public void binaryTreeTest() {
+        final BinaryTree<Integer> binaryTree = new BinaryTree<Integer>();
+
+        binaryTree.insert(22);
+        binaryTree.insert(11);
+        binaryTree.insert(33);
+        binaryTree.insert(1);
+        binaryTree.insert(2);
+
+        assertEquals(5, binaryTree.getSize());
+
+        BinaryTreeNode node = binaryTree.search(1);
+
+        assertEquals(1, node.getData());
     }
 }
