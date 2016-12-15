@@ -13,6 +13,14 @@ public class BinaryTree<T> {
         this.root = null;
     }
 
+    public BinaryTree(final BinaryTreeNode node) {
+        this.root = node;
+    }
+
+    public BinaryTreeNode getRoot() {
+        return this.root;
+    }
+
     public int getSize() {
         return size;
     }

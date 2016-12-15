@@ -1,8 +1,12 @@
 package com.basic.framework.structures;
 
-class BinarySearchTree<T extends Comparable<T>> extends SearchTree<T> {
+public class BinarySearchTree<T extends Comparable<T>> extends SearchTree<T> {
 
     private Node<T> root;
+
+    public BinarySearchTree() {
+        this.root = null;
+    }
 
     BinarySearchTree(final T data) {
         super(data);

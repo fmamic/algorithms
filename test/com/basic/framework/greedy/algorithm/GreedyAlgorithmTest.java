@@ -1,11 +1,13 @@
 package com.basic.framework.greedy.algorithm;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
+import com.basic.framework.greedy.algorithm.structure.HuffmanItem;
 import com.basic.framework.greedy.algorithm.structure.Item;
 
 public class GreedyAlgorithmTest {
@@ -44,6 +46,22 @@ public class GreedyAlgorithmTest {
         items.add(new Item(120, 30));
 
         assertEquals(240, fractionalKnapsack.calculateGreedy(items, 50));
+    }
+
+    @Test
+    public void huffmanCodeTest() {
+        final HuffmanCode huffmanCode = new HuffmanCode();
+
+        final List<HuffmanItem> huffmanItems = new ArrayList<HuffmanItem>();
+
+        huffmanItems.add(new HuffmanItem("a", 45));
+        huffmanItems.add(new HuffmanItem("b", 13));
+        huffmanItems.add(new HuffmanItem("c", 12));
+        huffmanItems.add(new HuffmanItem("d", 16));
+        huffmanItems.add(new HuffmanItem("e", 9));
+        huffmanItems.add(new HuffmanItem("f", 5));
+
+        huffmanCode.huffman(huffmanItems);
     }
 
 }

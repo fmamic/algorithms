@@ -5,6 +5,10 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 abstract class SearchTree<T extends Comparable<T>> implements Tree<T> {
 
+    SearchTree() {
+
+    }
+
     SearchTree(final T data) {
         initRoot(data);
     }

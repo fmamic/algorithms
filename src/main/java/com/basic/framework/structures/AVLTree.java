@@ -1,6 +1,6 @@
 package com.basic.framework.structures;
 
-class AVLTree<T extends Comparable<T>> extends SearchTree<T> {
+public class AVLTree<T extends Comparable<T>> extends SearchTree<T> {
 
     private Node<T> root;
 
@@ -22,7 +22,8 @@ class AVLTree<T extends Comparable<T>> extends SearchTree<T> {
                 }
                 parent = node;
                 node = node.getNodeLeft();
-            } else {
+            }
+            else {
                 if (node.getNodeRight().getHeight() + 1 == node.getHeight()) {
                     node.setHeight(node.getHeight() + 1);
                 }
@@ -51,7 +52,8 @@ class AVLTree<T extends Comparable<T>> extends SearchTree<T> {
             if (Math.abs(leftHeight - rightHeight) > 1) {
                 if (leftHeight > rightHeight) {
                     rightRotate(iterator);
-                } else {
+                }
+                else {
                     leftRotate(iterator);
                 }
             }
@@ -66,7 +68,8 @@ class AVLTree<T extends Comparable<T>> extends SearchTree<T> {
 
         if (iterator.getParent().getNodeLeft().equals(iterator)) {
             iterator.getParent().setNodeLeft(rotate);
-        } else {
+        }
+        else {
             iterator.getParent().setNodeRight(rotate);
         }
 
@@ -90,7 +93,8 @@ class AVLTree<T extends Comparable<T>> extends SearchTree<T> {
 
         if (leftHeight > rightHeight) {
             node.setHeight(leftHeight + 1);
-        } else {
+        }
+        else {
             node.setHeight(rightHeight + 1);
         }
     }
@@ -111,7 +115,8 @@ class AVLTree<T extends Comparable<T>> extends SearchTree<T> {
 
         if (iterator.getParent().getNodeLeft().equals(iterator)) {
             iterator.getParent().setNodeLeft(rotate);
-        } else {
+        }
+        else {
             iterator.getParent().setNodeRight(rotate);
         }
 
