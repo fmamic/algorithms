@@ -36,6 +36,63 @@ public class BinaryHeap<E extends Comparable> {
         size++;
     }
 
+    public E findMinimum() {
+        return (E) elements[1];
+    }
+
+    @SuppressWarnings("unchecked")
+    public void deleteMin() {
+        if (getSize() == 1) {
+            return;
+        }
+
+        elements[1] = elements[getSize()];
+        elements[getSize()] = null;
+        size--;
+
+        int position = 1;
+
+        while (true) {
+            int leftChild = 2 * position;
+            int rightChild = 2 * position + 1;
+
+            boolean isChildGreaterThenParent;
+
+            if (elements[rightChild] == null && elements[leftChild] == null) {
+                return;
+            }
+
+            if (elements[rightChild] == null) {
+                isChildGreaterThenParent = ((E) elements[leftChild]).compareTo(elements[position]) < 0;
+            }
+            else if (elements[leftChild] == null) {
+                isChildGreaterThenParent = ((E) elements[rightChild]).compareTo(elements[position]) < 0;
+            }
+            else {
+                isChildGreaterThenParent = ((E) elements[leftChild]).compareTo(elements[position]) < 0
+                        || ((E) elements[rightChild]).compareTo(elements[position]) < 0;
+            }
+
+            if (isChildGreaterThenParent) {
+                if (((E) elements[rightChild]).compareTo(elements[leftChild]) > 0) {
+                    E temp = (E) elements[leftChild];
+                    elements[leftChild] = elements[position];
+                    elements[position] = temp;
+                    position = leftChild;
+                }
+                else {
+                    E temp = (E) elements[rightChild];
+                    elements[rightChild] = elements[position];
+                    elements[position] = temp;
+                    position = rightChild;
+                }
+            }
+            else {
+                return;
+            }
+        }
+    }
+
     public int getSize() {
         return this.size - 1;
     }

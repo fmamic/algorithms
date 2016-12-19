@@ -8,10 +8,10 @@ import com.basic.framework.greedy.algorithm.structure.HuffmanItem;
 import com.basic.framework.structures.BinarySearchTree;
 import com.basic.framework.structures.BinaryTree;
 
-public class HuffmanCode {
+class HuffmanCode {
 
     @SuppressWarnings("unchecked")
-    public BinaryTree<HuffmanItem> huffman(final List<HuffmanItem> alphabet) {
+    BinaryTree<HuffmanItem> huffman(final List<HuffmanItem> alphabet) {
 
         final BinarySearchTree<HuffmanItem> tree = new BinarySearchTree<HuffmanItem>();
 

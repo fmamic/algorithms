@@ -1,7 +1,7 @@
 package com.basic.framework.structures;
 
-import static com.basic.framework.structures.BinaryTree.BinaryTreeNode;
-import static org.junit.Assert.assertEquals;
+import static com.basic.framework.structures.BinaryTree.*;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -461,6 +461,10 @@ public class StructureTest {
         binaryHeap.insert(5);
 
         assertEquals(7, binaryHeap.getSize());
+
+        binaryHeap.deleteMin();
+
+        assertEquals(6, binaryHeap.getSize());
     }
 
 }
