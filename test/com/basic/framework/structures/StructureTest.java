@@ -467,4 +467,29 @@ public class StructureTest {
         assertEquals(6, binaryHeap.getSize());
     }
 
+    @Test
+    public void priorityQueueTest() {
+        final PriorityQueue<Integer> queue = new PriorityQueue<Integer>();
+
+        queue.insert(6);
+        queue.insert(7);
+        queue.insert(12);
+        queue.insert(10);
+        queue.insert(15);
+        queue.insert(17);
+        queue.insert(5);
+
+        assertEquals((Integer) 5, queue.extractMin());
+        assertEquals((Integer) 6, queue.extractMin());
+
+        assertEquals((Integer) 7, queue.extractMin());
+        assertEquals((Integer) 10, queue.extractMin());
+
+        assertEquals((Integer) 12, queue.extractMin());
+        assertEquals((Integer) 15, queue.extractMin());
+
+        assertEquals((Integer) 17, queue.extractMin());
+
+    }
+
 }

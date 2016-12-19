@@ -75,13 +75,13 @@ public class BinaryHeap<E extends Comparable> {
             }
 
             if (isChildGreaterThenParent) {
-                if (((E) elements[rightChild]).compareTo(elements[leftChild]) > 0) {
+                if (elements[rightChild] == null || ((E) elements[leftChild]).compareTo(elements[rightChild]) < 0) {
                     E temp = (E) elements[leftChild];
                     elements[leftChild] = elements[position];
                     elements[position] = temp;
                     position = leftChild;
                 }
-                else {
+                else if (elements[rightChild] != null) {
                     E temp = (E) elements[rightChild];
                     elements[rightChild] = elements[position];
                     elements[position] = temp;
