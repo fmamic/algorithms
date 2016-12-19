@@ -36,6 +36,7 @@ public class BinaryHeap<E extends Comparable> {
         size++;
     }
 
+    @SuppressWarnings("unchecked")
     public E findMinimum() {
         return (E) elements[1];
     }
