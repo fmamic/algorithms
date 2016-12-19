@@ -447,4 +447,20 @@ public class StructureTest {
 
         assertEquals(1, node.getData());
     }
+
+    @Test
+    public void binaryHeapTest() {
+        final BinaryHeap<Integer> binaryHeap = new BinaryHeap<Integer>();
+
+        binaryHeap.insert(6);
+        binaryHeap.insert(7);
+        binaryHeap.insert(12);
+        binaryHeap.insert(10);
+        binaryHeap.insert(15);
+        binaryHeap.insert(17);
+        binaryHeap.insert(5);
+
+        assertEquals(7, binaryHeap.getSize());
+    }
+
 }
