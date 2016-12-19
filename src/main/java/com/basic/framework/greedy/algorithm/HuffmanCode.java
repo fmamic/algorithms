@@ -5,26 +5,38 @@ import static com.basic.framework.structures.BinaryTree.*;
 import java.util.List;
 
 import com.basic.framework.greedy.algorithm.structure.HuffmanItem;
-import com.basic.framework.structures.BinarySearchTree;
-import com.basic.framework.structures.BinaryTree;
+import com.basic.framework.structures.PriorityQueue;
 
 class HuffmanCode {
 
     @SuppressWarnings("unchecked")
-    BinaryTree<HuffmanItem> huffman(final List<HuffmanItem> alphabet) {
+    BinaryTreeNode huffman(final List<HuffmanItem> alphabet) {
 
-        final BinarySearchTree<HuffmanItem> tree = new BinarySearchTree<HuffmanItem>();
+        final PriorityQueue<BinaryTreeNode<HuffmanItem>> priorityQueue = new PriorityQueue<BinaryTreeNode<HuffmanItem>>();
 
-        for (int i = 0; i < alphabet.size(); i++) {
-            tree.insert(alphabet.get(i));
+        for (final HuffmanItem item : alphabet) {
+            priorityQueue.insert(new BinaryTreeNode<HuffmanItem>(item));
         }
 
-        for (int i = 0; i < alphabet.size(); i++) {
-            final BinaryTreeNode node = new BinaryTreeNode(alphabet.get(i));
+        while (priorityQueue.getSize() > 1) {
+            final BinaryTreeNode<HuffmanItem> first = priorityQueue.extractMin();
+            final BinaryTreeNode<HuffmanItem> second = priorityQueue.extractMin();
+            final BinaryTreeNode<HuffmanItem> parent = new BinaryTreeNode(
+                    new HuffmanItem(null, first.getData().getFrequency() + second.getData().getFrequency()), first, second);
+
+            priorityQueue.insert(parent);
+        }
+
+        return priorityQueue.extractMin();
+    }
+
+    String constructHuffmanCode(final BinaryTreeNode<HuffmanItem> node, final HuffmanItem item) {
+
+        while (item.getFrequency().compareTo(node.getData().getFrequency()) == 0) {
 
         }
 
-        return null;
+        return "";
     }
 
 }

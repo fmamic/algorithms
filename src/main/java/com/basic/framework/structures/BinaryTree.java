@@ -4,7 +4,7 @@ package com.basic.framework.structures;
  * Binary Tree stands for a data structure which is made up of nodes that can only have two children references. No extra condition is required to
  * build binary tree. Thus it's more general data structure than BST (Binary search tree).
  */
-public class BinaryTree<T> {
+public class BinaryTree<T extends Comparable> {
 
     private BinaryTreeNode root;
     private int size = 0;
@@ -101,11 +101,17 @@ public class BinaryTree<T> {
         return parentQueue.dequeue();
     }
 
-    public static class BinaryTreeNode<T> {
+    public static class BinaryTreeNode<T extends Comparable> implements Comparable {
 
         private T data;
         private BinaryTreeNode left;
         private BinaryTreeNode right;
+
+        public BinaryTreeNode() {
+            this.data = null;
+            this.left = null;
+            this.right = null;
+        }
 
         public BinaryTreeNode(final T data) {
             this.data = data;
@@ -119,28 +125,33 @@ public class BinaryTree<T> {
             this.right = right;
         }
 
-        T getData() {
+        public T getData() {
             return data;
         }
 
-        void setData(final T data) {
+        public void setData(final T data) {
             this.data = data;
         }
 
-        BinaryTreeNode getLeft() {
+        public BinaryTreeNode getLeft() {
             return left;
         }
 
-        void setLeft(final BinaryTreeNode left) {
+        public void setLeft(final BinaryTreeNode left) {
             this.left = left;
         }
 
-        BinaryTreeNode getRight() {
+        public BinaryTreeNode getRight() {
             return right;
         }
 
-        void setRight(final BinaryTreeNode right) {
+        public void setRight(final BinaryTreeNode right) {
             this.right = right;
+        }
+
+        @SuppressWarnings("unchecked")
+        public int compareTo(final Object o) {
+            return data.compareTo(((BinaryTreeNode) o).data);
         }
     }
 }

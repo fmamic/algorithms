@@ -43,7 +43,7 @@ public class BinaryHeap<E extends Comparable> {
 
     @SuppressWarnings("unchecked")
     public void deleteMin() {
-        if (getSize() == 1) {
+        if (getSize() == 0) {
             return;
         }
 

@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import com.basic.framework.greedy.algorithm.structure.HuffmanItem;
 import com.basic.framework.greedy.algorithm.structure.Item;
+import com.basic.framework.structures.BinaryTree;
 
 public class GreedyAlgorithmTest {
 
@@ -61,7 +62,9 @@ public class GreedyAlgorithmTest {
         huffmanItems.add(new HuffmanItem("e", 9));
         huffmanItems.add(new HuffmanItem("f", 5));
 
-        huffmanCode.huffman(huffmanItems);
+        final BinaryTree.BinaryTreeNode node = huffmanCode.huffman(huffmanItems);
+
+        assertEquals(null, node);
     }
 
 }
