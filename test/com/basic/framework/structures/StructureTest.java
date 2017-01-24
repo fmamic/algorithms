@@ -492,4 +492,9 @@ public class StructureTest {
 
     }
 
+    @Test
+    public void btreeInsertTest() {
+
+    }
+
 }
