@@ -3,6 +3,10 @@ package com.basic.framework.structures;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * BTree node implementation mainly for use in HDD where disk access is very costly. Preforms DISK_WRITE(x) and DISK_READ(x).
+ * Root Node is always in the primary memory.
+ */
 public class BTree<T extends Comparable> {
 
     private BTreeNode root;
@@ -33,13 +37,64 @@ public class BTree<T extends Comparable> {
         }
     }
 
-    @SuppressWarnings("unchecked")
+    /**
+     * Inserting key into B Tree takes O(h) disk access where h is height of tree.
+     * It is inserting in single pass and splitting full nodes on the way to the correct position in the tree.
+     */
     public void insert(final T key) {
+        if (root == null)
+            root = create();
 
+        insertNode(root, key);
     }
 
     @SuppressWarnings("unchecked")
-    void splitChild(final BTreeNode parent, final int index) {
+    private void insertNode(final BTreeNode root, final T key) {
+        final BTreeNode current = root;
+        if (current.numberOfKeys == 2 * minimumDegree - 1) {
+            BTreeNode parent = create();
+            parent.leaf = false;
+            parent.children.add(current);
+            this.root = parent;
+
+            splitChild(parent, 1);
+            insertNonFull(parent, key);
+        } else {
+            insertNonFull(current, key);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void insertNonFull(final BTreeNode node, final T key) {
+        if (node.leaf) {
+            int index = 0;
+            while (((T) node.keys.get(index)).compareTo(key) < 0) {
+                index++;
+            }
+            node.keys.add(index, key);
+            node.numberOfKeys++;
+        } else {
+            int index = 0;
+            while (((T) node.keys.get(index)).compareTo(key) < 0) {
+                index++;
+            }
+
+            if (((BTreeNode) node.children.get(index)).numberOfKeys == minimumDegree * 2 - 1) {
+                splitChild(node, index);
+                if (((T) node.keys.get(index)).compareTo(key) < 0) {
+                    index++;
+                }
+                insertNonFull((BTreeNode) node.children.get(index), key);
+            }
+        }
+    }
+
+    /**
+     * This method is splitting full nodes into two nodes with minimumDegree - 1 number of keys and it is setting up new root node.
+     * Three disk writes are needed for writing right, left and parent node.
+     */
+    @SuppressWarnings("unchecked")
+    private void splitChild(final BTreeNode parent, final int index) {
         final BTreeNode rightNode = create();
         final BTreeNode leftNode = (BTreeNode) parent.children.get(index);
 

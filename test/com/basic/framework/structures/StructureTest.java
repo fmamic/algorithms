@@ -494,7 +494,9 @@ public class StructureTest {
 
     @Test
     public void btreeInsertTest() {
+        final BTree<Integer> bTree = new BTree<Integer>();
 
+        bTree.insert(10);
     }
 
 }
