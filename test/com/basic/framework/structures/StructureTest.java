@@ -497,6 +497,10 @@ public class StructureTest {
         final BTree<Integer> bTree = new BTree<Integer>();
 
         bTree.insert(10);
+        bTree.insert(20);
+        bTree.insert(30);
+
+        assertEquals(null, bTree);
     }
 
 }
