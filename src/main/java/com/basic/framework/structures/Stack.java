@@ -27,6 +27,15 @@ public class Stack<T> extends Vector {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
+    public T look() {
+        if (isEmpty()) {
+            return null;
+        }
+
+        return (T) elements[top];
+    }
+
     public boolean isEmpty() {
         return top == 0;
     }
