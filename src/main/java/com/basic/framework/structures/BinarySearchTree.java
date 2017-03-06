@@ -28,16 +28,14 @@ public class BinarySearchTree<T extends Comparable<T>> extends SearchTree<T> {
             parent = current;
             if (current.getData().compareTo(data) < 0) {
                 current = current.right;
-            }
-            else {
+            } else {
                 current = current.left;
             }
         }
 
         if (parent.getData().compareTo(data) < 0) {
             parent.right = new Node<T>(data, parent, null, null);
-        }
-        else {
+        } else {
             parent.left = new Node<T>(data, parent, null, null);
         }
 
@@ -76,8 +74,7 @@ public class BinarySearchTree<T extends Comparable<T>> extends SearchTree<T> {
         if (node.left == null && node.right == null) {
             if (node.parent.left.equals(node)) {
                 node.parent.left = null;
-            }
-            else {
+            } else {
                 node.parent.right = null;
             }
             return;
@@ -124,11 +121,9 @@ public class BinarySearchTree<T extends Comparable<T>> extends SearchTree<T> {
     private void transplant(final Node<T> first, final Node<T> second) {
         if (first.parent == null) {
             setRoot(second);
-        }
-        else if (first == first.parent.left) {
+        } else if (first == first.parent.left) {
             first.parent.left = second;
-        }
-        else {
+        } else {
             first.parent.right = second;
         }
 
@@ -182,10 +177,49 @@ public class BinarySearchTree<T extends Comparable<T>> extends SearchTree<T> {
 
         if (node.getData().compareTo(data) < 0) {
             return treeSearch(node.right, data);
-        }
-        else {
+        } else {
             return treeSearch(node.left, data);
         }
+    }
+
+    /**
+     * Running in O(n) time because it is visiting all nodes in the tree.
+     */
+    void inOrderTraversal(final Node node) {
+        if (node == null) {
+            return;
+        }
+
+        inOrderTraversal(node.left);
+        System.out.println(node.getData());
+        inOrderTraversal(node.right);
+    }
+
+    /**
+     * Running in O(n) time because it is visiting all nodes in the tree.
+     */
+    void preOrderTraversal(final Node node) {
+        if (node == null) {
+            return;
+        }
+
+        System.out.println(node.getData());
+        preOrderTraversal(node.left);
+        preOrderTraversal(node.right);
+    }
+
+    /**
+     * Running in O(n) time because it is visiting all nodes in the tree.
+     */
+    void postOrderTraversal(final Node node) {
+        if (node == null) {
+            return;
+        }
+
+        preOrderTraversal(node.left);
+        preOrderTraversal(node.right);
+
+        System.out.println(node.getData());
     }
 
     Node<T> treeMaximum(final Node<T> node) {
