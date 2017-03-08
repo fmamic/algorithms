@@ -53,5 +53,8 @@ public class GraphTest {
 
         assertEquals(2, vertex5.getDistance());
         assertEquals(Color.BLACK, vertex5.getStatus());
+
+        graph.printShortestPath(vertex1, vertex5); // 1 2 5
+        graph.printShortestPath(vertex1, vertex6); // No path available
     }
 }

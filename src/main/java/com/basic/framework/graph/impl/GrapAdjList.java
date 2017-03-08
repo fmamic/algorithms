@@ -35,5 +35,16 @@ public class GrapAdjList extends Graph {
     public ArrayList<Vertex> getNeighbours(final Vertex vertex) {
         return adjListMap.get(vertex);
     }
+
+    public void printShortestPath(final Vertex start, final Vertex end) {
+        if (start.getKey().equals(end.getKey())) {
+            System.out.println(start.getKey());
+        } else if (end.getPredecessor() == null) {
+            System.out.println("No path available from " + start.getKey() + " to " + end.getKey());
+        } else {
+            printShortestPath(start, end.getPredecessor());
+            System.out.println(end.getKey());
+        }
+    }
 }
 
