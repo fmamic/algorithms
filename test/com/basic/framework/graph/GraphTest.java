@@ -10,6 +10,8 @@ import com.basic.framework.graph.structure.Vertex;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Stack;
+
 public class GraphTest {
 
     private GraphList graph;
@@ -91,5 +93,55 @@ public class GraphTest {
         assertEquals(2, graph.getVertex(2).getDepth().getStartTime());
         assertEquals(5, graph.getVertex(4).getDepth().getStartTime());
         assertEquals(3, graph.getVertex(3).getDepth().getStartTime());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void depthFirstSearchTopologicalSortTest() {
+        final DepthFirstSearch depthFirstSearch = new DepthFirstSearch();
+        final GraphList graph = new GraphList();
+
+        graph.addVertex(1);
+        graph.addVertex(2);
+        graph.addVertex(3);
+        graph.addVertex(4);
+        graph.addVertex(5);
+
+        graph.addEdgeByKey(1, 2);
+        graph.addEdgeByKey(1, 3);
+        graph.addEdgeByKey(2, 3);
+        graph.addEdgeByKey(2, 5);
+        graph.addEdgeByKey(4, 3);
+
+        final Stack<Vertex> sort = depthFirstSearch.search(graph);
+
+        assertEquals(4, sort.pop().getKey());
+        assertEquals(1, sort.pop().getKey());
+        assertEquals(2, sort.pop().getKey());
+        assertEquals(5, sort.pop().getKey());
+        assertEquals(3, sort.pop().getKey());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void depthFirstSearchReverseGraph() {
+        final DepthFirstSearch depthFirstSearch = new DepthFirstSearch();
+        final GraphList graph = new GraphList();
+
+        graph.addVertex(1);
+        graph.addVertex(2);
+        graph.addVertex(3);
+        graph.addVertex(4);
+
+        graph.addEdgeByKey(1, 2);
+        graph.addEdgeByKey(2, 3);
+        graph.addEdgeByKey(2, 4);
+
+        depthFirstSearch.reverseEdge(graph);
+
+        assertEquals(0, graph.getVertex(1).getAdjacency().size());
+        assertEquals(1, graph.getVertex(2).getAdjacency().size());
+        assertEquals(1, graph.getVertex(3).getAdjacency().size());
+        assertEquals(1, graph.getVertex(4).getAdjacency().size());
     }
 }
