@@ -44,4 +44,30 @@ public class TreesAndGraphsTest {
         assertEquals(true, treesAndGraphs.checkIfBinarySearchTree(binaryTree3));
     }
 
+    @Test
+    public void isBinaryTreeBalanced() {
+        final BinaryTree<Integer> binaryTree = new BinaryTree<Integer>();
+        final TreesAndGraphs treesAndGraphs = new TreesAndGraphs();
+
+        binaryTree.insert(10);
+        binaryTree.insert(6);
+        binaryTree.insert(3);
+        binaryTree.insert(2);
+        binaryTree.insert(1);
+
+        assertEquals(true, treesAndGraphs.isBinaryTreeBalanced(binaryTree));
+
+        binaryTree.insertUnBalanced(16);
+        binaryTree.insertUnBalanced(20);
+        binaryTree.insertUnBalanced(23);
+        binaryTree.insertUnBalanced(52);
+        binaryTree.insertUnBalanced(11);
+        binaryTree.insertUnBalanced(55);
+        binaryTree.insertUnBalanced(88);
+        binaryTree.insertUnBalanced(99);
+        binaryTree.insertUnBalanced(23);
+
+        assertEquals(false, treesAndGraphs.isBinaryTreeBalanced(binaryTree));
+    }
+
 }

@@ -137,11 +137,11 @@ public class GraphTest {
         graph.addEdgeByKey(2, 3);
         graph.addEdgeByKey(2, 4);
 
-        depthFirstSearch.reverseEdge(graph);
+        final GraphList graphList = depthFirstSearch.reverseEdge(graph);
 
-        assertEquals(0, graph.getVertex(1).getAdjacency().size());
-        assertEquals(1, graph.getVertex(2).getAdjacency().size());
-        assertEquals(1, graph.getVertex(3).getAdjacency().size());
-        assertEquals(1, graph.getVertex(4).getAdjacency().size());
+        assertEquals(0, graphList.getVertex(1).getAdjacency().size());
+        assertEquals(1, graphList.getVertex(2).getAdjacency().size());
+        assertEquals(1, graphList.getVertex(3).getAdjacency().size());
+        assertEquals(1, graphList.getVertex(4).getAdjacency().size());
     }
 }

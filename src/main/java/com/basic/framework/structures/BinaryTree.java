@@ -32,15 +32,34 @@ public class BinaryTree<T extends Comparable> {
         if (root == null) {
             root = node;
             size++;
-        }
-        else {
+        } else {
             final BinaryTreeNode position = breadthFirstSearch(root);
             if (position.getLeft() == null) {
                 position.setLeft(node);
-            }
-            else {
+            } else {
                 position.setRight(node);
             }
+            size++;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public void insertUnBalanced(final T data) {
+        final BinaryTreeNode node = new BinaryTreeNode(data, null, null);
+
+        if (root == null) {
+            root = node;
+            size++;
+        } else {
+
+            BinaryTreeNode nodeInsert = root;
+            BinaryTreeNode nodeParent = root;
+            while (nodeInsert != null) {
+                nodeParent = nodeInsert;
+                nodeInsert = nodeInsert.getLeft();
+            }
+
+            nodeParent.setLeft(node);
             size++;
         }
     }
@@ -67,8 +86,7 @@ public class BinaryTree<T extends Comparable> {
 
         if (resultLeft != null) {
             return resultLeft;
-        }
-        else {
+        } else {
             return resultRight;
         }
     }
@@ -85,15 +103,13 @@ public class BinaryTree<T extends Comparable> {
 
             if (iterNode.getLeft() != null) {
                 queue.enqueue(iterNode.getLeft());
-            }
-            else {
+            } else {
                 parentQueue.enqueue(iterNode);
             }
 
             if (iterNode.getRight() != null) {
                 queue.enqueue(iterNode.getRight());
-            }
-            else {
+            } else {
                 parentQueue.enqueue(iterNode);
             }
         }

@@ -3,9 +3,9 @@ package com.basic.framework.structures;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-abstract class SearchTree<T extends Comparable<T>> implements Tree<T> {
+public abstract class SearchTree<T extends Comparable<T>> implements Tree<T> {
 
-    SearchTree() {
+    public SearchTree() {
 
     }
 
@@ -49,7 +49,7 @@ abstract class SearchTree<T extends Comparable<T>> implements Tree<T> {
 
     abstract Node<T> getRoot();
 
-    static class Node<T extends Comparable<T>> implements Tree.Node<T> {
+    public static class Node<T extends Comparable<T>> implements Tree.Node<T> {
         private T data;
 
         Node<T> parent;

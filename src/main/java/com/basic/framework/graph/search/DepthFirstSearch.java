@@ -49,19 +49,27 @@ public class DepthFirstSearch {
     }
 
     @SuppressWarnings("unchecked")
-    public void reverseEdge(final GraphList graph) {
+    public GraphList reverseEdge(final GraphList graph) {
+        final GraphList reverseGraph = new GraphList();
+
         final Collection vertices = graph.getVertices().values();
         for (final Object vertex : vertices) {
             final Vertex vert = (Vertex) vertex;
+            reverseGraph.addVertex(vert.getKey());
+        }
 
-            final List<Vertex> removeAdj = new ArrayList<Vertex>();
+        for (final Object vertex : vertices) {
+            final Vertex vert = (Vertex) vertex;
+            final Vertex reverseVert = reverseGraph.getVertex(vert.getKey());
+
             for (final Object adj : vert.getAdjacency()) {
                 final Vertex adjVert = (Vertex) adj;
-                adjVert.getAdjacency().add(vert);
-                removeAdj.add(adjVert);
+                final Vertex adjReverse = reverseGraph.getVertex(adjVert.getKey());
+
+                reverseGraph.addEdge(adjReverse, reverseVert);
             }
-            vert.getAdjacency().removeAll(removeAdj);
         }
+        return reverseGraph;
     }
 
 }

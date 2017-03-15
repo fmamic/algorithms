@@ -10,7 +10,7 @@ public class Queue<E> extends Vector {
     private int tail = 0;
 
     public Queue() {
-        super(10);
+        super(20);
     }
 
     public Queue(final int initialCapacity) {

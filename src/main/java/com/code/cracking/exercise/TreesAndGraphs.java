@@ -3,10 +3,62 @@ package com.code.cracking.exercise;
 import com.basic.framework.structures.BinaryTree;
 
 import com.basic.framework.structures.BinaryTree.BinaryTreeNode;
+import com.basic.framework.structures.PriorityQueue;
 import com.basic.framework.structures.Stack;
+
+import java.util.HashMap;
 
 @SuppressWarnings("unchecked")
 public class TreesAndGraphs {
+
+    /**
+     * 4.1.
+     * Check if a binary tree is balanced (height no more then one difference between subtrees).
+     */
+    public boolean isBinaryTreeBalanced(final BinaryTree binaryTree) {
+        final int result = breadthFirstSearchBT(binaryTree);
+
+        return !(result > 1);
+    }
+
+    private int breadthFirstSearchBT(final BinaryTree<Integer> binaryTree) {
+        final PriorityQueue<BinaryTreeNode<Integer>> queue = new PriorityQueue<BinaryTreeNode<Integer>>();
+
+        BinaryTreeNode<Integer> node = binaryTree.getRoot();
+
+        final HashMap<BinaryTreeNode, Integer> distanceMap = new HashMap<BinaryTreeNode, Integer>();
+        distanceMap.put(node, 0);
+
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+
+        queue.insert(node);
+
+        while (queue.getSize() != 0) {
+            node = queue.extractMin();
+
+            if (node.getLeft() != null) {
+                queue.insert(node.getLeft());
+                distanceMap.put(node.getLeft(), distanceMap.get(node) + 1);
+            }
+            if (node.getRight() != null) {
+                queue.insert(node.getRight());
+                distanceMap.put(node.getRight(), distanceMap.get(node) + 1);
+            }
+
+            if (node.getLeft() == null && node.getRight() == null) {
+                if (distanceMap.get(node) < min) {
+                    min = distanceMap.get(node);
+                }
+
+                if (distanceMap.get(node) > max) {
+                    max = distanceMap.get(node);
+                }
+            }
+        }
+
+        return max - min;
+    }
 
     /**
      * 4.5
