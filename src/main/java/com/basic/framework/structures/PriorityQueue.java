@@ -23,7 +23,7 @@ public class PriorityQueue<E extends Comparable> {
         return binaryHeap.getSize();
     }
 
-    public E extractMin() {
+    public E extractMin() { // O(log n)
         E element = binaryHeap.findMinimum();
         binaryHeap.deleteMin();
         return element;

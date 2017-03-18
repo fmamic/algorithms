@@ -503,4 +503,31 @@ public class StructureTest {
         assertEquals(null, bTree);
     }
 
+    @Test
+    public void disjointSet() {
+        final DisjointSet disjointSet = new DisjointSet();
+
+        disjointSet.makeSet(1L);
+        disjointSet.makeSet(2L);
+        disjointSet.makeSet(3L);
+        disjointSet.makeSet(4L);
+        disjointSet.makeSet(5L);
+        disjointSet.makeSet(6L);
+        disjointSet.makeSet(7L);
+
+        disjointSet.union(1L, 2L);
+        disjointSet.union(2L, 3L);
+        disjointSet.union(4L, 5L);
+        disjointSet.union(6L, 7L);
+        disjointSet.union(5L, 6L);
+        disjointSet.union(3L, 7L);
+
+        assertEquals(4, disjointSet.findSet(1L));
+        assertEquals(4, disjointSet.findSet(2L));
+        assertEquals(4, disjointSet.findSet(3L));
+        assertEquals(4, disjointSet.findSet(4L));
+        assertEquals(4, disjointSet.findSet(5L));
+        assertEquals(4, disjointSet.findSet(6L));
+        assertEquals(4, disjointSet.findSet(7L));
+    }
 }

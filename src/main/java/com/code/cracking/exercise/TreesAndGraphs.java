@@ -14,6 +14,7 @@ public class TreesAndGraphs {
     /**
      * 4.1.
      * Check if a binary tree is balanced (height no more then one difference between subtrees).
+     * Solution: O(nlogn) time and O(n) space because of HashMap with n nodes.
      */
     public boolean isBinaryTreeBalanced(final BinaryTree binaryTree) {
         final int result = breadthFirstSearchBT(binaryTree);
@@ -21,6 +22,7 @@ public class TreesAndGraphs {
         return !(result > 1);
     }
 
+    // worst case O(nLogn), best case O(logn), space complexity O(n)
     private int breadthFirstSearchBT(final BinaryTree<Integer> binaryTree) {
         final PriorityQueue<BinaryTreeNode<Integer>> queue = new PriorityQueue<BinaryTreeNode<Integer>>();
 
@@ -34,15 +36,15 @@ public class TreesAndGraphs {
 
         queue.insert(node);
 
-        while (queue.getSize() != 0) {
-            node = queue.extractMin();
+        while (queue.getSize() != 0) { // n times where n is number of nodes
+            node = queue.extractMin(); // O(log n)
 
             if (node.getLeft() != null) {
-                queue.insert(node.getLeft());
+                queue.insert(node.getLeft()); // O(log n)
                 distanceMap.put(node.getLeft(), distanceMap.get(node) + 1);
             }
             if (node.getRight() != null) {
-                queue.insert(node.getRight());
+                queue.insert(node.getRight()); // O(log n)
                 distanceMap.put(node.getRight(), distanceMap.get(node) + 1);
             }
 
@@ -54,6 +56,10 @@ public class TreesAndGraphs {
                 if (distanceMap.get(node) > max) {
                     max = distanceMap.get(node);
                 }
+            }
+
+            if (max - min > 1) {
+                return max - min;
             }
         }
 
