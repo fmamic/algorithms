@@ -7,10 +7,10 @@ package com.basic.framework.structures;
  */
 public class DisjointSet {
 
-    private Map<Long, SetNode> setNodeMap = new HashMap<Long, SetNode>();
+    private Map<Integer, SetNode> setNodeMap = new HashMap<Integer, SetNode>();
 
     // O(1)
-    public void makeSet(final Long data) {
+    public void makeSet(final Integer data) {
         final SetNode node = new SetNode();
 
         node.data = data;
@@ -21,11 +21,11 @@ public class DisjointSet {
     }
 
 
-    public long findSet(final Long data) {
+    public Integer findSet(final Integer data) {
         return findSetRec(setNodeMap.get(data)).data;
     }
 
-    // Path compression inside find set
+    // Path compression inside find set - O(logN)
     private SetNode findSetRec(final SetNode node) {
         if (node == node.parent)
             return node;
@@ -34,12 +34,13 @@ public class DisjointSet {
         return node.parent;
     }
 
-    public void union(final Long dataFirst, final Long dataSecond) {
+    // O(logN) - best case for N unions is O(N)
+    public void union(final Integer dataFirst, final Integer dataSecond) {
         final SetNode nodeFirst = setNodeMap.get(dataFirst);
         final SetNode nodeSecond = setNodeMap.get(dataSecond);
 
-        final SetNode rootFirst = findSetRec(nodeFirst);
-        final SetNode rootSecond = findSetRec(nodeSecond);
+        final SetNode rootFirst = findSetRec(nodeFirst); // O(logN)
+        final SetNode rootSecond = findSetRec(nodeSecond); // O(logN)
 
         if (rootFirst != rootSecond) {
             if (rootFirst.getRank() >= rootSecond.getRank()) {
@@ -57,7 +58,7 @@ public class DisjointSet {
 
         private int rank;
 
-        private long data;
+        private Integer data;
 
         private SetNode parent;
 
@@ -65,15 +66,11 @@ public class DisjointSet {
             return rank;
         }
 
-        public void setRank(final int rank) {
-            this.rank = rank;
-        }
-
-        public long getData() {
+        public Integer getData() {
             return data;
         }
 
-        public void setData(final long data) {
+        public void setData(final Integer data) {
             this.data = data;
         }
 

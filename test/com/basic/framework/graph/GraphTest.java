@@ -2,6 +2,7 @@ package com.basic.framework.graph;
 
 import static org.junit.Assert.assertEquals;
 
+import com.basic.framework.graph.algorithm.KruskalSpanningTree;
 import com.basic.framework.graph.impl.GraphList;
 import com.basic.framework.graph.search.BreadthFirstSearch;
 import com.basic.framework.graph.search.DepthFirstSearch;
@@ -144,4 +145,34 @@ public class GraphTest {
         assertEquals(1, graphList.getVertex(3).getAdjacency().size());
         assertEquals(1, graphList.getVertex(4).getAdjacency().size());
     }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void minimumSpanningTree() {
+        final GraphList graphList = new GraphList();
+        final KruskalSpanningTree kruskalSpanningTree = new KruskalSpanningTree();
+
+        graphList.addVertex(1);
+        graphList.addVertex(2);
+        graphList.addVertex(3);
+        graphList.addVertex(4);
+        graphList.addVertex(5);
+        graphList.addVertex(6);
+
+        graphList.addEdgeWithWeight(1, 2, 3);
+        graphList.addEdgeWithWeight(2, 3, 1);
+        graphList.addEdgeWithWeight(1, 4, 1);
+        graphList.addEdgeWithWeight(2, 4, 3);
+        graphList.addEdgeWithWeight(3, 4, 1);
+        graphList.addEdgeWithWeight(4, 5, 6);
+        graphList.addEdgeWithWeight(3, 5, 5);
+        graphList.addEdgeWithWeight(3, 6, 4);
+        graphList.addEdgeWithWeight(5, 6, 2);
+
+        final GraphList spanningTree = kruskalSpanningTree.createSpanningTreeFromGraph(graphList);
+
+        assertEquals(5, spanningTree.getEdges().size());
+        assertEquals(6, spanningTree.getVertexNumber());
+    }
+
 }

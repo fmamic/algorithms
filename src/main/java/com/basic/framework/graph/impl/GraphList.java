@@ -1,8 +1,10 @@
 package com.basic.framework.graph.impl;
 
 import com.basic.framework.graph.Graph;
+import com.basic.framework.graph.structure.Edge;
 import com.basic.framework.graph.structure.Vertex;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,6 +12,8 @@ import java.util.List;
 public class GraphList<T extends Comparable> extends Graph<T> {
 
     private final HashMap<T, Vertex> vertices = new HashMap<T, Vertex>();
+
+    private final List<Edge> edges = new ArrayList<Edge>();
 
     public int getVertexNumber() {
         return vertices.size();
@@ -42,6 +46,21 @@ public class GraphList<T extends Comparable> extends Graph<T> {
         source.getAdjacency().add(destination);
     }
 
+    // bidirectional edge
+    public void addEdgeWithWeight(final T source, final T destination, final int weight) {
+        final Vertex vertexSource = vertices.get(source);
+        final Vertex vertexDestination = vertices.get(destination);
+
+        vertexSource.getAdjacency().add(destination);
+
+        final Edge edge = new Edge();
+        edge.setSource(vertexSource);
+        edge.setDestination(vertexDestination);
+        edge.setWeight(weight);
+
+        edges.add(edge);
+    }
+
     public List<Vertex> getNeighbours(final Vertex vertex) {
         return vertex.getAdjacency();
     }
@@ -55,6 +74,10 @@ public class GraphList<T extends Comparable> extends Graph<T> {
             printBreadthShortestPath(start, end.getBreadth().getPredecessor());
             System.out.println(end.getKey());
         }
+    }
+
+    public List<Edge> getEdges() {
+        return edges;
     }
 }
 

@@ -507,27 +507,27 @@ public class StructureTest {
     public void disjointSet() {
         final DisjointSet disjointSet = new DisjointSet();
 
-        disjointSet.makeSet(1L);
-        disjointSet.makeSet(2L);
-        disjointSet.makeSet(3L);
-        disjointSet.makeSet(4L);
-        disjointSet.makeSet(5L);
-        disjointSet.makeSet(6L);
-        disjointSet.makeSet(7L);
+        disjointSet.makeSet(1);
+        disjointSet.makeSet(2);
+        disjointSet.makeSet(3);
+        disjointSet.makeSet(4);
+        disjointSet.makeSet(5);
+        disjointSet.makeSet(6);
+        disjointSet.makeSet(7);
 
-        disjointSet.union(1L, 2L);
-        disjointSet.union(2L, 3L);
-        disjointSet.union(4L, 5L);
-        disjointSet.union(6L, 7L);
-        disjointSet.union(5L, 6L);
-        disjointSet.union(3L, 7L);
+        disjointSet.union(1, 2);
+        disjointSet.union(2, 3);
+        disjointSet.union(4, 5);
+        disjointSet.union(6, 7);
+        disjointSet.union(5, 6);
+        disjointSet.union(3, 7);
 
-        assertEquals(4, disjointSet.findSet(1L));
-        assertEquals(4, disjointSet.findSet(2L));
-        assertEquals(4, disjointSet.findSet(3L));
-        assertEquals(4, disjointSet.findSet(4L));
-        assertEquals(4, disjointSet.findSet(5L));
-        assertEquals(4, disjointSet.findSet(6L));
-        assertEquals(4, disjointSet.findSet(7L));
+        assertEquals((Integer) 4, disjointSet.findSet(1));
+        assertEquals((Integer) 4, disjointSet.findSet(2));
+        assertEquals((Integer) 4, disjointSet.findSet(3));
+        assertEquals((Integer) 4, disjointSet.findSet(4));
+        assertEquals((Integer) 4, disjointSet.findSet(5));
+        assertEquals((Integer) 4, disjointSet.findSet(6));
+        assertEquals((Integer) 4, disjointSet.findSet(7));
     }
 }
