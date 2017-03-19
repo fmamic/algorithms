@@ -2,6 +2,7 @@ package com.basic.framework.graph;
 
 import static org.junit.Assert.assertEquals;
 
+import com.basic.framework.graph.algorithm.BellmanFordSingleSource;
 import com.basic.framework.graph.algorithm.KruskalSpanningTree;
 import com.basic.framework.graph.algorithm.PrimSpanningTree;
 import com.basic.framework.graph.impl.GraphList;
@@ -205,5 +206,53 @@ public class GraphTest {
 
         assertEquals(5, spanningTree.getEdges().size());
         assertEquals(6, spanningTree.getVertexNumber());
+    }
+
+    @Test
+    public void bellmanFordShortestPathTest() {
+        final BellmanFordSingleSource bellmanFord = new BellmanFordSingleSource();
+        final GraphList<Integer> graphList = new GraphList<Integer>();
+
+        Vertex vertex0 = graphList.addVertex(0);
+        Vertex vertex1 = graphList.addVertex(1);
+        Vertex vertex2 = graphList.addVertex(2);
+        Vertex vertex3 = graphList.addVertex(3);
+        Vertex vertex4 = graphList.addVertex(4);
+
+        graphList.addEdgeWithWeight(0, 1, 4);
+        graphList.addEdgeWithWeight(1, 2, -3);
+        graphList.addEdgeWithWeight(0, 2, 5);
+        graphList.addEdgeWithWeight(0, 3, 8);
+        graphList.addEdgeWithWeight(2, 4, 4);
+        graphList.addEdgeWithWeight(3, 4, 2);
+        graphList.addEdgeWithWeight(4, 3, 1);
+
+        bellmanFord.searchShortestPath(graphList, vertex0);
+
+        assertEquals(vertex4, vertex3.getPrev());
+        assertEquals(vertex2, vertex4.getPrev());
+        assertEquals(vertex1, vertex2.getPrev());
+        assertEquals(vertex0, vertex1.getPrev());
+        assertEquals(null, vertex0.getPrev());
+    }
+
+    @Test
+    public void bellmanFordShortestPathTestNegative() {
+        final BellmanFordSingleSource bellmanFord = new BellmanFordSingleSource();
+        final GraphList<Integer> graphList = new GraphList<Integer>();
+
+        Vertex vertex0 = graphList.addVertex(0);
+        graphList.addVertex(1);
+        graphList.addVertex(2);
+        graphList.addVertex(3);
+
+        graphList.addEdgeWithWeight(0, 1, 1);
+        graphList.addEdgeWithWeight(1, 2, 3);
+        graphList.addEdgeWithWeight(2, 3, 2);
+        graphList.addEdgeWithWeight(3, 1, -6);
+
+        boolean result = bellmanFord.searchShortestPath(graphList, vertex0);
+
+        assertEquals(false, result);
     }
 }

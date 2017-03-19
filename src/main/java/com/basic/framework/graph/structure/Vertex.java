@@ -9,6 +9,8 @@ public class Vertex<T extends Comparable> implements Comparable {
 
     private T key;
 
+    private Vertex prev = null;
+
     private Depth depth = new Depth();
 
     private Breadth breadth = new Breadth();
@@ -36,5 +38,13 @@ public class Vertex<T extends Comparable> implements Comparable {
 
     public List<Vertex> getAdjacency() {
         return adjacency;
+    }
+
+    public Vertex getPrev() {
+        return prev;
+    }
+
+    public void setPrev(final Vertex prev) {
+        this.prev = prev;
     }
 }
