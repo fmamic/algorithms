@@ -3,12 +3,14 @@ package com.basic.framework.graph;
 import static org.junit.Assert.assertEquals;
 
 import com.basic.framework.graph.algorithm.KruskalSpanningTree;
+import com.basic.framework.graph.algorithm.PrimSpanningTree;
 import com.basic.framework.graph.impl.GraphList;
 import com.basic.framework.graph.search.BreadthFirstSearch;
 import com.basic.framework.graph.search.DepthFirstSearch;
 import com.basic.framework.graph.structure.Color;
 import com.basic.framework.graph.structure.Vertex;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Stack;
@@ -148,7 +150,7 @@ public class GraphTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void minimumSpanningTree() {
+    public void minimumSpanningTreeKruskal() {
         final GraphList graphList = new GraphList();
         final KruskalSpanningTree kruskalSpanningTree = new KruskalSpanningTree();
 
@@ -175,4 +177,33 @@ public class GraphTest {
         assertEquals(6, spanningTree.getVertexNumber());
     }
 
+    @SuppressWarnings("unchecked")
+    @Ignore
+    @Test
+    public void minimumSpanningTreePrim() {
+        final GraphList graphList = new GraphList();
+        final PrimSpanningTree primSpanningTree = new PrimSpanningTree();
+
+        graphList.addVertex(1);
+        graphList.addVertex(2);
+        graphList.addVertex(3);
+        graphList.addVertex(4);
+        graphList.addVertex(5);
+        graphList.addVertex(6);
+
+        graphList.addEdgeWithWeight(1, 2, 3);
+        graphList.addEdgeWithWeight(2, 3, 1);
+        graphList.addEdgeWithWeight(1, 4, 1);
+        graphList.addEdgeWithWeight(2, 4, 3);
+        graphList.addEdgeWithWeight(3, 4, 1);
+        graphList.addEdgeWithWeight(4, 5, 6);
+        graphList.addEdgeWithWeight(3, 5, 5);
+        graphList.addEdgeWithWeight(3, 6, 4);
+        graphList.addEdgeWithWeight(5, 6, 2);
+
+        final GraphList spanningTree = primSpanningTree.createSpanningTreeFromGraph(graphList);
+
+        assertEquals(5, spanningTree.getEdges().size());
+        assertEquals(6, spanningTree.getVertexNumber());
+    }
 }

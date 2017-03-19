@@ -3,6 +3,7 @@ package com.basic.framework.structures;
 import static com.basic.framework.structures.BinaryTree.*;
 import static org.junit.Assert.*;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.basic.framework.exception.QueueOutOfSpaceException;
@@ -54,6 +55,14 @@ public class StructureTest {
         integerQueue.enqueue(22);
         integerQueue.enqueue(23);
         integerQueue.enqueue(24);
+        integerQueue.enqueue(23);
+        integerQueue.enqueue(23);
+        integerQueue.enqueue(23);
+        integerQueue.enqueue(23);
+        integerQueue.enqueue(23);
+        integerQueue.enqueue(23);
+        integerQueue.enqueue(23);
+        integerQueue.enqueue(23);
         integerQueue.enqueue(23);
         integerQueue.enqueue(23);
         integerQueue.enqueue(23);
@@ -465,6 +474,14 @@ public class StructureTest {
         binaryHeap.deleteMin();
 
         assertEquals(6, binaryHeap.getSize());
+        assertEquals(true, binaryHeap.contains(12));
+        assertEquals(true, binaryHeap.contains(15));
+        assertEquals(false, binaryHeap.contains(122));
+
+        binaryHeap.decreaseKey(17, 1);
+
+        assertEquals(false, binaryHeap.contains(17));
+        assertEquals(true, binaryHeap.contains(1));
     }
 
     @Test
@@ -492,6 +509,7 @@ public class StructureTest {
 
     }
 
+    @Ignore
     @Test
     public void btreeInsertTest() {
         final BTree<Integer> bTree = new BTree<Integer>();

@@ -1,6 +1,15 @@
 package com.basic.framework.structures;
 
+import java.util.Map;
+import java.util.HashMap;
+
 public class BinaryHeap<E extends Comparable> {
+
+    private Map<E, Integer> indexMap = new HashMap<E, Integer>();
+
+    public Map<E, Integer> getIndexMap() {
+        return this.indexMap;
+    }
 
     private Object[] elements;
 
@@ -13,6 +22,7 @@ public class BinaryHeap<E extends Comparable> {
     @SuppressWarnings("unchecked")
     public void insert(final E object) {
         elements[size] = object;
+        indexMap.put(object, size);
 
         if (size == 1) {
             size++;
@@ -28,14 +38,69 @@ public class BinaryHeap<E extends Comparable> {
                 break;
             }
 
+            indexMap.put((E) elements[parent], insertPosition);
+            indexMap.put(object, parent);
+
             elements[insertPosition] = elements[parent];
             elements[parent] = object;
+
             insertPosition = parent;
         }
 
         size++;
     }
 
+    public E getKey(final E key) {
+        for (final E keyIter : indexMap.keySet()) {
+            if (key.equals(keyIter)) {
+                return keyIter;
+            }
+        }
+
+        return null;
+    }
+
+    // O(1)
+    public boolean contains(final E key) {
+        return indexMap.containsKey(key);
+    }
+
+    // average: O(1)
+    private Integer searchIndex(final E key) {
+        return indexMap.get(key);
+    }
+
+    // average: O(logn)
+    @SuppressWarnings("unchecked")
+    public void decreaseKey(final E key, E value) {
+        final Integer index = indexMap.get(key);
+        elements[index] = value;
+
+        indexMap.remove(key);
+        indexMap.put(value, index);
+
+        int insertPosition = index;
+
+        while (insertPosition > 1) {
+
+            int parent = insertPosition / 2;
+
+            if (((E) elements[parent]).compareTo(value) < 0) {
+                break;
+            }
+
+            indexMap.put((E) elements[parent], insertPosition);
+            indexMap.put(value, parent);
+
+            elements[insertPosition] = elements[parent];
+            elements[parent] = value;
+
+            insertPosition = parent;
+        }
+
+    }
+
+    // O(1)
     @SuppressWarnings("unchecked")
     public E findMinimum() {
         return (E) elements[1];
@@ -47,8 +112,13 @@ public class BinaryHeap<E extends Comparable> {
             return;
         }
 
+        // update index map by removing minimum element
+        indexMap.remove((E) elements[1]);
+        indexMap.put((E) elements[getSize()], 1);
+
         elements[1] = elements[getSize()];
         elements[getSize()] = null;
+
         size--;
 
         int position = 1;
@@ -65,30 +135,37 @@ public class BinaryHeap<E extends Comparable> {
 
             if (elements[rightChild] == null) {
                 isChildGreaterThenParent = ((E) elements[leftChild]).compareTo(elements[position]) < 0;
-            }
-            else if (elements[leftChild] == null) {
+            } else if (elements[leftChild] == null) {
                 isChildGreaterThenParent = ((E) elements[rightChild]).compareTo(elements[position]) < 0;
-            }
-            else {
+            } else {
                 isChildGreaterThenParent = ((E) elements[leftChild]).compareTo(elements[position]) < 0
                         || ((E) elements[rightChild]).compareTo(elements[position]) < 0;
             }
 
             if (isChildGreaterThenParent) {
                 if (elements[rightChild] == null || ((E) elements[leftChild]).compareTo(elements[rightChild]) < 0) {
+
+                    indexMap.put((E) elements[leftChild], position);
+                    indexMap.put((E) elements[position], leftChild);
+
                     E temp = (E) elements[leftChild];
                     elements[leftChild] = elements[position];
                     elements[position] = temp;
+
+
                     position = leftChild;
-                }
-                else if (elements[rightChild] != null) {
+                } else if (elements[rightChild] != null) {
+
+                    indexMap.put((E) elements[rightChild], position);
+                    indexMap.put((E) elements[position], rightChild);
+
                     E temp = (E) elements[rightChild];
                     elements[rightChild] = elements[position];
                     elements[position] = temp;
+
                     position = rightChild;
                 }
-            }
-            else {
+            } else {
                 return;
             }
         }

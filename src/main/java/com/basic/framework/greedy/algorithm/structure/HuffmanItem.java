@@ -19,13 +19,13 @@ public class HuffmanItem implements Comparable<HuffmanItem> {
         this.character = character;
     }
 
+    public void setFrequency(final Integer frequency) {
+        this.frequency = frequency;
+    }
+
     public Integer getFrequency() {
         return frequency;
 
-    }
-
-    public void setFrequency(final Integer frequency) {
-        this.frequency = frequency;
     }
 
     @Override

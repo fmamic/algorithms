@@ -51,7 +51,7 @@ public class GraphList<T extends Comparable> extends Graph<T> {
         final Vertex vertexSource = vertices.get(source);
         final Vertex vertexDestination = vertices.get(destination);
 
-        vertexSource.getAdjacency().add(destination);
+        vertexSource.getAdjacency().add(vertexDestination);
 
         final Edge edge = new Edge();
         edge.setSource(vertexSource);

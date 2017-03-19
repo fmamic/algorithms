@@ -42,8 +42,10 @@ public class BTree<T extends Comparable> {
      * It is inserting in single pass and splitting full nodes on the way to the correct position in the tree.
      */
     public void insert(final T key) {
-        if (root == null)
+        if (root == null) {
             root = create();
+            return;
+        }
 
         insertNode(root, key);
     }
