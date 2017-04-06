@@ -1,5 +1,8 @@
 package com.basic.framework.dynamic.programming;
 
+import java.util.HashMap;
+import java.util.Map;
+
 class Palindrom {
 
     private boolean isPalindrom(final String str) {
@@ -112,6 +115,44 @@ class Palindrom {
         }
 
         return 0;
+    }
+
+    public String longestPalindrome(String s) {
+        final int strLen = s.length();
+        final boolean[][] isPalindrome = new boolean[strLen][strLen]; // O(n^2) space
+
+        int palindromeBeginsAt = 0;
+        int maxLen = 1;
+
+        for (int i = 0; i < strLen; i++) {
+            isPalindrome[i][i] = true;
+        }
+
+        for (int i = 1; i < strLen; i++) {
+            if (s.charAt(i) == s.charAt(i-1)) {
+                isPalindrome[i][i-1] = true;
+                palindromeBeginsAt = i - 1;
+                maxLen = 2;
+            }
+        }
+
+        // O(n^2)
+        for (int i = 2; i < strLen; i++) {
+            for (int j = i - 2; j >= 0; j--) {
+                if (s.charAt(i) == s.charAt(j) && isPalindrome[i-1][j+1]) {
+                    isPalindrome[i][j] = true;
+                    int currLen = i - j + 1;
+                    if (currLen > maxLen) {
+                        palindromeBeginsAt = j;
+                        maxLen = i - j + 1;
+                    }
+                } else {
+                    isPalindrome[i][j] = false;
+                }
+            }
+        }
+
+        return s.substring(palindromeBeginsAt, palindromeBeginsAt + maxLen);
     }
 
 }
