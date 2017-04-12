@@ -7,6 +7,9 @@ import java.util.List;
 import com.basic.framework.greedy.algorithm.structure.HuffmanItem;
 import com.basic.framework.structures.PriorityQueue;
 
+/**
+ * Huffman code is a particular type of optimal prefix code that is commonly used for lossless data compression.
+ */
 class HuffmanCode {
 
     @SuppressWarnings("unchecked")
@@ -29,14 +32,4 @@ class HuffmanCode {
 
         return priorityQueue.extractMin();
     }
-
-    String constructHuffmanCode(final BinaryTreeNode<HuffmanItem> node, final HuffmanItem item) {
-
-        while (item.getFrequency().compareTo(node.getData().getFrequency()) == 0) {
-
-        }
-
-        return "";
-    }
-
 }
