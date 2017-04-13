@@ -35,4 +35,23 @@ public class HeapTest {
         assertEquals(22, result[6]);
     }
 
+    @Test
+    public void minHeapPriorityInsertTest() {
+        final MinPriorityQueue minPriorityQueue = new MinPriorityQueue(new Heap());
+
+        minPriorityQueue.insert(20);
+        minPriorityQueue.insert(25);
+        minPriorityQueue.insert(15);
+        minPriorityQueue.insert(10);
+        minPriorityQueue.insert(5);
+
+        assertEquals(5, minPriorityQueue.getSize());
+
+        assertEquals(5, minPriorityQueue.extractMin());
+        assertEquals(10, minPriorityQueue.extractMin());
+        assertEquals(15, minPriorityQueue.extractMin());
+        assertEquals(20, minPriorityQueue.extractMin());
+        assertEquals(25, minPriorityQueue.extractMin());
+    }
+
 }

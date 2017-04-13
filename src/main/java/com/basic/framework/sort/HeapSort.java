@@ -21,7 +21,7 @@ public class HeapSort {
         for (int i = 0; i < array.length; i++) {
             result[i] = heap.getRoot();
 
-            heap.swap(0, heap.getHeapSize() - 1);
+            heap.swap(0, heap.getHeapSize());
             heap.decreaseHeapSize();
             heap.minHeapify(0);
         }

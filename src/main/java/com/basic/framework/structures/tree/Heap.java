@@ -12,7 +12,7 @@ public class Heap {
     private int heapSize = 0;
 
     public Heap() {
-        elements = new int[10];
+        elements = new int[20];
     }
 
     public Heap(int size) {
@@ -21,7 +21,9 @@ public class Heap {
 
     /**
      * Requires O(n) time for building Min-Priority heap from array of size N
-     * @param array of integers
+     * 
+     * @param array
+     *            of integers
      */
     public int[] buildMinHeap(final int[] array) {
         elements = Arrays.copyOf(array, array.length);
@@ -40,11 +42,11 @@ public class Heap {
             return;
 
         int smallest = index;
-        if (getLeftIndex(index) <= heapSize && left(index) < elements[index]) {
+        if (getLeftIndex(index) < heapSize && left(index) < elements[index]) {
             smallest = getLeftIndex(index);
         }
 
-        if (getRightIndex(index) <= heapSize && right(index) < elements[smallest]) {
+        if (getRightIndex(index) < heapSize && right(index) < elements[smallest]) {
             smallest = getRightIndex(index);
         }
 
@@ -57,6 +59,23 @@ public class Heap {
         }
     }
 
+    public void setKey(final int index, final int key) {
+        if (index < elements.length) {
+            elements[index] = key;
+        }
+    }
+
+    public int getKeyAtIndex(final int index) {
+        if (index <= heapSize) {
+            return elements[index];
+        }
+        return -1;
+    }
+
+    public boolean isEmpty() {
+        return heapSize <= 0;
+    }
+
     public int getRoot() {
         return elements[0];
     }
@@ -67,20 +86,24 @@ public class Heap {
         elements[index2] = temp;
     }
 
+    public void increaseHeapSize() {
+        heapSize++;
+    }
+
     public void decreaseHeapSize() {
         heapSize--;
     }
 
     public int getHeapSize() {
-        return heapSize + 1;
+        return heapSize;
     }
 
-    private int getParentIndex(final int index) {
-        return (index - 1) / 2;
-    }
-
-    private int parent(final int index) {
+    public int parent(final int index) {
         return elements[getParentIndex(index)];
+    }
+
+    public int getParentIndex(final int index) {
+        return (index - 1) / 2;
     }
 
     private int getLeftIndex(final int index) {
