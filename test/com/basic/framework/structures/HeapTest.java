@@ -16,7 +16,7 @@ public class HeapTest {
 
         heap.buildMinHeap(array);
 
-        assertEquals(7, heap.getHeapSize());
+        assertEquals(6, heap.getHeapSize());
     }
 
     @Test
