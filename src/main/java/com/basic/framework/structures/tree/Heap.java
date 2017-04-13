@@ -1,5 +1,7 @@
 package com.basic.framework.structures.tree;
 
+import java.util.Arrays;
+
 /**
  * MIN-HEAP PROPERTY Heap data structure implemented with array root at 0. For more optimal performance array root should be at position 1 because
  * then most of CPUs can calculate position in one instruction.
@@ -17,16 +19,32 @@ public class Heap {
         elements = new int[size];
     }
 
+    /**
+     * Requires O(n) time for building Min-Priority heap from array of size N
+     * @param array of integers
+     */
+    public int[] buildMinHeap(final int[] array) {
+        elements = Arrays.copyOf(array, array.length);
+        heapSize = array.length - 1;
+
+        final int leafIndexStart = (heapSize / 2) - 1;
+        for (int i = leafIndexStart; i >= 0; i--) {
+            minHeapify(i);
+        }
+
+        return elements;
+    }
+
     public void minHeapify(final int index) {
-        int left = left(index);
-        int right = right(index);
+        if (index > heapSize)
+            return;
 
         int smallest = index;
-        if (left <= heapSize && left < elements[index]) {
+        if (getLeftIndex(index) <= heapSize && left(index) < elements[index]) {
             smallest = getLeftIndex(index);
         }
 
-        if (right <= heapSize && right < elements[smallest]) {
+        if (getRightIndex(index) <= heapSize && right(index) < elements[smallest]) {
             smallest = getRightIndex(index);
         }
 
@@ -37,6 +55,24 @@ public class Heap {
 
             minHeapify(smallest);
         }
+    }
+
+    public int getRoot() {
+        return elements[0];
+    }
+
+    public void swap(final int index1, final int index2) {
+        int temp = elements[index1];
+        elements[index1] = elements[index2];
+        elements[index2] = temp;
+    }
+
+    public void decreaseHeapSize() {
+        heapSize--;
+    }
+
+    public int getHeapSize() {
+        return heapSize + 1;
     }
 
     private int getParentIndex(final int index) {
