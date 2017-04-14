@@ -2,22 +2,23 @@ package com.basic.framework.structures;
 
 import com.basic.framework.structures.tree.Heap;
 
-public class MinPriorityQueue {
+@SuppressWarnings("unchecked")
+public class MinPriorityQueue<T extends Comparable> {
 
-    private final Heap heap;
+    private final Heap<T> heap;
 
-    public MinPriorityQueue(final Heap heap) {
+    public MinPriorityQueue(final Heap<T> heap) {
         this.heap = heap;
     }
 
-    public void insert(final int element) {
-        heap.setKey(heap.getHeapSize(), Integer.MAX_VALUE);
+    public void insert(final T element) {
+        heap.setKey(heap.getHeapSize(), element);
         heap.increaseHeapSize();
 
         decreaseKey(heap.getHeapSize() - 1, element);
     }
 
-    public int minimum() {
+    public T minimum() {
         return heap.getRoot();
     }
 
@@ -30,33 +31,37 @@ public class MinPriorityQueue {
      * 
      * @return minimum from priority queue
      */
-    public int extractMin() {
+    public T extractMin() {
         if (heap.getHeapSize() < 1) {
             System.out.println("Heap size less then 1");
         }
 
-        final int minimum = heap.getRoot();
+        final T minimum = heap.getRoot();
 
-        heap.swap(0, heap.getHeapSize() - 1);
         heap.decreaseHeapSize();
+        heap.swap(0, heap.getHeapSize());
+
         heap.minHeapify(0);
 
         return minimum;
     }
 
     // Running in O(logN) time
-    public void decreaseKey(int index, final int value) {
-        if (value > heap.getKeyAtIndex(index)) {
+    public void decreaseKey(int index, final T value) {
+        if (value.compareTo(heap.getKeyAtIndex(index)) > 0) {
             System.out.println("Value is bigger then current heap value");
             return;
         }
 
         heap.setKey(index, value);
 
-        while (heap.parent(index) > heap.getKeyAtIndex(index)) {
+        while (heap.parent(index).compareTo(heap.getKeyAtIndex(index)) > 0) {
             heap.swap(index, heap.getParentIndex(index));
             index = heap.getParentIndex(index);
         }
     }
 
+    public boolean isEmpty() {
+        return heap.isEmpty();
+    }
 }

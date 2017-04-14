@@ -1,22 +1,26 @@
 package com.basic.framework.structures.tree;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * MIN-HEAP PROPERTY Heap data structure implemented with array root at 0. For more optimal performance array root should be at position 1 because
  * then most of CPUs can calculate position in one instruction.
  */
-public class Heap {
+@SuppressWarnings("unchecked")
+public class Heap<T extends Comparable> {
 
-    private int[] elements;
+    private final HashMap<T, Integer> indexMap = new HashMap<T, Integer>();
+
+    private Object[] elements;
     private int heapSize = 0;
 
     public Heap() {
-        elements = new int[20];
+        elements = new Object[20];
     }
 
     public Heap(int size) {
-        elements = new int[size];
+        elements = new Object[size];
     }
 
     /**
@@ -25,16 +29,24 @@ public class Heap {
      * @param array
      *            of integers
      */
-    public int[] buildMinHeap(final int[] array) {
+    public T[] buildMinHeap(final T[] array) {
         elements = Arrays.copyOf(array, array.length);
         heapSize = array.length - 1;
+
+        for (int i = 0; i < elements.length; i++) {
+            indexMap.put((T) elements[i], i);
+        }
 
         final int leafIndexStart = (heapSize / 2) - 1;
         for (int i = leafIndexStart; i >= 0; i--) {
             minHeapify(i);
         }
 
-        return elements;
+        return (T[]) elements;
+    }
+
+    public int getIndex(final T key) {
+        return indexMap.get(key);
     }
 
     public void minHeapify(final int index) {
@@ -42,46 +54,47 @@ public class Heap {
             return;
 
         int smallest = index;
-        if (getLeftIndex(index) < heapSize && left(index) < elements[index]) {
+        if (getLeftIndex(index) <= heapSize && left(index).compareTo(elements[index]) < 0) {
             smallest = getLeftIndex(index);
         }
 
-        if (getRightIndex(index) < heapSize && right(index) < elements[smallest]) {
+        if (getRightIndex(index) <= heapSize && right(index).compareTo(elements[smallest]) < 0) {
             smallest = getRightIndex(index);
         }
 
         if (smallest != index) {
-            int temp = elements[index];
-            elements[index] = elements[smallest];
-            elements[smallest] = temp;
-
+            swap(index, smallest);
             minHeapify(smallest);
         }
     }
 
-    public void setKey(final int index, final int key) {
+    public void setKey(final int index, final T key) {
         if (index < elements.length) {
             elements[index] = key;
+            indexMap.put((T) elements[index], index);
         }
     }
 
-    public int getKeyAtIndex(final int index) {
+    public T getKeyAtIndex(final int index) {
         if (index <= heapSize) {
-            return elements[index];
+            return (T) elements[index];
         }
-        return -1;
+        return null;
     }
 
     public boolean isEmpty() {
         return heapSize <= 0;
     }
 
-    public int getRoot() {
-        return elements[0];
+    public T getRoot() {
+        return (T) elements[0];
     }
 
     public void swap(final int index1, final int index2) {
-        int temp = elements[index1];
+        indexMap.put((T) elements[index1], index2);
+        indexMap.put((T) elements[index2], index1);
+
+        T temp = (T) elements[index1];
         elements[index1] = elements[index2];
         elements[index2] = temp;
     }
@@ -98,8 +111,8 @@ public class Heap {
         return heapSize;
     }
 
-    public int parent(final int index) {
-        return elements[getParentIndex(index)];
+    public T parent(final int index) {
+        return (T) elements[getParentIndex(index)];
     }
 
     public int getParentIndex(final int index) {
@@ -110,16 +123,16 @@ public class Heap {
         return 2 * index + 1;
     }
 
-    private int left(final int index) {
-        return elements[getLeftIndex(index)];
+    private T left(final int index) {
+        return (T) elements[getLeftIndex(index)];
     }
 
     private int getRightIndex(final int index) {
         return 2 * index + 2;
     }
 
-    private int right(final int index) {
-        return elements[getRightIndex(index)];
+    private T right(final int index) {
+        return (T) elements[getRightIndex(index)];
     }
 
 }

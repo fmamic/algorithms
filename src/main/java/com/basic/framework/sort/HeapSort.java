@@ -2,21 +2,24 @@ package com.basic.framework.sort;
 
 import com.basic.framework.structures.tree.Heap;
 
+import java.util.Arrays;
+
 /**
  * Runs in O(NLogN) time - minHeapify runs in O(n)
  */
-public class HeapSort {
+public class HeapSort<T extends Comparable> {
 
-    final Heap heap;
+    final Heap<T> heap;
 
     public HeapSort() {
-        heap = new Heap();
+        heap = new Heap<T>();
     }
 
-    public int[] heapSort(final int[] array) {
+    @SuppressWarnings("unchecked")
+    public T[] heapSort(final T[] array) {
         heap.buildMinHeap(array);
 
-        final int[] result = new int[array.length];
+        final T[] result = Arrays.copyOf(array, array.length);
 
         for (int i = 0; i < array.length; i++) {
             result[i] = heap.getRoot();
