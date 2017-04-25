@@ -66,6 +66,19 @@ public class GraphTest {
         graph.printBreadthShortestPath(vertex1, vertex6); // No path available
     }
 
+    @Test
+    public void breadthFirstSearchJava() {
+        final BreadthFirstSearch search = new BreadthFirstSearch();
+
+        search.searchJavaQueue(graph, vertex1);
+
+        assertEquals(2, vertex5.getBreadth().getDistance());
+        assertEquals(Color.BLACK, vertex5.getBreadth().getStatus());
+
+        graph.printBreadthShortestPath(vertex1, vertex5); // 1 2 5
+        graph.printBreadthShortestPath(vertex1, vertex6); // No path available
+    }
+
     @SuppressWarnings("unchecked")
     @Test
     public void depthFirstSearch() {

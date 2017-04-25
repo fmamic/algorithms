@@ -1,14 +1,12 @@
 package com.basic.framework.graph.search;
 
-import com.basic.framework.graph.Graph;
-import com.basic.framework.graph.impl.GraphList;
-import com.basic.framework.graph.structure.Color;
-import com.basic.framework.graph.structure.Vertex;
-
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Stack;
+
+import com.basic.framework.graph.impl.GraphList;
+import com.basic.framework.graph.structure.Color;
+import com.basic.framework.graph.structure.Vertex;
 
 public class DepthFirstSearch {
 
