@@ -300,6 +300,217 @@ class Solution {
         return result;
     }
 
+    public int largestRectangleArea(int[] heights) {
+        final Stack<Integer> stack = new Stack<>();
+        int max = -1;
+        for (int i = 0; i < heights.length; i++) {
+            if (stack.isEmpty() || heights[i] >= heights[stack.peek()]) {
+                stack.push(i);
+            } else {
+                while (!stack.isEmpty() && heights[stack.peek()] >= heights[i]) {
+                    int top = stack.pop();
+                    int maxCurr;
+
+                    if (stack.isEmpty()) {
+                        maxCurr = heights[top] * (i - top);
+                    } else {
+                        maxCurr = heights[top] * i;
+                    }
+
+                    if (maxCurr > max) {
+                        max = maxCurr;
+                    }
+                }
+            }
+        }
+
+        return max;
+    }
+
+    public Set<List<Integer>> numbers(int sum) {
+        final Set<List<Integer>> result = new HashSet<>();
+
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+
+                if (i == j)
+                    continue;
+
+                for (int k = 0; k < 10; k++) {
+                    if (k == j || k == i)
+                        continue;
+
+                    final List<Integer> list = new ArrayList<>();
+                    int currSum = i + j + k; // 012, 013, 014, 015 ..
+
+                    currSum += add2DigitSum(i, j, k);
+                    currSum += add3DigitSum(i, j, k);
+
+                    if (currSum == sum) {
+                        list.add(i);
+                        list.add(j);
+                        list.add(k);
+                        Collections.sort(list);
+                        result.add(list);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    private int add2DigitSum(final int i, final int j, final int k) {
+        int currSum = 0;
+        for (int x1 = 0; x1 < 3; x1++) {
+            for (int x2 = 0; x2 < 3; x2++) {
+                if (x1 == x2)
+                    continue;
+
+                for (int x3 = 0; x3 < 3; x3++) {
+                    if (x3 == x2 || x3 == x1)
+                        continue;
+
+                    if ((x1 == 0 && i == 0) || (x2 == 0 && j == 0) || (x3 == 0 && k == 0))
+                        continue;
+
+                    if (x1 == 0) {
+                        currSum += 10 * i;
+                    }
+
+                    if (x2 == 0) {
+                        currSum += 10 * j;
+                    }
+
+                    if (x3 == 0) {
+                        currSum += 10 * k;
+                    }
+
+                    if (x1 == 1) {
+                        currSum += i;
+                    }
+                    if (x2 == 1) {
+                        currSum += j;
+                    }
+                    if (x3 == 1) {
+                        currSum += k;
+                    }
+
+                }
+            }
+        }
+        return currSum;
+    }
+
+    private int add3DigitSum(final int i, final int j, final int k) {
+        int currSum = 0;
+        for (int x1 = 0; x1 < 3; x1++) {
+            for (int x2 = 0; x2 < 3; x2++) {
+                if (x1 == x2)
+                    continue;
+
+                for (int x3 = 0; x3 < 3; x3++) {
+                    if (x3 == x2 || x3 == x1)
+                        continue;
+
+                    if ((x1 == 0 && i == 0) || (x2 == 0 && j == 0) || (x3 == 0 && k == 0))
+                        continue;
+
+                    if (x1 == 0) {
+                        currSum += 100 * i;
+                    }
+
+                    if (x2 == 0) {
+                        currSum += 100 * j;
+                    }
+
+                    if (x3 == 0 ) {
+                        currSum += 100 * k;
+                    }
+
+                    if (x1 == 1) {
+                        currSum += 10 * i;
+                    }
+                    if (x2 == 1) {
+                        currSum += 10 * j;
+                    }
+                    if (x3 == 1) {
+                        currSum += 10 * k;
+                    }
+
+
+                    if (x1 == 2) {
+                        currSum += i;
+                    }
+                    if (x2 == 2) {
+                        currSum += j;
+                    }
+                    if (x3 == 2) {
+                        currSum += k;
+                    }
+                }
+            }
+        }
+        return currSum;
+    }
+
+    public int networkDelayTime(int[][] times, int N, int K) {
+
+        final Map<Integer, Map<Integer, Integer>> sourceMap = new HashMap<>();
+        for (int[] time : times) {
+            int source = time[0];
+            int target = time[1];
+            int latency = time[2];
+
+            if (sourceMap.get(source) == null) {
+                final Map<Integer, Integer> targetMap = new HashMap<>();
+                targetMap.put(target, latency);
+                sourceMap.put(source, targetMap);
+            } else {
+                final Map<Integer, Integer> targetMap = sourceMap.get(source);
+                if (targetMap.get(target) > latency) {
+                    targetMap.put(target, latency);
+                }
+            }
+        }
+
+        final Map<Integer, Integer> distanceMap = new HashMap<>();
+        distanceMap.put(K, 0);
+        final PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(o -> o[1]));
+        pq.offer(new int[] {K, 0});
+        int max = -1;
+        while (!pq.isEmpty()) {
+            int[] current = pq.poll();
+
+            if (distanceMap.containsKey(current[0]) && distanceMap.get(current[0]) < current[1]) {
+                continue;
+            }
+
+            final Map<Integer, Integer> targetMap = sourceMap.get(current[0]);
+            if (targetMap == null) {
+                continue;
+            }
+
+            for (final Map.Entry<Integer, Integer> entry : targetMap.entrySet()) {
+                int distance = entry.getValue() + current[1];
+                int targetNode = entry.getKey();
+
+                if (distanceMap.containsKey(targetNode) && distanceMap.get(targetNode) < distance) {
+                    continue;
+                }
+                distanceMap.put(targetNode, distance);
+                pq.offer(new int[] {targetNode, distance});
+            }
+        }
+
+        for (int distance : distanceMap.values()) {
+            if (distance > max) {
+                max = distance;
+            }
+        }
+
+        return max;
+    }
+
     public boolean isInterleave(String s1, String s2, String s3) {
 
         int m = s1.length();

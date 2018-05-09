@@ -2,6 +2,9 @@ package com.leet.code;
 
 import org.junit.Test;
 
+import java.util.List;
+import java.util.Set;
+
 public class SolutionTest {
 
     @Test
@@ -62,9 +65,24 @@ public class SolutionTest {
     @Test
     public void fullJustify() {
         final Solution solution = new Solution();
-        solution.fullJustify(new String[] {"This", "is", "an", "example", "of", "text", "justification."}, 16);
+        solution.fullJustify(new String[]{"This", "is", "an", "example", "of", "text", "justification."}, 16);
     }
 
+    @Test
+    public void largestRectangle() {
+        final Solution solution = new Solution();
+        solution.largestRectangleArea(new int[]{2, 1, 5, 6, 2, 3});
+    }
+
+    @Test
+    public void numbersTest() {
+        final Solution solution = new Solution();
+        Set<List<Integer>> result = solution.numbers(2450);
+
+        for (List<Integer> ints : result) {
+            System.out.println(ints);
+        }
+    }
 
     @Test
     public void isInterleave() {
