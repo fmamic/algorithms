@@ -188,23 +188,25 @@ class Solution {
 
     public void rotate(int[][] matrix) {
 
-        int len = matrix.length-1;
+        int len = matrix.length - 1;
         for (int d = 0; d < matrix.length / 2; d++) {
-            for (int l = 0, k = matrix.length - 1; l + d < matrix.length - 1 -d && k >= 0; l++, k--) {
+            for (int l = 0, k = matrix.length - 1; l + d < matrix.length - 1 - d && k >= 0; l++, k--) {
                 int temp = matrix[d][l + d]; // left upper corner
                 matrix[d][l + d] = matrix[k - d][d];
 
                 int temp2 = matrix[l + d][len - d];  // rigth upper corner
                 matrix[l + d][len - d] = temp;
 
-                temp = matrix[len - d][k-d]; // right bottom corner
-                matrix[len - d][k-d] = temp2;
+                temp = matrix[len - d][k - d]; // right bottom corner
+                matrix[len - d][k - d] = temp2;
 
                 matrix[k - d][d] = temp; // left bottom corner
             }
         }
     }
+
     int count = 0;
+
     public int totalNQueens(int n) {
         boolean[] cols = new boolean[n];     // columns   |
         boolean[] d1 = new boolean[2 * n];   // diagonals \\
@@ -213,17 +215,21 @@ class Solution {
         return count;
     }
 
-    public void backtracking(int row, boolean[] cols, boolean[] d1, boolean []d2, int n) {
-        if(row == n) count++;
+    public void backtracking(int row, boolean[] cols, boolean[] d1, boolean[] d2, int n) {
+        if (row == n) count++;
 
-        for(int col = 0; col < n; col++) {
+        for (int col = 0; col < n; col++) {
             int id1 = col - row + n;
             int id2 = col + row;
-            if(cols[col] || d1[id1] || d2[id2]) continue;
+            if (cols[col] || d1[id1] || d2[id2]) continue;
 
-            cols[col] = true; d1[id1] = true; d2[id2] = true;
+            cols[col] = true;
+            d1[id1] = true;
+            d2[id2] = true;
             backtracking(row + 1, cols, d1, d2, n);
-            cols[col] = false; d1[id1] = false; d2[id2] = false;
+            cols[col] = false;
+            d1[id1] = false;
+            d2[id2] = false;
         }
     }
 
@@ -231,15 +237,15 @@ class Solution {
         final int[][] result = new int[n][n];
         int value = 1;
 
-        for (int d = 0; d < n/2; d++) {
+        for (int d = 0; d < n / 2; d++) {
             for (int j = 0; j < n - 1; j++) {
                 result[d][d + j] = value;
                 result[d + j][n - 1 - d] = value + n - 1 - d * 2;
                 result[n - 1 - d][n - 1 - d - j] = value + 2 * n - 2 - d * 4;
-                result[n - 1 - d - j][d] = value + 3 * n -3 - d * 4;
+                result[n - 1 - d - j][d] = value + 3 * n - 3 - d * 4;
                 value++;
             }
-            value = value + 3 * n -3 - d * 8;
+            value = value + 3 * n - 3 - d * 8;
         }
 
         return result;
@@ -247,7 +253,8 @@ class Solution {
 
     public List<String> fullJustify(String[] words, int maxWidth) {
         List<String> result = new ArrayList<>();
-        int currLen = 0; Set<String> temp = new HashSet<>();
+        int currLen = 0;
+        Set<String> temp = new HashSet<>();
         for (String word : words) {
             if (currLen + temp.size() - 1 <= maxWidth) {
                 temp.add(word);
@@ -292,4 +299,205 @@ class Solution {
 
         return result;
     }
+
+    public boolean isInterleave(String s1, String s2, String s3) {
+
+        int m = s1.length();
+        int n = s2.length();
+
+        if (m + n != s3.length())
+            return false;
+
+        boolean[][] result = new boolean[m + 1][n + 1];
+        result[0][0] = true;
+
+        for (int i = 1; i <= m; i++) {
+            if (s1.charAt(i - 1) == s3.charAt(i - 1)) {
+                if (result[i - 1][0]) {
+                    result[i][0] = true;
+                }
+            }
+        }
+
+        for (int i = 1; i <= n; i++) {
+            if (s2.charAt(i - 1) == s3.charAt(i - 1)) {
+                if (result[0][i - 1]) {
+                    result[0][i] = true;
+                }
+            }
+        }
+
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+
+                if (s3.charAt(i + j - 1) == s1.charAt(i - 1)) {
+                    if (result[i - 1][j]) {
+                        result[i][j] = true;
+                    }
+                }
+
+                if (s3.charAt(i + j - 1) == s2.charAt(j - 1)) {
+                    if (result[i][j - 1]) {
+                        result[i][j] = true;
+                    }
+                }
+            }
+        }
+
+        return result[m][n];
+    }
+
+    public int numDecodings(String s) {
+        if (s == null || s.equals(""))
+            return 0;
+
+        int[] result = new int[s.length()];
+        result[s.length() - 1] = 1;
+
+        for (int i = s.length() - 2; i >= 0; i--) {
+
+            if (Character.getNumericValue(s.charAt(i)) != 0) {
+                result[i] = result[i + 1];
+            }
+
+            int num = Character.getNumericValue(s.charAt(i)) * 10 + Character.getNumericValue(s.charAt(i + 1));
+            if (num <= 26 && num >= 10) {
+
+                if (i + 2 < s.length()) {
+                    result[i] = result[i] + result[i + 2];
+                } else {
+                    result[i]++;
+                }
+            }
+
+        }
+        return result[0];
+    }
+
+    int nums = 0;
+
+    public List<Integer> grayCode(int n) {
+        List<Integer> ret = new ArrayList<>();
+        backTrack(n, ret);
+        return ret;
+    }
+
+    private void backTrack(int n, List<Integer> ret) {
+        if (n == 0) {
+            ret.add(nums);
+            return;
+        } else {
+            backTrack(n - 1, ret);
+            nums ^= (1 << n - 1);
+            backTrack(n - 1, ret);
+        }
+    }
+
+
+    public ListNode reverseBetween(ListNode head, int m, int n) {
+        ListNode current = head;
+        ListNode b = null;
+        ListNode prev = null;
+        ListNode bPrev = null;
+        ListNode e = null;
+        int index = 1;
+
+        while (current != null) {
+
+            if (index == m - 1) {
+                bPrev = current;
+            } else if (index == m) {
+                b = current;
+            } else if (index == n) {
+                e = current;
+            } else if (index == n + 1 && bPrev != null) {
+                bPrev.next = e;
+                return head;
+            }
+
+            if (b != null && index != m) {
+                b.next = current.next;
+                current.next = prev;
+                prev = current;
+                current = b.next;
+            } else {
+                prev = current;
+                current = current.next;
+
+            }
+
+            index++;
+        }
+
+        return head;
+    }
+
+
+        Map<String, Integer> cache = new HashMap<>();
+
+        public int maxCoins(int[] nums) {
+            return maxCoins(nums, new ArrayList<>());
+        }
+
+        int maxCoins(int[] nums, List<Integer> taken) {
+
+            if (taken.size() == nums.length)
+                return 0;
+
+            int maxValue = 0;
+
+            Collections.sort(taken);
+
+            for (int i = 0; i < nums.length; i++) {
+                if (!taken.contains(i)) {
+                    String key = taken.toString()+ "#" + i;
+                    taken.add(i);
+                    int leftValue = left(nums, i, taken);
+                    int rightValue = right(nums, i, taken);
+                    int value = nums[i];
+
+                    int tempValue;
+
+                    if (cache.get(key) != null) {
+                        tempValue = cache.get(key);
+                    } else {
+                        tempValue = maxCoins(nums, taken) + leftValue * value * rightValue;
+                        cache.put(key, tempValue);
+                    }
+
+                    taken.remove((Integer)i);
+
+                    if (tempValue > maxValue) {
+                        maxValue = tempValue;
+                    }
+                }
+            }
+
+            return maxValue;
+        }
+
+        int left(int[] nums, int i, List<Integer> taken) {
+            int leftValue = 1;
+
+            for (int k = 0; k < i; k++) {
+                if (!taken.contains(k)) {
+                    leftValue = nums[k];
+                }
+            }
+
+            return leftValue;
+        }
+
+        int right(int[] nums, int i, List<Integer> taken) {
+
+            int rightValue = 1;
+
+            for (int k = nums.length - 1; k > i; k--) {
+                if (!taken.contains(k)) {
+                    rightValue = nums[k];
+                }
+            }
+
+            return rightValue;
+        }
 }

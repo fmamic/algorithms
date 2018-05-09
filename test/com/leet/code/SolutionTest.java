@@ -65,4 +65,46 @@ public class SolutionTest {
         solution.fullJustify(new String[] {"This", "is", "an", "example", "of", "text", "justification."}, 16);
     }
 
+
+    @Test
+    public void isInterleave() {
+        final Solution solution = new Solution();
+        solution.isInterleave("aabcc", "dbbca", "aadbbcbcac");
+    }
+
+    @Test
+    public void numDecodings(){
+        final Solution solution = new Solution();
+        solution.numDecodings("56112");
+    }
+
+    @Test
+    public void greyCodeTest() {
+        final Solution solution = new Solution();
+        solution.grayCode(3);
+    }
+
+    @Test
+    public void reverseList() {
+        final Solution solution = new Solution();
+        final ListNode l1 = new ListNode(1);
+        final ListNode l2 = new ListNode(2);
+        final ListNode l3 = new ListNode(3);
+        final ListNode l4 = new ListNode(4);
+        final ListNode l5 = new ListNode(5);
+
+        l1.next = l2;
+        l2.next = l3;
+        l3.next = l4;
+        l4.next = l5;
+
+        solution.reverseBetween(l1, 2, 4);
+    }
+
+    @Test
+    public void maxCoins() {
+        final Solution solution = new Solution();
+
+        solution.maxCoins(new int[] {3,1,5,8,3,4,5,6,3,2,3,45});
+    }
 }
