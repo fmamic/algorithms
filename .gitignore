@@ -68,5 +68,9 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
+.classpath
+.project
+.vscode/
+.settings
 
 # Created by .ignore support plugin (hsz.mobi)
