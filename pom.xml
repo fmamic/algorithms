@@ -36,11 +36,6 @@
             <artifactId>guava</artifactId>
             <version>23.3-jre</version>
         </dependency>
-        <dependency>
-            <groupId>com.sangupta</groupId>
-            <artifactId>murmur</artifactId>
-            <version>1.0.0</version>
-        </dependency>
     </dependencies>
 
 </project>

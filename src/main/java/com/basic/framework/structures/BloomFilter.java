@@ -1,6 +1,8 @@
 package com.basic.framework.structures;
 
-import com.sangupta.murmur.Murmur3;
+import com.google.common.hash.HashCode;
+import com.google.common.hash.HashFunction;
+import com.google.common.hash.Hashing;
 
 /**
  * Bloom filter data structure to check if item is in the array.
@@ -17,22 +19,24 @@ public class BloomFilter {
         this.hashFuncNum = hashFuncNum;
     }
 
-    public void add(String value) {
+    public void insert(String value) {
         for (int i = 0; i < this.hashFuncNum; i++) {
-            long[] murmurHash = Murmur3.hash_x64_128(value.getBytes(), this.array.length, i);
-            for (long num : murmurHash) {
-                this.array[(int)num] = true;
-            }
+            HashFunction function = Hashing.murmur3_128(i);
+            HashCode murmurHash = function.hashBytes(value.getBytes());
+
+            int position = Math.abs((murmurHash.asInt() % (array.length -1)));
+            this.array[position] = true;
         }
     }
 
-    public boolean get(String value) {
+    public boolean isPresent(String value) {
         for (int i = 0; i < this.hashFuncNum; i++) {
-            long[] murmurHash = Murmur3.hash_x64_128(value.getBytes(), this.array.length, i);
-            for (long num : murmurHash) {
-                if (!this.array[(int)num]) {
-                    return false;
-                }
+            HashFunction function = Hashing.murmur3_128(i);
+            HashCode murmurHash = function.hashBytes(value.getBytes());
+
+            int position = Math.abs((murmurHash.asInt() % (array.length -1)));
+            if (!this.array[position]) {
+                return false;
             }
         }
 
