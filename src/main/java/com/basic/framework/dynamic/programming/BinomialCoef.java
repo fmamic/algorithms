@@ -14,7 +14,7 @@ class BinomialCoef {
         return calculateNaive(n - 1, k - 1) + calculateNaive(n - 1, k);
     }
 
-    int calculateDP(final int n, final int k) { 
+    int calculateDP(final int n, final int k) {
 
         if (n < 0) {
             return 0;
