@@ -10,7 +10,7 @@ public class GraphMatrixTest {
     @Test
     public void graphMatrixTest() {
         int size = 3;
-        GraphMarix graphMarix = new GraphMarix(size);
+        GraphMatrix graphMarix = new GraphMatrix(size);
 
         graphMarix.addEdge(0, 1);
         graphMarix.addEdge(0, 2);

@@ -2,7 +2,7 @@ package com.basic.framework.graph;
 
 import java.util.Arrays;
 
-public class GraphMarix {
+public class GraphMatrix {
 
     int size;
 
@@ -10,7 +10,7 @@ public class GraphMarix {
     
     public int[][] matrix;
 
-    public GraphMarix(int size) {
+    public GraphMatrix(int size) {
         this.size = size;
         this.matrix = new int[size + 1][size + 1];
 
