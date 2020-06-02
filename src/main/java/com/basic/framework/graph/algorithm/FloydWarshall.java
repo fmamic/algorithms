@@ -51,4 +51,47 @@ public class FloydWarshall {
         return shortestPath[i][j][k];
     }
 
+    public int[][] floydWarshall(int[][] w) {
+        int n = w.length;
+        int[][] d = w;
+        int[][] p = new int[n][n];
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == j || w[i][j] == Integer.MAX_VALUE)
+                    p[i][j] = -1;
+                else
+                    p[i][j] = i;
+            }
+        }
+
+        for (int k = 0; k < n; k++) {
+            int[][] dk = new int[n][n];
+            int[][] pk = new int[n][n];
+
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    int sum = 0;
+
+                    if (d[i][k] == Integer.MAX_VALUE || d[k][j] == Integer.MAX_VALUE)
+                        sum = Integer.MAX_VALUE;
+                    else
+                        sum = d[i][k] + d[k][j];
+                    
+                    dk[i][j] = Math.min(d[i][j], sum);
+
+                    if (d[i][j] <= sum)
+                        pk[i][j] = p[i][j];
+                    else 
+                        pk[i][j] = p[k][j]; 
+                }
+            }
+
+            p = pk;
+            d = dk;
+        }
+
+        return d;
+    }
+
 }
